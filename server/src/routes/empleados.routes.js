@@ -1,7 +1,7 @@
 import {Router} from "express";
-import * as Empleados from '../controller/empleados.controller';
+import * as empleados from '../controller/empleados.controller';
 
 const router = Router();
 
-router.post('/', Empleados.createEmpleados)
+router.post('/', empleados.createEmpleados)
 export default router;
