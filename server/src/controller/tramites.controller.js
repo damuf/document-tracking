@@ -1,4 +1,4 @@
-import tramites from "..model/tramites";
+import tramites from "../model/tramites";
 
 export const createTramites = async (req, res) => {
     const { idDepto, nombre, orden: {deptos, orden}} = req.body

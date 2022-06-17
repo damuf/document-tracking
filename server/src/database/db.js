@@ -6,10 +6,10 @@ const connection = `mongodb+srv://admin:1234@document-tracking.wgdqmjg.mongodb.n
 mongoose
     .connect(connection, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
-        console.log("Connected to succesfully")
+        console.log("Conectado a la base de datos")
     })
     .catch((e) => {
-        console.log("Database error", e)
+        console.log("Error conectando a la base de datos", e)
     })
 
 const getConnection = () => {

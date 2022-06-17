@@ -1,4 +1,4 @@
-import empresas from "..model/empresas";
+import empresas from "../model/empresas";
 
 export const createEmpresas = async (req, res) => {
     const { nombre, ubicacion, infoContacto: {telefonos, correos} } = req.body

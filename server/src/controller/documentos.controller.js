@@ -1,4 +1,4 @@
-import documentos from "..model/documentos";
+import documentos from "../model/documentos";
 
 export const createDocumentos = async (req, res) => {
     const { idCaso, idTramite, nombre, ruta } = req.body

@@ -1,4 +1,4 @@
-import casos from "..model/casos";
+import casos from "../model/casos";
 
 export const createCasos = async (req, res) => {
     const { idTramite, numCaso, fechaApertura, fechaFinal, estado, ciclo: {deptos, orden} } = req.body

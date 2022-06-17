@@ -1,4 +1,4 @@
-import parametros from "..model/parametros";
+import parametros from "../model/parametros";
 
 export const createParametros = async (req, res) => {
     const { idEmpresa, nombre, descripcion } = req.body

@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
 const empleadosSchema = new Schema({
-    idDepto: {type: String, required: true},
-    //idDepto: {type: Schema.Types.ObjectId, required: true},
+    //idDepto: {type: String, required: true},
+    idDepto: {ref:"departamentos", type: Schema.Types.ObjectId, required: true},
     nombre: {type: String, required: true},
     papellido: {type: String, required: true},
     sapellido: {type: String, required: true},

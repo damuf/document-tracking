@@ -1,4 +1,4 @@
-import gerencias from "..model/gerencias";
+import gerencias from "../model/gerencias";
 
 export const createGerencias = async (req, res) => {
     const { idEmpresa, nombre, deptos } = req.body
