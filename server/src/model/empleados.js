@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import bcrypt from 'bcryptjs';
 
 const empleadosSchema = new Schema({
     //idDepto: {type: String, required: true},
@@ -8,7 +9,7 @@ const empleadosSchema = new Schema({
     //sapellido: {type: String, required: true},
     user: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    //cedula: {type: String, required: true, unique: true},
+    cedula: {type: String, required: true, unique: true},
     //fechaNacim: {type: Date, required: true},
     //fechaInicio: {type: Date, required: true},
     //fechaFin: {type: Date, required: false},
@@ -21,6 +22,7 @@ empleadosSchema.statics.encryptPassword = async(password) => {
  
 empleadosSchema.statics.comparePassword = async(password, receivedPassword) => {
     return await bcrypt.compare(password, receivedPassword)
+    //return true or false, si las contraseñas coinciden (true) y si no (false)
 }
 
 export default model('empleados', empleadosSchema)
