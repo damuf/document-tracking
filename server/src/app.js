@@ -9,6 +9,7 @@ import gerenciasRoutes from "./routes/gerencias.routes";
 import parametrosRoutes from "./routes/parametros.routes";
 import tramitesRoutes from "./routes/tramites.routes";
 import casosRoutes from "./routes/casos.routes";
+import documentosRoutes from "./routes/documentos.routes";
 
 const app = express();
 
@@ -28,6 +29,6 @@ app.use('/gerencias', gerenciasRoutes);
 app.use('/parametros', parametrosRoutes);
 app.use('/tramites', tramitesRoutes);
 app.use('/casos', casosRoutes);
-
+app.use('/documentos', documentosRoutes);
 
 export default app;
