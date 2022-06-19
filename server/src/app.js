@@ -6,6 +6,7 @@ import empleadosRoutes from "./routes/empleados.routes";
 import departamentosRoutes from "./routes/departamentos.routes"
 import empresasRoutes from "./routes/empresas.routes";
 import gerenciasRoutes from "./routes/gerencias.routes";
+import parametrosRoutes from "./routes/parametros.routes";
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use('/empleados', empleadosRoutes);
 app.use ('/departamentos', departamentosRoutes);
 app.use ('/empresas', empresasRoutes);
 app.use('/gerencias', gerenciasRoutes);
+app.use('/parametros', parametrosRoutes);
 
 export default app;

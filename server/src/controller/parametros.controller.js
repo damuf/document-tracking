@@ -2,9 +2,9 @@ import parametros from "../model/parametros";
 
 export const createParametros = async (req, res) => {
     const { idEmpresa, nombre, descripcion } = req.body
-    const newParametro = newParametro({ idEmpresa, nombre, descripcion })
+    const newParametro = new parametros({ idEmpresa, nombre, descripcion });
     const parametroSaved = await newParametro.save()
-    req.status(201).json(parametroSaved) 
+    res.status(201).json(parametroSaved) 
 };
 
 export const getParametros = async (req, res) => {
