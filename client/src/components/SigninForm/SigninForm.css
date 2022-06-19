@@ -1,5 +1,69 @@
-.divcito{
-    background-color: blueviolet;
-    width: 500px;
-    height: 500px;
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #FAFAFF;  
+    border-radius: 25px;
+    padding: 2%;
+    margin: auto;
+    margin-top: 2%;
+    width: fit-content;
+}
+
+.fcolumn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.frow{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#user::placeholder{
+    color: #595959;
+}
+
+#password::placeholder{
+    color: #595959;
+}
+
+input[type = text], input[type = password]{
+    font-family: 'Poppins', sans-serif;
+    width: 200px;
+    height: 30px;
+    font-size: 20px;
+    color: #C1121F;
+    border: 2px transparent;
+    background-color: #EEF0F2;
+    border-radius: 20px;
+    padding: 2%;
+    padding-left: 10%;
+    text-align: left;
+}
+
+button{
+    font-family: 'Poppins', sans-serif;
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
+    border: 2px transparent;
+    border-radius: 20px;
+    padding: 2%;
+    text-align: center;
+    background-color: #C1121F;
+    color: #FAFAFF;
+}
+
+button:hover{
+    background-color: #780000;
 }

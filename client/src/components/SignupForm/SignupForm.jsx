@@ -1,7 +1,7 @@
-import './SignupContainer.css'
+import './SignupForm.css'
 import { useNavigate } from "react-router-dom";
 
-function SignupContainer() {
+function SignupForm() {
 
     const navigate = useNavigate();
 
@@ -11,10 +11,10 @@ function SignupContainer() {
 
     return (
         <>
-            <h1>SignupContainer</h1>
+            <h1>SignupForm</h1>
             <button onClick = {handleOa}>oa</button>
         </>
     )
 }
 
-export default SignupContainer
+export default SignupForm

@@ -1,13 +1,13 @@
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import SignupContainer from './components/SignupContainer/SignupContainer';
+import SignupForm from './components/SignupForm/SignupForm';
 import Signin from "./pages/Signin";
 
 function App() {
   return (
     <Router>
       <Routes>
-          <Route path="/signup" element = {<SignupContainer />} />
-          <Route path="/signin" element = {<Signin />} />
+          <Route path="/signup" element = {<SignupForm />} />
+          <Route path="/" element = {<Signin />} />
       </Routes>
     </Router>
   );

@@ -1,15 +1,12 @@
-import React from 'react'
 import SigninForm from '../components/SigninForm/SigninForm'
+import Footer from '../components/Footer/Footer'
 import './Signin.css'
 
 function Signin() {
   return (
-    <div className='paginita'>
-       <SigninForm/> 
-       <SigninForm/> 
-       <SigninForm/> 
-       <SigninForm/> 
-       <SigninForm/> 
+    <div>
+       <SigninForm/>
+       <Footer/>
     </div>
   )
 }
