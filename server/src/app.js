@@ -4,6 +4,8 @@ import cors from "cors";
 import authRoutes from "./routes/auth.routes";
 import empleadosRoutes from "./routes/empleados.routes";
 import departamentosRoutes from "./routes/departamentos.routes"
+import empresasRoutes from "./routes/empresas.routes";
+import gerenciasRoutes from "./routes/gerencias.routes";
 
 const app = express();
 
@@ -18,5 +20,7 @@ app.get('/',(req, res)=>{
 app.use('/auth', authRoutes);
 app.use('/empleados', empleadosRoutes);
 app.use ('/departamentos', departamentosRoutes);
+app.use ('/empresas', empresasRoutes);
+app.use('/gerencias', gerenciasRoutes);
 
 export default app;
