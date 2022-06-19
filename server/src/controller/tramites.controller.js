@@ -1,10 +1,10 @@
 import tramites from "../model/tramites";
 
 export const createTramites = async (req, res) => {
-    const { idDepto, nombre, orden: {deptos, orden}} = req.body
-    const newTramite = newTramite({ idDepto, nombre, orden })
+    const { idDepto, nombre, deptos, orden} = req.body
+    const newTramite = new tramites({ idDepto, nombre, deptos, orden });
     const tramiteSaved = await newTramite.save()
-    req.status(201).json(tramiteSaved)
+    res.status(201).json(tramiteSaved)
 };
 
 export const getTramites = async (req, res) => {
