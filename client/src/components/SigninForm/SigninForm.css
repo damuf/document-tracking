@@ -37,7 +37,7 @@ body{
     color: #595959;
 }
 
-input[type = text], input[type = password]{
+input[type = text], input[type = password], input[type = date]{
     font-family: 'Poppins', sans-serif;
     width: 200px;
     height: 30px;
