@@ -13,6 +13,7 @@ body{
     margin: auto;
     margin-top: 2%;
     width: fit-content;
+    height: fit-content;
 }
 
 .fcolumn{
@@ -29,17 +30,22 @@ body{
     align-items: center;
 }
 
-#user::placeholder{
+input[type = text]::placeholder, input[type = password]::placeholder{
     color: #595959;
 }
 
-#password::placeholder{
+input[type = date]::before { 
+	content: attr(placeholder);
     color: #595959;
+}
+
+input[type = date]:focus::before, input[type = date]:valid::before{
+    display: none
 }
 
 input[type = text], input[type = password], input[type = date]{
     font-family: 'Poppins', sans-serif;
-    width: 200px;
+    width: 210px;
     height: 30px;
     font-size: 20px;
     color: #C1121F;
@@ -47,7 +53,7 @@ input[type = text], input[type = password], input[type = date]{
     background-color: #EEF0F2;
     border-radius: 20px;
     padding: 2%;
-    padding-left: 10%;
+    padding-left: 8%;
     text-align: left;
 }
 

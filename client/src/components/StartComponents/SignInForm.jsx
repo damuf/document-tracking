@@ -1,9 +1,9 @@
-import "./SigninForm.css";
+import "./StartComponents.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import pic from "../../assets/curly-hair-man-holding-smartphone.png";
 
-function SigninForm() {
+function SignInForm() {
 
   const navigate = useNavigate();
   const goToSignup = () => {
@@ -32,21 +32,23 @@ function SigninForm() {
           <div id="form" className="fcolumn" style={{width: '500px',  height: '500px'}}>
             <h1 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Document Tracking</h1>
 
-            <form id= "siginform" method="get">
+            <form id="siginform" method="get">
 
               <div className="frow">
-                <i class="material-symbols-outlined">account_circle</i> &nbsp; &nbsp;
-                <input type="text" id="user" placeholder="usuario" required={true}/>
+                <i className="material-symbols-outlined">account_circle</i> &nbsp;
+                <input type="text" id="user" placeholder="usuario" required={true} autocomplete="off"/>
               </div>
               <br />
               <div className="frow">
-                <i class="material-symbols-outlined">lock</i> &nbsp; &nbsp;
-                <input type={passwordShown ? "text" : "password"} id="password" placeholder="contraseña" required={true} />
+                <i className="material-symbols-outlined">lock</i> &nbsp;
+                <input type={passwordShown ? "text" : "password"} id="password" placeholder="contraseña" required={true} autocomplete="off"/>
                 <i id="togglePassword" className="material-symbols-outlined" onClick={togglePassword} style={{marginLeft: '-30px', cursor: 'pointer'}}>{passwordShown ? "visibility_off" : "visibility"}</i>
               </div>
               <br />
-              <button type="submit">iniciar sesión</button>
-
+              <div className="frow">
+                <button type="submit">iniciar sesión</button>
+              </div>
+            
             </form>
 
             <div className="frow">
@@ -63,4 +65,4 @@ function SigninForm() {
 
 }
 
-export default SigninForm;
+export default SignInForm;
