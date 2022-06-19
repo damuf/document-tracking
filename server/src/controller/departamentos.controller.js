@@ -1,18 +1,10 @@
 import departamentos from "../model/departamentos";
 
 export const createDepartamentos = async (req, res) => {
-    try {
-        const { idGerencia, nombre, jefeDepto, empleados, infoContacto: {telefonos, correos} } = req.body
-        const newDepartamento = newDepartamento({ idGerencia, nombre, jefeDepto, empleados, infoContacto })
-        const departamentoSaved = await newDepartamento.save()
-        req.status(201).json(departamentoSaved)
-    } catch (error) {
-        res.status(400).json(new ResponseError[
-            "Error creando departamento",
-            error.message
-        ]);
-    }
-
+    const { idGerencia, nombre, jefeDepto, empleados, telefonos, correos} = req.body
+    const newDepartamento = new departamentos({ idGerencia, nombre, jefeDepto, empleados, telefonos, correos});
+    const departamentoSaved = await newDepartamento.save()
+    res.status(201).json(departamentoSaved)
 };
 
 export const getDepartamentos = async (req, res) => {

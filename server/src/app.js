@@ -16,7 +16,7 @@ app.get('/',(req, res)=>{
 })
 
 app.use('/auth', authRoutes);
-//app.use('/empleados', empleadosRoutes);
-//app.use ('/departamentos', departamentosRoutes);
+app.use('/empleados', empleadosRoutes);
+app.use ('/departamentos', departamentosRoutes);
 
 export default app;
