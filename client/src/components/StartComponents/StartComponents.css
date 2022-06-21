@@ -73,3 +73,11 @@ button{
 button:hover{
     background-color: #780000;
 }
+
+.alerta{
+    color: #595959;
+    border: 3px solid #C1121F;
+    border-radius: 6px;
+    text-align: center;
+    padding: 2%;
+}
