@@ -1,4 +1,5 @@
 import empleados from '../model/empleados';
+import departamentos from '../model/departamentos';
 import jwt from 'jsonwebtoken';
 import config from '../config';
 
@@ -7,15 +8,21 @@ export const ola = async (req, res) => {
 }
 
 export const signup = async (req, res) => {
-    const {user, password, cedula} = req.body;
+    const {idDepto, nombre, papellido, sapellido, user, password, cedula, fechaNacim, fechaInicio, fechaFin} = req.body;
 
-    //const empleadoFoud = empleados.find({user}) 
-    //faltan validaciones
+    const userFound = await empleados.findOne({user: req.body.user});
+    if(userFound) return res.status(400).json({message: "usuario ya existente"})
+
+    //const deptoFound = await departamentos.findOne({departamento: req.body.departamento});
+    //if(!deptoFound) return res.status(400).json({message: "no existe el departamento"})
+
+    const cedulaFound = await empleados.findOne({cedula: req.body.cedula});
+    if(cedulaFound) return res.status(400).json({message: "numero de cedula ya existente"})
 
     const newEmpleado = new empleados({
-        user,
-        password: await empleados.encryptPassword(password), 
-        cedula
+        idDepto: "62af601f71bfd24bb4f55d32", nombre, papellido, sapellido,
+        user, password: await empleados.encryptPassword(password), 
+        cedula, fechaNacim: "2022-06-21", fechaInicio: "2022-06-21", fechaFin: null
     })
 
     const empleadoSaved = await newEmpleado.save();
