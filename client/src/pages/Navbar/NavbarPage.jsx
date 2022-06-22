@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import React from "react";
-import Documentos from "../../pages/Navbar/Documentos";
-import Empresas from "../../pages/Navbar/Empresas";
-import IDK from "../../pages/Navbar/Inicio";
-import Navbar from "../../components/Navbar/NavbarComp";
+import Documentos from "./DocumentosPage";
+import Empresas from "./EmpresasPage";
+import Inicio from "./InicioPage";
+import Navbar from "../../components/Navbar/Navbar";
 import Footer from '../../components/Footer/Footer'
+import './NavarPage.css'
 
 function NavbarF() {
   return (
@@ -14,7 +14,7 @@ function NavbarF() {
         <Routes>
           <Route path="*/documentos" element={<Documentos />} />
           <Route path="*/empresas" element={<Empresas />} />
-          <Route path="*/home" element={<IDK />} />
+          <Route path="*/home" element={<Inicio />} />
         </Routes>
       </div>
       <Footer/>
