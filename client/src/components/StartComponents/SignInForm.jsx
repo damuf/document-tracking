@@ -13,9 +13,15 @@ function SignInForm() {
 
   const [isError, setIsError] = useState(false);
 
+  //navigate
   const navigate = useNavigate();
+
   const goToSignup = () => {
       navigate("/signup", {replace: false}) //sirve pa devolverse de pag
+  }
+
+  const goToHome = () => {
+    navigate("/home/*", {replace: true}) //sirve pa devolverse de pag
   }
 
   //state password
@@ -64,10 +70,11 @@ function SignInForm() {
                   <button className="buttonStart" type="submit" onClick={ async(e)=> {
                       e.preventDefault()
                       await axios.post(`http://localhost:4000/auth/signin`, {user, password}).then((res=>{
+                        if(res.status === 200) goToHome()
                         setResJson(res.status)
                         console.log("set res json status:" + resjson)
                         console.log("res status:" + res.status)
-                        if(resjson === 200) goToSignup()
+                        
                       }))
                     }
                   }>iniciar sesión</button>
