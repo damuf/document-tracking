@@ -6,9 +6,9 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from '../../components/Footer/Footer'
 import './NavarPage.css'
 
-function NavbarF() {
+function NavbarPage() {
   return (
-    <>
+    <div className="body-NavPage">
       <Navbar />
       <div className="containerNav">
         <Routes>
@@ -18,8 +18,8 @@ function NavbarF() {
         </Routes>
       </div>
       <Footer/>
-    </>
+    </div>
   );
 }
 
-export default NavbarF;
+export default NavbarPage;

@@ -7,7 +7,7 @@ export default function Navbar() {
         <Link to="*/home" className="site-title" style={{textShadow: 'red -2px 0, cyan 2px 0'}}>
           Document Tracking
         </Link>
-        <ul className='ul' style={{textShadow: 'red -2px 0, cyan 2px 0'}}>
+        <ul className='ul'>
           <CustomLink to="*/home">Inicio</CustomLink>
           <CustomLink to="*/documentos">Documentos</CustomLink>
           <CustomLink to="*/empresas">Empresas</CustomLink>

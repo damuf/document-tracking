@@ -3,7 +3,7 @@ import './NavbarPages.css'
 
 function InicioPage() {
   return (
-    <div>
+    <div  className='body-NavPages'>
       <Inicio />
     </div>
   );

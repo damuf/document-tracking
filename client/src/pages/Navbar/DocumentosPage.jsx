@@ -3,7 +3,7 @@ import './NavbarPages.css'
 
 function DocumentosPage() {
   return (
-    <div>
+    <div className='body-NavPages'>
        <Documentos/>
     </div>
   )

@@ -1,17 +1,11 @@
-body{
-    font-family: 'Poppins', sans-serif;
-}
-
-.container{
+.containerStart{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #FAFAFF;  
     border-radius: 25px;
     padding: 2%;
-    margin: auto;
-    margin-top: 2%;
     width: fit-content;
     height: fit-content;
 }
@@ -57,7 +51,7 @@ input[type = text], input[type = password], input[type = date]{
     text-align: left;
 }
 
-button{
+.buttonStart{
     font-family: 'Poppins', sans-serif;
     width: 200px;
     height: 50px;
@@ -68,16 +62,9 @@ button{
     text-align: center;
     background-color: #C1121F;
     color: #FAFAFF;
+    cursor: pointer;
 }
 
-button:hover{
+.buttonStart:hover{
     background-color: #780000;
-}
-
-.alerta{
-    color: #595959;
-    border: 3px solid #C1121F;
-    border-radius: 6px;
-    text-align: center;
-    padding: 2%;
 }

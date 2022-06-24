@@ -1,0 +1,22 @@
+.error{
+    background-color: #C1121F;
+    color: #FAFAFF;
+    border-radius: 5px;
+    padding: 5px;
+    transition: opacity 0.6s;
+    display: flex;
+    flex-direction: row;
+}
+
+.closebtn {
+    background-color: #C1121F;
+    border: none;
+    margin-left: 15px;
+    color: #FAFAFF;
+    cursor: pointer;
+    transition: 0.3s;
+}
+  
+.closebtn:hover {
+    color: black;
+}

@@ -1,6 +1,6 @@
 function Empresas() {
   return (
-    <div className="container">
+    <div className="containerNavComponents">
       <h1>Empresas</h1>
     </div>
   );

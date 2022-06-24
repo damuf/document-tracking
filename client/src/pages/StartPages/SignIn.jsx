@@ -4,7 +4,7 @@ import './StartPage.css'
 
 function SignIn() {
   return (
-    <div>
+    <div className='body-StartPage'>
        <SignInForm/>
        <Footer/>
     </div>

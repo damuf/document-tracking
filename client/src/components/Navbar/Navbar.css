@@ -1,6 +1,6 @@
 .nav {
-    box-sizing: border-box;
-  }
+  box-sizing: border-box;
+}
 
 .bodyNav {
   margin: 0;
@@ -52,6 +52,6 @@
   color: black;
 }
 
-.ul{
-  font-size: 20px;
+.ul {
+  font-size: 18px;
 }

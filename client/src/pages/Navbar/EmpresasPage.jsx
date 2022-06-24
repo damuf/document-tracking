@@ -3,7 +3,7 @@ import './NavbarPages.css'
 
 function EmpresasPage() {
   return (
-    <div>
+    <div className='body-NavPages'>
        <Empresas/>
     </div>
   )
