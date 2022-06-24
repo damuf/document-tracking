@@ -8,13 +8,13 @@ export const createDepartamentos = async (req, res) => {
 };
 
 export const getDepartamentos = async (req, res) => {
-    const departamentos = await departamentos.find();
-    res.json(departamentos)
+    const departamentosSave = await departamentos.find();
+    res.json(departamentosSave)
 };
 
 export const getDepartamentoById = async (req, res) => {
     const departamentoId = await departamentos.findById(req.params.departamentoId);
-    res.json(200).json(departamentoId)
+    res.status(200).json(departamentoId)
 };
 
 export const updateDepartamentoById = async (req, res) => {
@@ -27,3 +27,8 @@ export const deleteDepartamentoById = async (req, res) => {
     await departamentos.findByIdAndDelete(departamentoIdDelete)
     res.status(204).json
 };
+
+export const getDepartamentosByName = async (req, res) => {
+    const nombre = await departamentos.findOne(req.params.nombre);
+    res.status(200).json(nombre)
+}

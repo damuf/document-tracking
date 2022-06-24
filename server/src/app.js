@@ -23,8 +23,8 @@ app.get('/',(req, res)=>{
 
 app.use('/auth', authRoutes);
 app.use('/empleados', empleadosRoutes);
-app.use ('/departamentos', departamentosRoutes);
-app.use ('/empresas', empresasRoutes);
+app.use('/departamentos', departamentosRoutes);
+app.use('/empresas', empresasRoutes);
 app.use('/gerencias', gerenciasRoutes);
 app.use('/parametros', parametrosRoutes);
 app.use('/tramites', tramitesRoutes);
