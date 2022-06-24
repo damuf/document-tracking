@@ -7,11 +7,24 @@ import Error from '../Alerts/Error'
 
 function SignInForm() {
 
-  const [resjson, setResJson] = useState('');
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
 
+  //alerts
   const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const close = document.getElementsByClassName("closebtn");
+
+  for (var i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+      const div = this.parentElement;
+      div.style.opacity = "0";
+      setTimeout(function(){ div.style.display = "none"; }, 600);
+      setIsError(false)
+      setMessage('')
+    }
+  }
 
   //navigate
   const navigate = useNavigate();
@@ -40,8 +53,8 @@ function SignInForm() {
 
         <div className="containerStart" style={{userSelect: "none"}}>
 
-          <div className="frow">
-            {isError && <Error msg="oa" />}
+          <div id="divAlert" className="frow">
+            {isError && <Error msg={message} />}
           </div>
           
           <div className="frow">
@@ -69,13 +82,17 @@ function SignInForm() {
                 <div className="frow">
                   <button className="buttonStart" type="submit" onClick={ async(e)=> {
                       e.preventDefault()
-                      await axios.post(`http://localhost:4000/auth/signin`, {user, password}).then((res=>{
-                        if(res.status === 200) goToHome()
-                        setResJson(res.status)
-                        console.log("set res json status:" + resjson)
-                        console.log("res status:" + res.status)
-                        
-                      }))
+                      try{
+                        const {data} = await axios.post(`http://localhost:4000/auth/signin`, {user, password})
+                        console.log(data.message)
+                        goToHome()
+                      } catch (error) {
+                        if(user !== '' && password !== ''){
+                          console.log(error)
+                          setIsError(true)
+                          setMessage(error.response.data.message)
+                        }
+                      }
                     }
                   }>iniciar sesión</button>
                 </div>
