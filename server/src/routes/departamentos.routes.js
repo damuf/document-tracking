@@ -10,8 +10,6 @@ router.get('/', departamentos.getDepartamentos)
 router.get('/:departamentoId', departamentos.getDepartamentoById)
 router.put('/:departamentoId', departamentos.updateDepartamentoById)
 router.delete('/:departamentoId', departamentos.deleteDepartamentoById)
-//router.get('/idk/:departamentoName', departamentos.getDepartamentosByName)
-
-router.get("/find/:departamentoName", departamentos.getDepartamentosByName);
+router.get("/find/:departamentoName", departamentos.getDepartamentoByName);
   
 export default router;

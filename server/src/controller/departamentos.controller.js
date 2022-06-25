@@ -28,7 +28,10 @@ export const deleteDepartamentoById = async (req, res) => {
     res.status(204).json
 };
 
-export const getDepartamentosByName = async (req, res) => {
-    const nombre = await departamentos.findOne(req.params.nombre);
-    res.status(200).json(nombre)
-}
+export const getDepartamentoByName = async (req, res) => {
+    const nombreDepto = await departamentos.findOne({nombre: req.params.departamentoName});
+    
+    if(!nombreDepto) return res.status(400).json("el departamento no existe")
+    
+    res.status(200).json(nombreDepto)
+};

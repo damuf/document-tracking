@@ -10,17 +10,19 @@ export const ola = async (req, res) => {
 export const signup = async (req, res) => {
     const {idDepto, nombre, papellido, sapellido, user, password, cedula, fechaNacim, fechaInicio, fechaFin} = req.body;
 
-    const userFound = await empleados.findOne({user: req.body.user});
-    if(userFound) return res.status(400).json({message: "usuario ya existente"})
+    const deptoFound = await departamentos.findOne({nombre: req.body.idDepto});
+    console.log(deptoFound)
+    if(!deptoFound) return res.status(400).json({message: "el departamento no existe"})
 
-    //const deptoFound = await departamentos.findOne({departamento: req.body.departamento});
-    //if(!deptoFound) return res.status(400).json({message: "no existe el departamento"})
+    const userFound = await empleados.findOne({user: req.body.user});
+    if(userFound) return res.status(400).json({message: "el nombre de usuario no está disponible"})
 
     const cedulaFound = await empleados.findOne({cedula: req.body.cedula});
-    if(cedulaFound) return res.status(400).json({message: "numero de cedula ya existente"})
+    if(cedulaFound) return res.status(400).json({message: "el número de cedula ya existe en el sistema"})
 
     const newEmpleado = new empleados({
-        idDepto: "62af601f71bfd24bb4f55d32", nombre, papellido, sapellido,
+        idDepto: deptoFound._id,
+        nombre, papellido, sapellido,
         user, password: await empleados.encryptPassword(password), 
         cedula, fechaNacim: "2022-06-21", fechaInicio: "2022-06-21", fechaFin: null
     })
