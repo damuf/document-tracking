@@ -9,7 +9,7 @@ const empleadosSchema = new Schema({
     user: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     cedula: {type: String, required: true, unique: true},
-    fechaNacim: {type: Date, required: true},
+    fNacim: {type: Date, required: true},
     fechaInicio: {type: Date, required: true},
     fechaFin: {type: Date, required: false},
 }, { versionKey: false })
