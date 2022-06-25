@@ -2,20 +2,17 @@
     background-color: #C1121F;
     color: #FAFAFF;
     border-radius: 5px;
-    transition: opacity 0.6s;
     display: flex;
     flex-direction: row;
     align-items: center;
+    animation: hideMe 5s forwards;
 }
 
-.closebtn {
-    background-color: #C1121F;
-    border: none;
-    color: #FAFAFF;
-    cursor: pointer;
-    transition: 0.3s;
-}
-  
-.closebtn:hover {
-    color: black;
+@keyframes hideMe{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
 }

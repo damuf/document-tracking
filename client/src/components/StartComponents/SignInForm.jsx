@@ -14,22 +14,17 @@ function SignInForm() {
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState('');
 
-  const close = document.getElementsByClassName("closebtn");
-  function cerrar() {
-    close.onclick = function(){
-      const div = this.parentElement;
-      div.style.opacity = "0";
-      setTimeout(function(){ div.style.display = "none"; }, 600);
+  const showError = () => {
+    setTimeout( () => {
       setIsError(false)
-      setMessage('')
-    }
+    }, 5000);
   }
 
   //navigate
   const navigate = useNavigate();
 
   const goToSignup = () => {
-      navigate("/signup", {replace: false}) //sirve pa devolverse de pag
+    navigate("/signup", {replace: false}) //sirve pa devolverse de pag
   }
 
   const goToHome = () => {
@@ -53,7 +48,7 @@ function SignInForm() {
         <div className="containerStart" style={{userSelect: "none"}}>
 
           <div id="divAlert" className="frow">
-            {isError && <Error msg={message} />}
+            {isError && <Error msg={message}/>}
           </div>
           
           <div className="frow">
@@ -86,11 +81,9 @@ function SignInForm() {
                         console.log(data.message)
                         goToHome()
                       } catch (error) {
-                        cerrar()
                         setIsError(true)
+                        showError()
                         setMessage(error.response.data.message)
-                        setUser('')
-                        setPassword('')
                       }
                     }
                   }>iniciar sesión</button>
