@@ -3,12 +3,12 @@ import bcrypt from 'bcryptjs';
 
 const empleadosSchema = new Schema({
     idDepto: {ref:"departamentos", type: Schema.Types.ObjectId, required: true},
-    nombre: {type: String, required: true},
-    papellido: {type: String, required: true},
-    sapellido: {type: String, required: true},
-    user: {type: String, required: true, unique: true},
+    nombre: {type: String, required: true, lowercase: true},
+    papellido: {type: String, required: true, lowercase: true},
+    sapellido: {type: String, required: true, lowercase: true},
+    user: {type: String, required: true, unique: true, lowercase: true},
     password: {type: String, required: true},
-    cedula: {type: String, required: true, unique: true},
+    cedula: {type: String, required: true, unique: true, lowercase: true},
     fNacim: {type: Date, required: true},
     fechaInicio: {type: Date, required: true},
     fechaFin: {type: Date, required: false},

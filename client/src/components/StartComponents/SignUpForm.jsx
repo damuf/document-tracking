@@ -60,7 +60,14 @@ function SignUpForm() {
     const onSubmit = async(e)=> {
         e.preventDefault()
         try{
-            const {data} = await axios.post(`http://localhost:4000/auth/signup`, {departamento, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio})
+            const {data} = await axios.post(`http://localhost:4000/auth/signup`, {
+                departamento: departamento.toLowerCase(),
+                nombre: nombre.toLocaleLowerCase(),
+                papellido: papellido.toLocaleLowerCase(),
+                sapellido: sapellido.toLocaleLowerCase(),
+                user: user.toLocaleLowerCase(),
+                password, cedula: cedula.toLocaleLowerCase(), fNacim, fechaInicio})
+            
             console.log(data.message)
             setIsSuccess(true)
             setMessage(data.message)

@@ -10,10 +10,7 @@ export const ola = async (req, res) => {
 export const signup = async (req, res) => {
     const {departamento, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio, fechaFin} = req.body;
 
-    console.log("idDepto: " + req.body.departamento)
-    console.log("req: " + req.body.nombre)
     const deptoFound = await departamentos.findOne({nombre: req.body.departamento});
-    console.log("depto: " + deptoFound)
     if(!deptoFound) return res.status(400).json({message: "el departamento no existe"})
 
     const userFound = await empleados.findOne({user: req.body.user});
@@ -21,9 +18,6 @@ export const signup = async (req, res) => {
 
     const cedulaFound = await empleados.findOne({cedula: req.body.cedula});
     if(cedulaFound) return res.status(400).json({message: "el número de cedula ya existe en el sistema"})
-
-    console.log("fnacim: " + fNacim)
-    console.log("finicio: " + fechaInicio)
 
     const newEmpleado = new empleados({
         idDepto: deptoFound._id,

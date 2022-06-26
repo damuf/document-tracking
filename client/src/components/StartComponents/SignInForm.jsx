@@ -41,7 +41,8 @@ function SignInForm() {
   const onSubmit = async(e)=> {
     e.preventDefault()
     try{
-      const {data} = await axios.post(`http://localhost:4000/auth/signin`, {user, password})
+      const {data} = await axios.post(`http://localhost:4000/auth/signin`, {
+        user: user.toLocaleLowerCase(), password})
       console.log(data.message)
       goToHome()
     } catch (error) {
