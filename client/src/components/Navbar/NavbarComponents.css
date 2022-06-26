@@ -11,3 +11,8 @@
     width: fit-content;
     height: fit-content;
 }
+
+.radios{
+    background-color: red;
+    font: red;
+}
