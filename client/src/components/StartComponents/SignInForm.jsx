@@ -37,6 +37,20 @@ function SignInForm() {
     setPasswordShown(!passwordShown);
   };
 
+  //submit
+  const onSubmit = async(e)=> {
+    e.preventDefault()
+    try{
+      const {data} = await axios.post(`http://localhost:4000/auth/signin`, {user, password})
+      console.log(data.message)
+      goToHome()
+    } catch (error) {
+      setIsError(true)
+      showError()
+      setMessage(error.response.data.message)
+    }
+  }
+
   return (
     <>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -59,7 +73,7 @@ function SignInForm() {
             <div id="form" className="fcolumn" style={{width: '500px',  height: '500px'}}>
               <h1 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Document Tracking</h1>
 
-              <form id="siginform" method="get">
+              <form id="siginform" method="get"  onSubmit={onSubmit}>
 
                 <div className="frow">
                   <i className="material-symbols-outlined">account_circle</i> &nbsp;
@@ -74,19 +88,7 @@ function SignInForm() {
                 <br />
                 
                 <div className="frow">
-                  <button className="buttonStart" type="submit" onClick={ async(e)=> {
-                      e.preventDefault()
-                      try{
-                        const {data} = await axios.post(`http://localhost:4000/auth/signin`, {user, password})
-                        console.log(data.message)
-                        goToHome()
-                      } catch (error) {
-                        setIsError(true)
-                        showError()
-                        setMessage(error.response.data.message)
-                      }
-                    }
-                  }>iniciar sesión</button>
+                  <button className="buttonStart" type="submit">iniciar sesión</button>
                 </div>
               
               </form>

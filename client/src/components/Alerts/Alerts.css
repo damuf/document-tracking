@@ -8,6 +8,16 @@
     animation: hideMe 5s forwards;
 }
 
+.success{
+    background-color: #669BBC;
+    color: #FAFAFF;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    animation: hideMe 5s forwards;
+}
+
 @keyframes hideMe{
     0%{
         opacity: 1;

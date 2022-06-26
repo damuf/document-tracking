@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import pic from "../../assets/lady-wearing-blazer.png";
 import Error from '../Alerts/Error'
+import Success from '../Alerts/Success'
 
 function SignUpForm() {
 
@@ -23,12 +24,23 @@ function SignUpForm() {
 
     //alerts
     const [isError, setIsError] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
     const [message, setMessage] = useState('');
 
     const showError = () => {
         setTimeout( () => {
         setIsError(false)
         }, 5000);
+    }
+
+    const showSuccess = () => {
+        setTimeout( () => {
+            setIsSuccess(false)
+        }, 4000);
+
+        setTimeout( () => {
+            goToSignin()
+        }, 3000);
     }
 
     //navigate
@@ -38,15 +50,27 @@ function SignUpForm() {
         navigate("/", {replace: false}) //sirve pa devolverse de pag
     }
 
-    const goToHome = () => {
-        navigate("/home/*", {replace: true}) //sirve pa devolverse de pag
-      }
-
     //state password
     const [passwordShown, setPasswordShown] = useState(false);
     const togglePassword = () => {
         setPasswordShown(!passwordShown);
     };
+
+    //submit
+    const onSubmit = async(e)=> {
+        e.preventDefault()
+        try{
+            const {data} = await axios.post(`http://localhost:4000/auth/signup`, {departamento, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio})
+            console.log(data.message)
+            setIsSuccess(true)
+            setMessage(data.message)
+            showSuccess()
+        } catch (error){
+            setIsError(true)
+            setMessage(error.response.data.message)
+            showError()
+        }
+    }
 
     return (
         <>
@@ -58,6 +82,7 @@ function SignUpForm() {
 
             <div className="frow">
                 {isError && <Error msg={message}/>}
+                {isSuccess && <Success msg={message}/>}
             </div>
 
             <div className="frow">
@@ -68,7 +93,7 @@ function SignUpForm() {
                 <div id="form" className="fcolumn" style={{width: "520px"}}>
                 <h1 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Document Tracking</h1>
 
-                <form id="sigupform" method="get">
+                <form id="sigupform" method="get" onSubmit={onSubmit}>
 
                     <div className="frow">
                         <div className="frow" style={{marginRight: '30px'}}>
@@ -116,19 +141,7 @@ function SignUpForm() {
                     </div>
                     <br />
                     <div className="frow" style={{marginTop:'4%'}}>
-                        <button className="buttonStart" type="submit" onClick={ async(e)=> {
-                            e.preventDefault()
-                            try{
-                                const {data} = await axios.post(`http://localhost:4000/auth/signup`, {departamento, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio})
-                                console.log(data.message)
-                                goToHome()
-                            } catch (error){
-                                setIsError(true)
-                                showError()
-                                setMessage(error.response.data.message)
-                            }
-                        }
-                    }>registrarse</button>
+                        <button className="buttonStart" type="submit">registrarse</button>
                     </div>
                 
                 </form>
