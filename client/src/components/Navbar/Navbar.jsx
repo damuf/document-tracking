@@ -11,6 +11,8 @@ export default function Navbar() {
           <CustomLink to="*/home">Inicio</CustomLink>
           <CustomLink to="*/documentos">Documentos</CustomLink>
           <CustomLink to="*/empresas">Empresas</CustomLink>
+          <CustomLink to="*/casos">Casos</CustomLink>
+
         </ul>
       </nav>
   )

@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Documentos from "./DocumentosPage";
 import Empresas from "./EmpresasPage";
+import Casos from "./CasosPage";
 import Inicio from "./InicioPage";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from '../../components/Footer/Footer'
@@ -15,6 +16,7 @@ function NavbarPage() {
           <Route path="*/documentos" element={<Documentos />} />
           <Route path="*/empresas" element={<Empresas />} />
           <Route path="*/home" element={<Inicio />} />
+          <Route path="*/casos" element={<Casos />} />
         </Routes>
       </div>
       <Footer/>
