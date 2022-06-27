@@ -18,18 +18,27 @@ function EliminarEmpresa() {
         if(nombre !== ''){
             setNombre('')
             setEmpresaFound(false)
+            setConfirmDelete(false)
         }
     }
 
     const deleteEmpresa = async (e) => {
         e.preventDefault();
         try {
-            console.log(nombre)
+            const {data} = await axios.delete(`http://localhost:4000/empresas/delete/${nombre}`)
+            console.log(data.message)
             setConfirmDelete(true)
             setIsSuccess(true)
+            setMessage("empresa borrada con éxito")
             showSuccess()
+            evaluate()
         } catch (error) {
-            
+            setEmpresaFound(false)
+            setIsError(true)
+            setMessage(error.response.data.message)
+            showError()
+            console.log(error.response.data.message)
+            setNombre('')
         }
     }
 
@@ -54,7 +63,7 @@ function EliminarEmpresa() {
         e.preventDefault();
         try {
             console.log(nombre)
-            const {data} = await axios.delete(`http://localhost:4000/empresas/delete/${nombre}`)
+            const {data} = await axios.get(`http://localhost:4000/empresas/find/${nombre}`)
             console.log(data.message)
             setEmpresaFound(true)
             setIsSuccess(true)
