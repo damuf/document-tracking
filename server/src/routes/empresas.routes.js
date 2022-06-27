@@ -6,8 +6,8 @@ const router = Router();
 router.post('/', empresas.createEmpresas)
 router.get('/', empresas.getEmpresas)
 router.get('/:empresaId', empresas.getEmpresaById)
-router.put('/:empresaId', empresas.updateEmpresaById)
-router.delete('/delete/:empresaId', empresas.deleteEmpresaById)
+router.put('/edit/:empresaName', empresas.updateEmpresaByNombre)
+router.delete('/delete/:empresaName', empresas.deleteEmpresaByNombre)
 router.get("/find/:empresaName", empresas.getEmpresaByName);
 
 export default router;

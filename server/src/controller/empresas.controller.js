@@ -2,7 +2,7 @@ import empresas from "../model/empresas";
 
 export const createEmpresas = async (req, res) => {
     try {
-        const { nombre, ubicacion, telefonos, correos} = req.body
+        const {nombre, ubicacion, telefonos, correos} = req.body
 
         const empresaFound = await empresas.findOne({nombre: req.body.nombre});
         if(empresaFound) return res.status(400).json({message: 'el nombre de la empresa ya existe en el sistema'})
@@ -39,36 +39,35 @@ export const getEmpresaById = async (req, res) => {
     }
 };
 
-export const updateEmpresaById = async (req, res) => {
+export const updateEmpresaByNombre = async (req, res) => {
     try {
-        const updatedEmpresa = await empresas.findByIdAndUpdate(req.params.empresaId, req.body, {new: true})
-        res.status(200).json(updatedEmpresa)
+        const {nombre, ubicacion, telefonos, correos} = req.body
+        const updatedEmpresa = await empresas.findOneAndUpdate({nombre: req.params.empresaName}, {nombre, ubicacion, telefonos, correos}, {new: true});
+        if(!updatedEmpresa) return res.status(400).json({message: "la empresa no existe"})
+        res.status(200).json({updatedEmpresa, message: "información de la empresa modificada con éxito"})
     } catch (error) {
         console.log(error)
-        res.status(400).json({msg: "error actualizando empresa por ID"});
+        res.status(400).json({message: "error actualizando empresa por nombre"});
     }
 };
 
-export const deleteEmpresaById = async (req, res) => {
-    console.log("entro delete")
-    console.log("1 params:" + req.params.empresaId)
+export const deleteEmpresaByNombre = async (req, res) => {
     try {
-        const empresaIdDelete = await empresas.findOne({_id: req.params.empresaId});
-        if(!empresaIdDelete) return res.status(400).json({message: "la empresa no existe"})
-        await empresas.findByIdAndDelete(empresaIdDelete)
-        res.status(204).json({msg: "empresa borrada con éxito"});
+        const empresaFound = await empresas.findOne({nombre: req.params.empresaName});
+        if(!empresaFound) return res.status(400).json({message: "la empresa no existe"})
+        await empresas.findByIdAndDelete(empresaFound)
+        res.status(204).json({message: "empresa borrada con éxito"});
     } catch (error) {
         console.log(error)
-        res.status(400).json({msg: "error borrando empresa por ID"});
+        res.status(400).json({message: "error borrando empresa por nombre"});
     }
 };
 
 export const getEmpresaByName = async (req, res) => {
     try {
-        const nombreEmpresa = await empresas.findOne({nombre: req.params.empresaName});
-        if(!nombreEmpresa) return res.status(400).json({message: "la empresa no existe"})
-        console.log(nombreEmpresa)
-        res.status(200).json({nombreEmpresa, message: "empresa encontrada"})
+        const empresaFound = await empresas.findOne({nombre: req.params.empresaName});
+        if(!empresaFound) return res.status(400).json({message: "la empresa no existe"})
+        res.status(200).json({empresaFound, message: "empresa encontrada"})
     } catch (error) {
         console.log(error)
         res.status(400).json({message: "error buscando un departamento por nombre"});

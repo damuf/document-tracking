@@ -11,7 +11,7 @@ function Insertar() {
   const [ubicacion, setUbicacion] = useState("");
 
   //array telefonos
-  const [telefonos, setTelefonos] = useState([0]);
+  const [telefonos, setTelefonos] = useState(['']);
 
   const addTelefono = () => {
     setTelefonos([...telefonos, 0]);
@@ -85,7 +85,7 @@ function Insertar() {
       console.log(data.message)
       setNombre('')
       setUbicacion('')
-      setTelefonos([0])
+      setTelefonos([''])
       setCorreos([''])
       console.log("despues de guardar" + nombre, ubicacion, telefonos, correos)
     } catch (error) {
@@ -132,7 +132,7 @@ function Insertar() {
                         <div className="frow">
                           <div className="frow">
                             <i className="material-symbols-outlined">call</i> &nbsp;
-                            <input type="number" value={data.telefono} onChange={(evnt) => handleChangeTelefonos(index, evnt)} required={true} autoComplete="off" name="telefono" placeholder="teléfono"/>
+                            <input type="number" value={data} onChange={(evnt) => handleChangeTelefonos(index, evnt)} required={true} autoComplete="off" name="telefono" placeholder="teléfono"/>
                             {(telefonos.length!==1)? <button className="remove" onClick={() => removeTelefono(index)}><i className="material-symbols-outlined">delete</i></button>:''}
                           </div>
                         </div>
@@ -151,7 +151,7 @@ function Insertar() {
                         <div className="frow">
                           <div className="frow">
                             <i className="material-symbols-outlined">mail</i> &nbsp;
-                            <input type="email" value={data.correo} onChange={(evnt)=> handleChangeCorreos(index, evnt)} required={true} autoComplete="off" name="correo" placeholder="correo"/>
+                            <input type="email" value={data} onChange={(evnt)=> handleChangeCorreos(index, evnt)} required={true} autoComplete="off" name="correo" placeholder="correo"/>
                             {(correos.length!==1)? <button className="remove" onClick={() => removeCorreo(index)}><i className="material-symbols-outlined">delete</i></button>:''}
                           </div>
                         </div>

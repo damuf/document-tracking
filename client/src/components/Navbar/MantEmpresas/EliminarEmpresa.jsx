@@ -54,15 +54,15 @@ function EliminarEmpresa() {
         e.preventDefault();
         try {
             console.log(nombre)
-            const {data} = await axios.get(`http://localhost:4000/empresas/find/${nombre}`)
+            const {data} = await axios.delete(`http://localhost:4000/empresas/delete/${nombre}`)
             console.log(data.message)
             setEmpresaFound(true)
             setIsSuccess(true)
             setMessage(data.message)
             showSuccess()
-            setUbicacion(data.nombreEmpresa.ubicacion)
-            setTelefonos(data.nombreEmpresa.telefonos)
-            setCorreos(data.nombreEmpresa.correos)
+            setUbicacion(data.empresaFound.ubicacion)
+            setTelefonos(data.empresaFound.telefonos)
+            setCorreos(data.empresaFound.correos)
         } catch (error) {
             setEmpresaFound(false)
             setIsError(true)
