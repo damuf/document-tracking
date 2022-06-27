@@ -1,9 +1,27 @@
 import documentos from "../model/documentos";
+import casos from "../model/casos"
+import tramites from "../model/tramites"
 
 export const createDocumentos = async (req, res) => {
     try {
-        const { idCaso, idTramite, nombre, ruta } = req.body
-        const newDocumento = new documentos({ idCaso, idTramite, nombre, ruta});
+        const { numCaso, tramite, nombre, estado, medio, ruta} = req.body
+
+        const documentoFound = await documentos.findOne({nombre: req.body.nombre});
+        if(documentoFound) return res.status(400).json({message: 'el documento ya existe'})
+
+        const casoFound = await casos.findOne({numCaso: req.body.numCaso});
+        if(!casoFound) return res.status(400).json({message: 'el caso no existe'})
+
+        const tramiteFound = await tramites.findOne({nombre: req.body.nomTramite}).exec()
+        if(!tramiteFound) return res.status(400).json({message: "el tramite no existe"});
+        
+        const newDocumento = new documentos({ 
+            idCaso: casoFound._id, 
+            idTramite: tramiteFound._id, 
+            nombre,
+            estado,
+            medio, 
+            ruta});
         const documentoSaved = await newDocumento.save()
         res.status(201).json(documentoSaved)   
     } catch (error) {

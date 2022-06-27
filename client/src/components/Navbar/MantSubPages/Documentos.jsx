@@ -3,6 +3,7 @@ import Insertar from "../MantComponents/MantDocumentos/InsertarDocumento"
 import Editar from "../MantComponents/MantDocumentos/EditarDocumento"
 import Eliminar from "../MantComponents/MantDocumentos/EliminarDocumento"
 
+
 function Documentos(){
 
   return (
