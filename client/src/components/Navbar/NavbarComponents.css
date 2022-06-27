@@ -19,7 +19,7 @@
     align-items: center;
     background-color: #FAFAFF;  
     border-radius: 25px;
-    padding: 2%;
+    padding: 3%;
     margin: auto;
     margin-top: 2%;
     width: fit-content;
@@ -77,8 +77,15 @@
     margin-left: 5px;
 }
 
-.add:hover{
-    background-color: #003049;
+.buscar{
+    border: 2px transparent;
+    border-radius: 10px;
+    padding: 2%;
+    background-color: #709775;
+    color: #FAFAFF;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
 }
 
 .remove{
@@ -91,6 +98,6 @@
     margin-left: 5px;
 }
 
-.remove:hover{
+.add:hover, .remove:hover, .buscar:hover{
     background-color: #003049;
 }

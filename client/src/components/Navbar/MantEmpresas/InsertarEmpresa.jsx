@@ -9,13 +9,13 @@ function Insertar() {
 
   //array telefonos
   const [telefonos, setTelefonos] = useState([{
-      telefono: "",
+      telefono: '',
     },
   ]);
 
   const addTelefono = () => {
     setTelefonos([...telefonos,{
-        telefono: "",
+        telefono: '',
       },
     ]);
   };
@@ -26,22 +26,22 @@ function Insertar() {
     setTelefonos(rows);
   };
 
-  const handleChangeTelefonos = (index, event) => {
-    const { telefono, value } = event.target;
+  const handleChangeTelefonos = (index, evnt) => {
+    const { name, value } = evnt.target;
     const list = [...telefonos];
-    list[index][telefono] = value;
+    list[index][name] = value;
     setTelefonos(list);
   };
 
   //array correos
   const [correos, setCorreos] = useState([{
-      correo: "",
+      correo: '',
     },
   ]);
 
   const addCorreo = () => {
     setCorreos([...correos,{
-        correo: "",
+        correo: '',
       },
     ]);
   };
@@ -52,10 +52,10 @@ function Insertar() {
     setCorreos(rows);
   };
 
-  const handleChangeCorreos = (index, event) => {
-    const { correo, value } = event.target;
+  const handleChangeCorreos = (index, evnt) => {
+    const { name, value } = evnt.target;
     const list = [...correos];
-    list[index][correo] = value;
+    list[index][name] = value;
     setCorreos(list);
   };
 
@@ -96,13 +96,12 @@ function Insertar() {
             <div className="frow">
               <div className="column">
                 {telefonos.map((data, index) => {
-                    const {telefono} = data;
                     return(
                       <div key={index} className="frow" style={{marginTop: '25px'}}>
                         <div className="frow">
                           <div className="frow">
                             <i className="material-symbols-outlined">call</i> &nbsp;
-                            <input type="text" onChange={(event)=> handleChangeTelefonos(index, event)} value={telefono} placeholder="teléfono"/>
+                            <input type="text" value={data.telefono} onChange={(evnt) => handleChangeTelefonos(index, evnt)} name="telefono" placeholder="teléfono"/>
                             {(telefonos.length!==1)? <button className="remove" onClick={removeTelefono}><i className="material-symbols-outlined">delete</i></button>:''}
                           </div>
                         </div>
@@ -116,13 +115,12 @@ function Insertar() {
             <div className="frow">
               <div className="column">
                 {correos.map((data, index) => {
-                    const {correo} = data;
                     return(
                       <div key={index} className="frow" style={{marginTop: '25px'}}>
                         <div className="frow">
                           <div className="frow">
                             <i className="material-symbols-outlined">mail</i> &nbsp;
-                            <input type="text" onChange={(event)=> handleChangeCorreos(index, event)} value={correo} placeholder="correo"/>
+                            <input type="text" value={data.correo} onChange={(evnt)=> handleChangeCorreos(index, evnt)} name="correo" placeholder="correo"/>
                             {(correos.length!==1)? <button className="remove" onClick={removeCorreo}><i className="material-symbols-outlined">delete</i></button>:''}
                           </div>
                         </div>
