@@ -3,7 +3,7 @@ import * as casos from '../controller/casos.controller';
 
 const router = Router();
 
-router.post('/', casos.createCasos)
+router.post('/', casos.createCasos2)
 router.get('/', casos.getCasos)
 router.get('/:casoId', casos.getCasoById)
 router.put('/:casoId', casos.updateCasoById)

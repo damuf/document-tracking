@@ -25,6 +25,7 @@ export default function Documentos(){
     const [orden, setOrden] = useState('');
     const [data, setData] = useState([])
     const [depas, setDepas] = useState([{}])
+    const [lang, setLang] = useState([]);
 
     const showError = () => {
       setTimeout( () => {
@@ -32,19 +33,30 @@ export default function Documentos(){
       }, 5000);
     }
 
-    
+    const handleChange = e => {
+        const { value, checked } = e.target;
+        if (checked) {
+          // push selected value in list
+          setLang(prev => [...prev, value]);
+        } else {
+          // remove unchecked value from the list
+          setLang(prev => prev.filter(x => x !== value));
+        }
+      }
+
   const onSubmit = async(event)=>{
     event.preventDefault();
     try{
-        //  axios.get(`http://localhost:4000/departamentos`).then(response => { 
-        //     const jeje = response.data;
-        //     this.setDepartamentos({jeje})
-        // });
-    
-        const {data: response} = await axios.get(`http://localhost:4000/departamentos`);
-            setData(response);
-        setDepas(response)
-    
+        const {data} = await axios.post(`http://localhost:4000/casos`, {
+            idTramite: "62af601f71bfd24bb4f55d32",
+            numCaso: numCaso,
+            fechaApertura: fechaApertura,
+            fechaFinal: fechaFinal.toLocaleLowerCase(),
+            estado: estado.toLocaleLowerCase(),
+            deptos: ["62af601f71bfd24bb4f55d32"], 
+            orden: ["ola","nose"]
+            //orden: orden.toLocaleLowerCase(), 
+            })
     
         }catch(error) {
         //   setIsError(true)
@@ -65,9 +77,12 @@ export default function Documentos(){
         }
   }
 
+  const idk = async (hehe) => {
+    console.log("Checks: "+JSON.stringify(hehe))
+  }
+
   return (
     <>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -75,12 +90,10 @@ export default function Documentos(){
 
 
     <div className="containerStart" style={{userSelect: "none"}} onLoad={departamentosCarga}>
-
     <div className="frow">
         {isError && <Error msg={message}/>}
         {isSuccess && <Success msg={message}/>}
     </div>
-
     <div className="frow">
         <div id="icon">
             <img src={pic} alt="man-icon" width= '300px'  height= '550px' style={{pointerEvents:'none'}}/>
@@ -94,7 +107,7 @@ export default function Documentos(){
             <div className="frow">
                 <div className="frow" style={{marginRight: '30px'}}>
                     <i className="material-symbols-outlined">description</i>&nbsp;
-                    <input type="text" id="tramite" placeholder="Numero de tramite" required={true} autoComplete="off" value={tramite} onChange={event => {setTramite(event.target.value)}}/>
+                    <input type="text" id="tramite" placeholder="Nombre de tramite" required={true} autoComplete="off" value={tramite} onChange={event => {setTramite(event.target.value)}}/>
                 </div> 
                 <div className="frow">    
                     <i className="material-symbols-outlined">barcode</i> &nbsp;
@@ -130,9 +143,8 @@ export default function Documentos(){
                     <h3 className='casosNav'>Departamentos</h3>
                 </div>
                 <div className='optionsCheckbox'>
-
                     <ul className="">
-                        {depas.map(({ nombre }, index) => {
+                        {depas.map(({nombre}, index) => {
                         return (
                             <li key={index}>
                             <div className="">
@@ -144,7 +156,7 @@ export default function Documentos(){
                                             id={`custom-checkbox-${index}`}
                                             name={nombre}
                                             value={nombre}
-                                            
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 <label htmlFor={`custom-checkbox-${index}`} style={{ width: '100px', height: '45px'}}>{nombre}</label>
@@ -153,8 +165,9 @@ export default function Documentos(){
                             </li>
                         )
                         })}
+                        <div>Departamentos check SOLO PA VER: {lang.length ? lang.join(', ') : null}</div>
                     </ul>
-                               
+
                     </div>
                 </div>
                 <br />
@@ -162,12 +175,11 @@ export default function Documentos(){
                     hola
                 </div>
             <br/>
-            <button className="buttonStart" type="submit">Ola</button>
+            <button className="buttonStart" type="submit" onClick={idk()}>Guardar</button>
         </form>
         </div>
     </div>
 </div>
-
 </>
 
   );

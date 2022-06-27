@@ -1,4 +1,6 @@
 import casos from "../model/casos";
+import tramites from '../model/tramites';
+import departamentos from '../model/departamentos';
 
 export const createCasos = async (req, res) => {
     try {
@@ -9,6 +11,33 @@ export const createCasos = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(400).json({msg: error});
+    }
+};
+
+export const createCasos2 = async (req, res) => {
+    try {
+        const { tramite, numCaso, fechaApertura, fechaFinal, estado, departamentos, orden } = req.body
+        
+        const tramiteFound = await tramites.findOne({nombre:req.body.tramite})
+        if(!tramiteFound) return res.status(400).json({message: "el tramite no existe"})
+        
+        const deptoFound = await departamentos.findOne({nombre: req.body.departamento});
+        if(!deptoFound) return res.status(400).json({message: "el departamento no existe"})
+        
+        const newCaso = new casos({ 
+            idTramite: tramiteFound._id, 
+            numCaso, 
+            fechaApertura, 
+            fechaFinal, 
+            estado, 
+            deptos: deptoFound._id, 
+            orden });
+
+        const casoSaved = await newCaso.save()
+        res.status(201).json(casoSaved)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: "error creando un caso2"});
     }
 };
 
