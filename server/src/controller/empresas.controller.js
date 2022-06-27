@@ -1,10 +1,18 @@
 import empresas from "../model/empresas";
 
 export const createEmpresas = async (req, res) => {
+    console.log("create empresas")
     const { nombre, ubicacion, telefonos, correos} = req.body
+
+    const empresaFound = await empresas.findOne({nombre: req.body.nombre});
+    if(empresaFound) return res.status(400).json({message: 'el nombre de la empresa ya existe en el sistema'})
+
     const newEmpresa = new empresas({ nombre, ubicacion, telefonos, correos })
+
     const empresaSaved = await newEmpresa.save()
-    res.status(201).json(empresaSaved)
+    if(!empresaSaved) return res.status(400).json({message: 'ocurrió un problema en el sistema'})
+
+    res.status(200).json({empresaSaved, message: 'empresa registrada correctamente'})
 };
 
 export const getEmpresas = async (req, res) => {

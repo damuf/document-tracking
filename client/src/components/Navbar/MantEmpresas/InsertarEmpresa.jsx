@@ -1,6 +1,9 @@
 import { useState } from "react";
+import axios from 'axios';
 import pic from "../../../assets/man-holding-leg-up.png";
 import '../NavbarComponents.css'
+import Error from '../../Alerts/Error'
+import Success from '../../Alerts/Success'
 
 function Insertar() {
 
@@ -8,16 +11,10 @@ function Insertar() {
   const [ubicacion, setUbicacion] = useState("");
 
   //array telefonos
-  const [telefonos, setTelefonos] = useState([{
-      telefono: '',
-    },
-  ]);
+  const [telefonos, setTelefonos] = useState([0]);
 
   const addTelefono = () => {
-    setTelefonos([...telefonos,{
-        telefono: '',
-      },
-    ]);
+    setTelefonos([...telefonos, 0]);
   };
 
   const removeTelefono = (index) => {
@@ -27,23 +24,17 @@ function Insertar() {
   };
 
   const handleChangeTelefonos = (index, evnt) => {
-    const { name, value } = evnt.target;
+    const { value } = evnt.target;
     const list = [...telefonos];
-    list[index][name] = value;
+    list[index] = value;
     setTelefonos(list);
   };
 
   //array correos
-  const [correos, setCorreos] = useState([{
-      correo: '',
-    },
-  ]);
+  const [correos, setCorreos] = useState(['']);
 
   const addCorreo = () => {
-    setCorreos([...correos,{
-        correo: '',
-      },
-    ]);
+    setCorreos([...correos, '']);
   };
 
   const removeCorreo = (index) => {
@@ -53,17 +44,56 @@ function Insertar() {
   };
 
   const handleChangeCorreos = (index, evnt) => {
-    const { name, value } = evnt.target;
+    const { value } = evnt.target;
     const list = [...correos];
-    list[index][name] = value;
+    list[index] = value;
     setCorreos(list);
   };
+
+  //alerts
+  const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const showError = () => {
+      setTimeout( () => {
+      setIsError(false)
+      }, 5000);
+  }
+
+  const showSuccess = () => {
+      setTimeout( () => {
+          setIsSuccess(false)
+      }, 4000);
+  }
 
   //submit
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-    } catch (error) {}
+      console.log(nombre, ubicacion, telefonos, correos)
+      const {data} = await axios.post(`http://localhost:4000/empresas`, {
+        nombre: nombre.toLocaleLowerCase(),
+        ubicacion: ubicacion.toLocaleLowerCase(),
+        telefonos: telefonos, 
+        correos: correos
+      })
+      console.log(data.message)
+      setIsSuccess(true)
+      setMessage(data.message)
+      showSuccess()
+      console.log(data.message)
+      setNombre('')
+      setUbicacion('')
+      setTelefonos([0])
+      setCorreos([''])
+      console.log("despues de guardar" + nombre, ubicacion, telefonos, correos)
+    } catch (error) {
+      setIsError(true)
+      setMessage(error.response.data.message)
+      showError()
+      console.log(error.message)
+    }
   };
 
   return(
@@ -73,7 +103,8 @@ function Insertar() {
     <div className="containerMantenimiento" style={{userSelect: "none"}}>
 
       <div className="frow">
-          
+        {isError && <Error msg={message}/>}
+        {isSuccess && <Success msg={message}/>}
       </div>
 
       <div className="frow">
@@ -101,8 +132,8 @@ function Insertar() {
                         <div className="frow">
                           <div className="frow">
                             <i className="material-symbols-outlined">call</i> &nbsp;
-                            <input type="text" value={data.telefono} onChange={(evnt) => handleChangeTelefonos(index, evnt)} name="telefono" placeholder="teléfono"/>
-                            {(telefonos.length!==1)? <button className="remove" onClick={removeTelefono}><i className="material-symbols-outlined">delete</i></button>:''}
+                            <input type="number" value={data.telefono} onChange={(evnt) => handleChangeTelefonos(index, evnt)} required={true} autoComplete="off" name="telefono" placeholder="teléfono"/>
+                            {(telefonos.length!==1)? <button className="remove" onClick={() => removeTelefono(index)}><i className="material-symbols-outlined">delete</i></button>:''}
                           </div>
                         </div>
                       </div>
@@ -120,8 +151,8 @@ function Insertar() {
                         <div className="frow">
                           <div className="frow">
                             <i className="material-symbols-outlined">mail</i> &nbsp;
-                            <input type="text" value={data.correo} onChange={(evnt)=> handleChangeCorreos(index, evnt)} name="correo" placeholder="correo"/>
-                            {(correos.length!==1)? <button className="remove" onClick={removeCorreo}><i className="material-symbols-outlined">delete</i></button>:''}
+                            <input type="email" value={data.correo} onChange={(evnt)=> handleChangeCorreos(index, evnt)} required={true} autoComplete="off" name="correo" placeholder="correo"/>
+                            {(correos.length!==1)? <button className="remove" onClick={() => removeCorreo(index)}><i className="material-symbols-outlined">delete</i></button>:''}
                           </div>
                         </div>
                       </div>

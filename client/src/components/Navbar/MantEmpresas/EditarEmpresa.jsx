@@ -7,20 +7,26 @@ function EditarEmpresa() {
     
     <div className="containerMantenimiento" style={{userSelect: "none"}}>
 
-        <div id="icon">
-            <img src={pic} alt="man-icon" width= '320px'  height= '450px' style={{pointerEvents:'none', marginRight: '50px'}}/>
+        <div className="frow">
         </div>
 
-        <div className="fcolumn">
-            <h2 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Editar una empresa</h2>
+        <div className="frow">
 
-            <div className="frow">
-                <input type="text" id="nombre" placeholder="nombre de la empresa" autoComplete="off" style={{width:'250px'}}/>
-                <button className="buscar" style={{marginLeft: '5px'}}>
-                    <i className="material-symbols-outlined">search</i> &nbsp;
-                </button>
+            <div id="icon">
+                <img src={pic} alt="man-icon" width= '320px'  height= '450px' style={{pointerEvents:'none', marginRight: '50px'}}/>
             </div>
 
+            <div className="fcolumn">
+                <h2 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Editar una empresa</h2>
+
+                <div className="frow">
+                    <input type="text" id="nombre" placeholder="nombre de la empresa" autoComplete="off" style={{width:'250px'}}/>
+                    <button className="buscar" style={{marginLeft: '5px'}}>
+                        <i className="material-symbols-outlined">search</i> &nbsp;
+                    </button>
+                </div>
+
+            </div>
         </div>
     
     </div>

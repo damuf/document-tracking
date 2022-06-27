@@ -24,7 +24,7 @@
     align-items: center;
 }
 
-input[type = text]::placeholder, input[type = password]::placeholder{
+input[type = text]::placeholder, input[type = password]::placeholder, input[type = number]::placeholder, input[type = email]::placeholder{
     color: #595959;
 }
 
@@ -37,7 +37,7 @@ input[type = date]:focus::before, input[type = date]:valid::before{
     display: none
 }
 
-input[type = text], input[type = password], input[type = date]{
+input[type = text], input[type = password], input[type = date], input[type = number], input[type = email]{
     font-family: 'Poppins', sans-serif;
     width: 210px;
     height: 30px;
@@ -49,6 +49,12 @@ input[type = text], input[type = password], input[type = date]{
     padding: 2%;
     padding-left: 8%;
     text-align: left;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .buttonStart{
