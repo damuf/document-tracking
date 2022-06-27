@@ -23,7 +23,6 @@ export default function Casos(){
     const [estado, setEstado] = useState('Activo');
     const [departamentos, setDepartamentos] = useState([]);
     const [orden, setOrden] = useState([0]);
-    //const [data, setData] = useState([])
     const [depas, setDepas] = useState([{}])
 
     const showError = () => {
@@ -81,7 +80,6 @@ export default function Casos(){
             estado: estado,
             deptos: departamentos, 
             orden: orden
-            //orden: orden.toLocaleLowerCase(), 
             })
             setIsSuccess(true)
             setMessage(data.message)

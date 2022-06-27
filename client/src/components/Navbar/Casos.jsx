@@ -1,5 +1,7 @@
 import Encabezado from "./MantCasos/EncabezadoCaso"
 import Insertar from "./MantCasos/InsertarCaso"
+import Eliminar from "./MantCasos/EliminarCaso"
+
 
 function Casos() {
 
@@ -7,6 +9,7 @@ function Casos() {
     <>
         <Encabezado/>
         <Insertar/>
+        <Eliminar/>
     </>
   );
 }

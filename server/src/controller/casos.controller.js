@@ -18,7 +18,7 @@ export const createCasos2 = async (req, res) => {
     try {
         const {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden } = req.body
         var text = "";
-        text += numCaso + "-"
+        text += +numCaso + "-"
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (var i = 0; i < 30; i++){ //cantidad de letras y numeros agregados aleatoriamente
             text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -103,5 +103,29 @@ export const crearCodigoAlphanumerico = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(400).json({msg: error});
+    }
+}
+
+export const getCasoByNumCaso = async (req, res) => {
+    try {
+        const numCaso = await casos.findOne({numCaso: req.params.numCaso});
+        if(!numCaso) return res.status(400).json({message: "el caso no existe"})
+        console.log(numCaso)
+        res.status(200).json({numCaso, message: "caso encontrado"})
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({message: "error buscando un caso por numero"});
+    }
+}
+
+export const deleteCasoByNumCaso = async (req, res) => {
+    try {
+        const numCaso = await casos.deleteOne({numCaso: req.params.numCaso});
+        if(!numCaso) return res.status(400).json({message: "el caso no existe"})
+        console.log(numCaso)
+        res.status(200).json({numCaso, message: "caso encontrado"})
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({message: "error eliminando un caso por numero de caso"});
     }
 }

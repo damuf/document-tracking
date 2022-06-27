@@ -9,5 +9,9 @@ router.get('/:casoId', casos.getCasoById)
 router.put('/:casoId', casos.updateCasoById)
 router.delete('/:casoId', casos.deleteCasoById)
 router.post('/numAlpha', casos.crearCodigoAlphanumerico)
+router.get("/find/:numCaso", casos.getCasoByNumCaso);
+router.delete("/delete/:numCaso", casos.deleteCasoByNumCaso);
+
+
 
 export default router;
