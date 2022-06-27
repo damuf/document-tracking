@@ -2,7 +2,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import React, { useEffect } from 'react'
 import SignUp from './pages/StartPages/SignUp';
 import SignIn from "./pages/StartPages/SignIn";
-import Navbar from "./pages/Navbar/NavbarPage";
+import Navbar from "./pages/NavbarPages/NavbarPage";
 
 function App() {
 

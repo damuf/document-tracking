@@ -1,4 +1,4 @@
-import Casos from '../../components/Navbar/Casos'
+import Casos from '../../components/Navbar/MantSubPages/Casos'
 import './NavbarPages.css'
 
 function CasosPage() {

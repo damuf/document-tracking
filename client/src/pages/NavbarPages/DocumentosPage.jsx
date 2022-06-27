@@ -1,4 +1,4 @@
-import Documentos from '../../components/Navbar/Documentos'
+import Documentos from '../../components/Navbar/MantSubPages/Documentos'
 import './NavbarPages.css'
 
 function DocumentosPage() {

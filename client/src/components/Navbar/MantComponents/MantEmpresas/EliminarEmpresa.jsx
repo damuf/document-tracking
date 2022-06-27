@@ -1,8 +1,8 @@
-import pic from "../../../assets/girl-with-attitude.png";
+import pic from "../../../../assets/girl-with-attitude.png";
 import { useState } from "react";
 import axios from 'axios';
-import Error from '../../Alerts/Error'
-import Success from '../../Alerts/Success'
+import Error from '../../../Alerts/Error'
+import Success from '../../../Alerts/Success'
 
 function EliminarEmpresa() {
 
@@ -152,7 +152,7 @@ function EliminarEmpresa() {
             </div>
 
             <div id="icon">
-                <img src={pic} alt="man-icon" width= '320px'  height= '450px' style={{pointerEvents:'none', marginLeft: '50px'}}/>
+                <img src={pic} alt="man-icon" width= '350px'  height= '450px' style={{pointerEvents:'none', marginLeft: '50px'}}/>
             </div>
 
         </div>

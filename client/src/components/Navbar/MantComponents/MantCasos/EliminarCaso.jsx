@@ -1,8 +1,8 @@
-import pic from "../../../assets/man.png";
+import pic from "../../../../assets/man.png";
 import { useState } from "react";
 import axios from 'axios';
-import Error from '../../Alerts/Error'
-import Success from '../../Alerts/Success'
+import Error from '../../../Alerts/Error'
+import Success from '../../../Alerts/Success'
 
 function EliminarCaso() {
 
@@ -89,6 +89,10 @@ function EliminarCaso() {
 
         <div className="frow">
 
+            <div id="icon">
+                <img src={pic} alt="man-icon" width= '350px'  height= '450px' style={{pointerEvents:'none', marginRight: '50px'}}/>
+            </div>
+
             <div className="fcolumn">
                 <h2 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Eliminar un caso</h2>
 
@@ -143,10 +147,6 @@ function EliminarCaso() {
                     </>
                 }
 
-            </div>
-
-            <div id="icon">
-                <img src={pic} alt="man-icon" width= '320px'  height= '450px' style={{pointerEvents:'none', marginLeft: '50px'}}/>
             </div>
 
         </div>

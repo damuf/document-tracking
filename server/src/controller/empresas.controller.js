@@ -42,13 +42,7 @@ export const getEmpresaById = async (req, res) => {
 export const updateEmpresaByNombre = async (req, res) => {
     try {
         const {nombre, ubicacion, telefonos, correos} = req.body
-
-        const nombreEmpresaFound = await empresas.findOne({nombre: req.body.nombre});
-        if(nombreEmpresaFound) return res.status(400).json({message: "el nombre de la empresa ya existe en sistema"})
-
-        const ubicacionEmpresasFound = await empresas.findOne({ubicacion: req.body.ubicacion});
-        if(ubicacionEmpresasFound) return res.status(400).json({message: "esta ubicacion ya existe en el sistema"})
-
+        
         const updatedEmpresa = await empresas.findOneAndUpdate({nombre: req.params.empresaName}, {nombre, ubicacion, telefonos, correos}, {new: true});
         if(!updatedEmpresa) return res.status(400).json({message: "la empresa no existe"})
 

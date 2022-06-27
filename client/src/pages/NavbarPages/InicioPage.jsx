@@ -1,4 +1,4 @@
-import Inicio from '../../components/Navbar/Inicio'
+import Inicio from '../../components/Navbar/MantSubPages/Inicio'
 import './NavbarPages.css'
 
 function InicioPage() {

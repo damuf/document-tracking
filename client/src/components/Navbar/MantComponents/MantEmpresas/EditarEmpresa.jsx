@@ -1,9 +1,9 @@
-import pic from "../../../assets/women-on-wheel-chair.png";
+import pic from "../../../../assets/women-on-wheel-chair.png";
 import { useState } from "react";
 //import { useEffect } from "react";
 import axios from 'axios';
-import Error from '../../Alerts/Error'
-import Success from '../../Alerts/Success'
+import Error from '../../../Alerts/Error'
+import Success from '../../../Alerts/Success'
 
 function EditarEmpresa() {
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import axios from 'axios';
-import pic from "../../../assets/man-holding-leg-up.png";
-import '../NavbarComponents.css'
-import Error from '../../Alerts/Error'
-import Success from '../../Alerts/Success'
+import pic from "../../../../assets/man-holding-leg-up.png";
+import '../../NavbarComponents.css'
+import Error from '../../../Alerts/Error'
+import Success from '../../../Alerts/Success'
 
-function Insertar() {
+function InsertarEmpresa() {
 
   const [nombre, setNombre] = useState("");
   const [ubicacion, setUbicacion] = useState("");
@@ -197,4 +197,4 @@ function Insertar() {
   );
 }
 
-export default Insertar;
+export default InsertarEmpresa;

@@ -1,4 +1,4 @@
-import Empresas from '../../components/Navbar/Empresas'
+import Empresas from '../../components/Navbar/MantSubPages/Empresas'
 import './NavbarPages.css'
 
 function EmpresasPage() {
