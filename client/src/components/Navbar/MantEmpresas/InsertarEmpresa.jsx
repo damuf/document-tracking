@@ -92,7 +92,7 @@ function Insertar() {
       setIsError(true)
       setMessage(error.response.data.message)
       showError()
-      console.log(error.message)
+      console.log(error.response.data.message)
     }
   };
 

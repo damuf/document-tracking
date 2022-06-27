@@ -59,3 +59,14 @@ export const deleteEmpresaById = async (req, res) => {
         res.status(400).json({msg: "error borrando empresa por ID"});
     }
 };
+
+export const getEmpresaByName = async (req, res) => {
+    try {
+        const nombreEmpresa = await empresas.findOne({nombre: req.params.empresaName});
+        if(!nombreEmpresa) return res.status(400).json({message: "la empresa no existe"})
+        res.status(200).json({nombreEmpresa, message: "empresa encontrada"})
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({message: "error buscando un departamento por nombre"});
+    }
+};
