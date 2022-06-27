@@ -1,29 +1,54 @@
 import empleados from "../model/empleados";
 
 export const createEmpleados = async (req, res) => {
-    const { idDepto, nombre, papellido, sapellido, user, password,cedula, fechaNacim, fechaInicio, fechaFin } = req.body
-    const newEmpleado = new empleados({ idDepto, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio, fechaFin });
-    const empleadoSaved = await newEmpleado.save()
-    res.status(201).json(empleadoSaved)
+    try {
+        const { idDepto, nombre, papellido, sapellido, user, password,cedula, fNacim, fechaInicio, fechaFin } = req.body
+        const newEmpleado = new empleados({ idDepto, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio, fechaFin });
+        const empleadoSaved = await newEmpleado.save()
+        res.status(201).json(empleadoSaved)   
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: "error creando un empleado"});
+    }
 };
 
 export const getEmpleados = async (req, res) => {
-    const empleados = await empleados.find();
-    res.json(empleados)
+    try {
+        const empleados = await empleados.find();
+        res.json(empleados)   
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: "error buscando todos los empleados"});
+    }
 };
 
 export const getEmpleadoById = async (req, res) => {
-    const empleadoId = await empleados.findById(req.params.empleadoId);
-    res.json(200).json(empleadoId)
+    try {
+        const empleadoId = await empleados.findById(req.params.empleadoId);
+        res.json(200).json(empleadoId)   
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: "error buscando empleado por ID"});
+    }
 };
 
 export const updateEmpleadoById = async (req, res) => {
-    const updatedEmpleado = await empleados.findByIdAndUpdate(req.params.empleadoId, req.body, {new: true})
-    res.status(200).json(updatedEmpleado)
+    try {
+        const updatedEmpleado = await empleados.findByIdAndUpdate(req.params.empleadoId, req.body, {new: true})
+        res.status(200).json(updatedEmpleado)   
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: "error actualizando empleado por ID"});
+    }
 };
 
 export const deleteEmpleadoById = async (req, res) => {
-    const {empleadoIdDelete} = req.params
-    await empleados.findByIdAndDelete(empleadoIdDelete)
-    res.status(204).json
+    try {
+        const {empleadoIdDelete} = req.params
+        await empleados.findByIdAndDelete(empleadoIdDelete)
+        res.status(204).json   
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: "error borrando empleado por ID"});
+    }
 };

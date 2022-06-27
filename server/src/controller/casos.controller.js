@@ -1,31 +1,56 @@
 import casos from "../model/casos";
 
 export const createCasos = async (req, res) => {
-    const { idTramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden } = req.body
-    const newCaso = new casos({ idTramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden });
-    const casoSaved = await newCaso.save()
-    res.status(201).json(casoSaved)
+    try {
+        const { idTramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden } = req.body
+        const newCaso = new casos({ idTramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden });
+        const casoSaved = await newCaso.save()
+        res.status(201).json(casoSaved)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: error});
+    }
 };
 
 export const getCasos = async (req, res) => {
-    const casos = await casos.find();
-    res.json(casos)
+    try {
+        const casosSave = await casos.find();
+        res.json(casosSave)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: error});
+    }
 };
 
 export const getCasoById = async (req, res) => {
-    const casoId = await casos.findById(req.params.casoId);
-    res.json(200).json(casoId)
+    try {
+        const casoId = await casos.findById(req.params.casoId);
+        res.json(200).json(casoId)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: error});
+    }
 };
 
 export const updateCasoById = async (req, res) => {
-    const updatedCaso = await casos.findByIdAndUpdate(req.params.casoId, req.body, {new: true})
-    res.status(200).json(updatedCaso)
+    try {
+        const updatedCaso = await casos.findByIdAndUpdate(req.params.casoId, req.body, {new: true})
+        res.status(200).json(updatedCaso)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: error});
+    }
 };
 
 export const deleteCasoById = async (req, res) => {
-    const {casoIdDelete} = req.params
-    await casos.findByIdAndDelete(casoIdDelete)
-    res.status(204).json
+    try {
+        const {casoIdDelete} = req.params
+        await casos.findByIdAndDelete(casoIdDelete)
+        res.status(204).json   
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({msg: error});
+    }
 };
 
 export const crearCodigoAlphanumerico = async (req, res) => {

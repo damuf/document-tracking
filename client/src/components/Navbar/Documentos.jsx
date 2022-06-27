@@ -74,7 +74,7 @@ export default function Documentos(){
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
 
-    <div className="containerStart" style={{userSelect: "none"}} onChange={departamentosCarga()}>
+    <div className="containerStart" style={{userSelect: "none"}} onLoad={departamentosCarga}>
 
     <div className="frow">
         {isError && <Error msg={message}/>}
