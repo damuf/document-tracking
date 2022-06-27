@@ -74,7 +74,7 @@ function SignInForm() {
             <div id="form" className="fcolumn" style={{width: '500px',  height: '500px'}}>
               <h1 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Document Tracking</h1>
 
-              <form id="siginform" method="get"  onSubmit={onSubmit}>
+              <form id="siginform" method="get" onSubmit={onSubmit}>
 
                 <div className="frow">
                   <i className="material-symbols-outlined">account_circle</i> &nbsp;

@@ -12,7 +12,85 @@
     height: fit-content;
 }
 
+.containerMantenimiento{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #FAFAFF;  
+    border-radius: 25px;
+    padding: 2%;
+    margin: auto;
+    margin-top: 2%;
+    width: fit-content;
+    height: fit-content;
+}
+
+.fcolumn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.frow{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .radios{
     background-color: red;
     font: red;
+}
+
+.buttonMant{
+    font-family: 'Poppins', sans-serif;
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
+    border: 2px transparent;
+    border-radius: 20px;
+    padding: 2%;
+    justify-content: center;
+    background-color: #003049;
+    color: #FAFAFF;
+    cursor: pointer;
+}
+
+.buttonMant:hover{
+    background-color: #669BBC;
+}
+
+.add{
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    border: 2px transparent;
+    border-radius: 10px;
+    padding: 4%;
+    background-color: #709775;
+    color: #FAFAFF;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.add:hover{
+    background-color: #003049;
+}
+
+.remove{
+    border: 2px transparent;
+    border-radius: 10px;
+    padding: 2%;
+    background-color: #C1121F;
+    color: #FAFAFF;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.remove:hover{
+    background-color: #003049;
 }
