@@ -7,7 +7,7 @@ router.post('/', empresas.createEmpresas)
 router.get('/', empresas.getEmpresas)
 router.get('/:empresaId', empresas.getEmpresaById)
 router.put('/:empresaId', empresas.updateEmpresaById)
-router.delete('/:empresaId', empresas.deleteEmpresaById)
+router.delete('/delete/:empresaId', empresas.deleteEmpresaById)
 router.get("/find/:empresaName", empresas.getEmpresaByName);
 
 export default router;

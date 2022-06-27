@@ -1,6 +1,7 @@
 import Encabezado from "./MantEmpresas/EncabezadoEmpresa"
 import Insertar from "./MantEmpresas/InsertarEmpresa"
 import Editar from "./MantEmpresas/EditarEmpresa"
+import Eliminar from "./MantEmpresas/EliminarEmpresa"
 
 function Empresas() {
 
@@ -9,6 +10,7 @@ function Empresas() {
       <Encabezado/>
       <Insertar/>
       <Editar/>
+      <Eliminar/>
     </>
   );
 }

@@ -22,7 +22,26 @@
     padding: 3%;
     margin: auto;
     margin-top: 2%;
-    width: fit-content;
+    min-width: 900px;
+    height: fit-content;
+}
+
+.containerDelete{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    border-radius: 15px;
+    background-color: #EEF0F2;
+    color: #595959;
+    padding-left: 4%;
+    padding-right: 4%;
+    margin: auto;
+    margin-right: 5px;
+    margin-top: 2%;
+    width: 400px;
+    word-break: break-all;
     height: fit-content;
 }
 
@@ -68,6 +87,7 @@
     font-size: 16px;
     display: flex;
     justify-content: center;
+    align-items: center;
     border: 2px transparent;
     border-radius: 10px;
     padding: 4%;
@@ -78,17 +98,25 @@
 }
 
 .buscar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 2px transparent;
     border-radius: 10px;
     padding: 2%;
     background-color: #709775;
     color: #FAFAFF;
     cursor: pointer;
-    width: 40px;
+    width: 70px;
     height: 40px;
 }
 
 .remove{
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 2px transparent;
     border-radius: 10px;
     padding: 2%;
@@ -96,6 +124,8 @@
     color: #FAFAFF;
     cursor: pointer;
     margin-left: 5px;
+    width: 70px;
+    height: 40px;
 }
 
 .add:hover, .remove:hover, .buscar:hover{
