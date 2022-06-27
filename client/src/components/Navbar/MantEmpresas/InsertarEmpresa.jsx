@@ -1,5 +1,5 @@
 import { useState } from "react";
-import pic from "../../../assets/women-on-wheel-chair.png";
+import pic from "../../../assets/man-holding-leg-up.png";
 import '../NavbarComponents.css'
 
 function Insertar() {
@@ -71,11 +71,6 @@ function Insertar() {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     
     <div className="containerMantenimiento" style={{userSelect: "none"}}>
-      
-      <div className="column">
-          <h1 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Mantenimiento de empresas</h1>
-          <h4>Esta sección permite la insersión, edición, eliminación y modificación de las empresas de la organización</h4>
-      </div>
 
       <div className="frow">
           
@@ -83,7 +78,7 @@ function Insertar() {
 
       <div className="frow">
 
-        <div id="form01" className="fcolumn">
+        <div id="form" className="fcolumn">
           <h2 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Añadir una nueva empresa</h2>
           
           <form id="crearEmpresas" method="get" onSubmit={onSubmit}>
