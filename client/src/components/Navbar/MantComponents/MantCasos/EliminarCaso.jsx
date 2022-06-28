@@ -7,8 +7,8 @@ import Success from '../../../Alerts/Success'
 function EliminarCaso() {
 
     const [numCaso, setNumCaso] = useState("");
-    const [fechaApertura, setFechaApertura] = useState('');
-    const [fechaFinal, setFechaFinal] = useState('');
+    const [fechaApertura, setFechaApertura] = useState("");
+    const [fechaFinal, setFechaFinal] = useState("");
     const [estado, setEstado] = useState("");
 
     const [casoFound, setCasoFound] = useState(false);
@@ -18,18 +18,27 @@ function EliminarCaso() {
         if(numCaso !== ''){
             setNumCaso('')
             casoFound(false)
+            setConfirmDelete(false)
         }
     }
 
     const deleteCaso = async (e) => {
         e.preventDefault();
         try {
-            console.log(numCaso)
+            const {data} = await axios.delete(`http://localhost:4000/casos/delete/${numCaso}`)
+            console.log(data.message)
             setConfirmDelete(true)
             setIsSuccess(true)
+            setMessage("caso borrado con éxito")
             showSuccess()
+            evaluate()
         } catch (error) {
+            casoFound(false)
+            setIsError(true)
+            setMessage(error.response.data.message)
+            showError()
             console.log(error.response.data.message)
+            setNumCaso('')
         }
     }
 
@@ -53,19 +62,14 @@ function EliminarCaso() {
     const searchCaso = async (e) => {
         e.preventDefault();
         try {
-            
             const {data} = await axios.get(`http://localhost:4000/casos/find/${numCaso}`)
-            console.log("data: " +JSON.stringify(data.numeroCaso.estado))
-            console.log(data.message)
-            
             setCasoFound(true)
             setIsSuccess(true)
             setMessage(data.message)
             showSuccess()
-            
-            setFechaApertura(data.numeroCaso.setFechaApertura)
-            setFechaFinal(data.numeroCaso.fechaFinal)
-            setEstado(data.numeroCaso.estado)
+            setFechaApertura(data.casoFound.fechaApertura)
+            setFechaFinal(data.casoFound.fechaFinal)
+            setEstado(data.casoFound.estado)
         } catch (error) {
             setCasoFound(false)
             setIsError(true)

@@ -108,10 +108,9 @@ export const crearCodigoAlphanumerico = async (req, res) => {
 
 export const getCasoByNumCaso = async (req, res) => {
     try {
-        const numCaso = await casos.findOne({numCaso: req.params.numCaso});
-        if(!numCaso) return res.status(400).json({message: "el caso no existe"})
-        console.log(numCaso)
-        res.status(200).json({numCaso, message: "caso encontrado"})
+        const casoFound = await casos.findOne({numCaso: req.params.numCaso});
+        if(!casoFound) return res.status(400).json({message: "el caso no existe"})
+        res.status(200).json({casoFound, message: "caso encontrado"})
     } catch (error) {
         console.log(error)
         res.status(400).json({message: "error buscando un caso por numero"});
@@ -120,10 +119,10 @@ export const getCasoByNumCaso = async (req, res) => {
 
 export const deleteCasoByNumCaso = async (req, res) => {
     try {
-        const numCaso = await casos.deleteOne({numCaso: req.params.numCaso});
-        if(!numCaso) return res.status(400).json({message: "el caso no existe"})
-        console.log(numCaso)
-        res.status(200).json({numCaso, message: "caso encontrado"})
+        const casoFound = await casos.findOne({numCaso: req.params.numCaso});
+        if(!casoFound) return res.status(400).json({message: "el caso no existe"})
+        await casos.findByIdAndDelete(casoFound)
+        res.status(204).json({message: "caso borrado con éxito"})
     } catch (error) {
         console.log(error)
         res.status(400).json({message: "error eliminando un caso por numero de caso"});

@@ -23,16 +23,16 @@ function InsertarCaso() {
   const [message, setMessage] = useState("");
 
   const showError = () => {
-    setTimeout(() => {
-      setIsError(false);
+    setTimeout( () => {
+    setIsError(false)
     }, 5000);
-  };
+}
 
-  const showSuccess = () => {
-    setTimeout(() => {
-      setIsSuccess(false);
-    }, 4000);
-  };
+const showSuccess = () => {
+    setTimeout( () => {
+        setIsSuccess(false)
+    }, 1000000);
+}
 
   const addOrden = () => {
     setOrden([...orden, ""]);
@@ -65,16 +65,6 @@ function InsertarCaso() {
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log(
-        "tramite: " +
-          tramite +
-          " numCaso: " +
-          numCaso +
-          " deptos: " +
-          departamentos +
-          " orden: " +
-          orden
-      );
       const { data } = await axios.post(`http://localhost:4000/casos`, {
         tramite: tramite,
         numCaso: numCaso,
@@ -84,14 +74,17 @@ function InsertarCaso() {
         deptos: departamentos,
         orden: orden,
       });
-      setIsSuccess(true);
-      setMessage(data.message);
-      showSuccess();
+      console.log(data.message)
+      setIsSuccess(true)
+      setMessage("El numero de caso es "+data.numCaso)
+      showSuccess()
+
+      console.log(data.message)
     } catch (error) {
-      setIsError(true);
-      setMessage(error.response.data.message);
-      showError();
-      console.log(error.response.data.message);
+      setIsError(true)
+      setMessage(error.response.data.message)
+      showError()
+      console.log(error.response.data.message)
     }
   };
 
@@ -100,7 +93,6 @@ function InsertarCaso() {
       const { data: response } = await axios.get(
         `http://localhost:4000/departamentos`
       );
-      //setData(response);
       setDepas(response);
     } catch (error) {
       console.error(error.message);
@@ -117,10 +109,10 @@ function InsertarCaso() {
 
       <div className="containerMantenimiento" style={{ userSelect: "none" }} onLoad={departamentosCarga}>
 
-        <div className="frow">
-          {isError && <Error msg={message} />}
-          {isSuccess && <Success msg={message} />}
-        </div>
+      <div className="frow">
+        {isError && <Error msg={message}/>}
+        {isSuccess && <Success msg={message}/>}
+      </div>
 
         <div className="frow">
 
@@ -133,49 +125,35 @@ function InsertarCaso() {
             <h2 style={{ textShadow: "red -2px 0, cyan 2px 0" }}>Crear un nuevo caso</h2>
 
             <form id="crearCasos" method="get" onSubmit={onSubmit}>
-              
               <div className="frow">
-                
                 <div className="fcolumn" style={{width: '300px'}}>
-
                   <div className="frow">
                     <i className="material-symbols-outlined">description</i>&nbsp;
                     <input type="text" id="tramite" placeholder="Nombre de tramite" required={true} autoComplete="off" value={tramite} onChange={(event) => {setTramite(event.target.value);}}/>
                   </div>
-
                   <br />
-
                   <div className="frow">
                     <i className="material-symbols-outlined">barcode</i> &nbsp;
                     <input type="text" id="codAlfa" placeholder="Codigo" required={true} autoComplete="off" value={numCaso} onChange={(event) => {setNumCaso(event.target.value);}} maxLength="3" minLength="3" pattern="[A-Z,a-z]{3}" ></input>
                   </div>
-
                   <br />
-                  
                   <div className="frow">
                       <i className="material-symbols-outlined">calendar_month</i>{" "}
                       &nbsp;
-                      <input style={{width:'241px'}} type="date" id="fApertura" placeholder="Fecha de apertura " required={true} autoComplete="off" value={fechaApertura} onChange={(event) => {setFechaApertura(event.target.value);}}/>
-                      
+                      <input style={{width:'241px'}} type="date" id="fApertura" placeholder="Fecha de apertura " required={true} autoComplete="off" value={fechaApertura} onChange={(event) => {setFechaApertura(event.target.value);}}/>  
                   </div>
-
                   <br />
-
                   <div className="frow">
                       <i className="material-symbols-outlined">calendar_month</i>{" "}
                       &nbsp;
                       <input style={{width:'206px'}} type="date" id="fFinal" placeholder="Fecha de cierre" required={true} autoComplete="off" value={fechaFinal} onChange={(event) => {setFechaFinal(event.target.value)}}/>
                   </div>
-
                   <br />
-                  
                   <div className="frow" id="radios" style={{gap: '10px'}} value={setEstado} onChange={(event) => {setEstado(event.target.value);}}>Estado
                     <input id="radios" type="radio" value="Activo" name="gender" checked={true} />{" "}Activo
                     <input type="radio" value="Inactivo" name="gender" /> Inactivo
                   </div>
-                
                 </div>
-
                 <div className="fcolumn" style={{width: '300px'}}>
 
                   <div className="fcolumn" id="divChecks">
@@ -200,14 +178,9 @@ function InsertarCaso() {
                             </li>
                           );
                         })}
-
-                        {/* <div>Departamentos check SOLO PA VER: {departamentos.length ? departamentos.join(', ') : null}</div> */}
-
                       </ul>
                     </div>
-
                   </div>
-
                   <div className="column">
                     {orden.map((data, index) => {
                       return (
@@ -223,9 +196,7 @@ function InsertarCaso() {
                         </div>
                       );
                     })}
-
                     <br />
-
                     <div className="frow">
                       <div className="frow">
                         <button className="add" onClick={addOrden} style={{ width: "190px", gap: "5px" }}>agregar orden  
@@ -236,23 +207,15 @@ function InsertarCaso() {
 
                   </div>
                 </div>
-
               </div>
-
               <br />
-
               <div className="fcolumn">
                 <button className="buttonMant" type="submit" onClick={idk(departamentos)}>Guardar</button>
               </div>
-
             </form>
-
           </div>
-
         </div>
-
       </div>
-
     </>
 
   );

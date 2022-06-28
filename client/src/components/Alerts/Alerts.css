@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    animation: hideMe 5s forwards;
+    animation: hideMe 10s forwards;
 }
 
 .success{
@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    animation: hideMe 5s forwards;
+    animation: hideMe 10s forwards;
 }
 
 @keyframes hideMe{
