@@ -15,7 +15,7 @@ function NavbarPage() {
         <Routes>
           <Route path="*/documentos" element={<Documentos />} />
           <Route path="*/empresas" element={<Empresas />} />
-          <Route path="/" element={<Inicio />} />
+          <Route path="/*" element={<Inicio />} />
           <Route path="*/casos" element={<Casos />} />
         </Routes>
       </div>
