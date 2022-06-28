@@ -24,10 +24,9 @@ export const getDepartamentos = async (req, res) => {
 
 export const getDepartamentoById = async (req, res) => {
     try {
-        const departamentoId = await departamentos.findById(req.params.departamentoId);
-        console.log(departamentoId)
-        if(!departamentoId) return res.status(400).json({message: "el departamento no existe"})
-        res.status(200).json({departamentoId, message: "departamento encontrado"})
+        const departamentoFound = await departamentos.findById(req.params.departamentoId);
+        if(!departamentoFound) return res.status(400).json({message: "el departamento no existe"})
+        res.status(200).json({departamentoFound, message: "departamento encontrado"})
     } catch (error) {
         console.log(error)
         res.status(400).json({message: "error buscando un departamento por ID"});

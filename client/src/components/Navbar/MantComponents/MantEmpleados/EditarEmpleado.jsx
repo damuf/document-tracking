@@ -46,30 +46,30 @@ function EditarEmpleado() {
   const searchEmpleado = async (e) => {
     e.preventDefault();
     try {
-        const {data} = await axios.get(`http://localhost:4000/empleados/find/${cedula}`)
+      const {data} = await axios.get(`http://localhost:4000/empleados/find/${cedula}`)
+      setDepto(data.empleadoFound.departamento)
+      console.log(idDepto)
+      setNombre(data.empleadoFound.nombre)
+      setPApellido(data.empleadoFound.papellido)
+      setSApellido(data.empleadoFound.sapellido)
+      setCedula(data.empleadoFound.cedula)
+      setUser(data.empleadoFound.user)
+      setFechaInicio(data.empleadoFound.fechaInicio)
+      
+      //const {dato} = await axios.get(`http://localhost:4000/departamentos/${identificador}`)
+      //setDepto(dato.departamentoFound.nombre)
 
-        //si encuentra el empleado pasa a buscar el nombre del departamento asociado
-        setIdDepto(data.empleadoFound.idDepto)
-        //const {dataDepto} = await axios.get(`http://localhost:4000/empleados/find/${cedula}`)
-        //setDepto(dataDepto.departamentoId.nombre)
-
-        //sigue guardando los datos de el empleado
-        setNombre(data.empleadoFound.nombre)
-        setPApellido(data.empleadoFound.papellido)
-        setSApellido(data.empleadoFound.sapellido)
-        setCedula(data.empleadoFound.cedula)
-        setUser(data.empleadoFound.user)
-        setFechaInicio(data.empleadoFound.fechaInicio)
-        setEmpleadoFound(true)
-        setIsSuccess(true)
-        setMessage(data.message)
-        showSuccess()
-        console.log("despues de encontrar" + fechaInicio, fNacim)
+      setEmpleadoFound(true)
+      setIsSuccess(true)
+      setMessage(data.message)
+      showSuccess()
+      console.log("dentro del try: " + idDepto, departamento, nombre, papellido, sapellido, user, cedula, fNacim, fechaInicio)
     } catch (error) {
-        setEmpleadoFound(false)
-        setIsError(true)
-        setMessage("error")
-        showError()
+      setEmpleadoFound(false)
+      setIsError(true)
+      setMessage("error")
+      showError()
+      console.log("dentro del catch: " + idDepto, departamento, nombre, papellido, sapellido, user, cedula, fNacim, fechaInicio)
     }
   };
 
@@ -142,7 +142,7 @@ function EditarEmpleado() {
                             <div className="frow">
                               <div className="frow" style={{marginRight: '30px'}}>
                                   <i className="material-symbols-outlined">diversity_3</i>&nbsp;
-                                  <input type="text" id="departamento" placeholder="departamento" required={true} autoComplete="off" value={departamento} onChange={event => {setDepto(event.target.value)}}/>
+                                  <input type="text" id="departamento" placeholder="departamento" required={true} autoComplete="off" value={idDepto} onChange={event => {setDepto(event.target.value)}}/>
                               </div> 
                               <div className="frow">    
                                   <i className="material-symbols-outlined">edit</i> &nbsp;
