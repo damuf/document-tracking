@@ -10,12 +10,12 @@ function EditarEmpresa() {
     const [nombre, setNombre] = useState("");
     const [ubicacion, setUbicacion] = useState("");
 
+    const [empresaFound, setEmpresaFound] = useState(false);
+    
     //alerts
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [message, setMessage] = useState('');
-
-    const [empresaFound, setEmpresaFound] = useState(false);
 
     //array telefonos
     const [telefonos, setTelefonos] = useState([]);
@@ -169,7 +169,7 @@ function EditarEmpresa() {
                 <div className="column">
                     <br />
                     {empresaFound &&
-                        <form id="crearEmpresas" method="get" onSubmit={onSubmit}>
+                        <form id="editarEmpresas" method="get" onSubmit={onSubmit}>
 
                             <div className="frow">
                                 <i className="material-symbols-outlined">apartment</i> &nbsp;

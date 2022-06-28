@@ -8,8 +8,9 @@ export default function Navbar() {
           Document Tracking
         </Link>
         <ul className='ul'>
-          <CustomLink to="*/documentos">Documentos</CustomLink>
           <CustomLink to="*/empresas">Empresas</CustomLink>
+          <CustomLink to="*/empleados">Empleados</CustomLink>
+          <CustomLink to="*/documentos">Documentos</CustomLink>
           <CustomLink to="*/casos">Casos</CustomLink>
 
         </ul>

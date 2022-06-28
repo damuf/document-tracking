@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Documentos from "./DocumentosPage";
 import Empresas from "./EmpresasPage";
+import Empleados from "./EmpleadosPage";
 import Casos from "./CasosPage";
 import Inicio from "./InicioPage";
 import Navbar from "../../components/Navbar/Navbar";
@@ -13,9 +14,10 @@ function NavbarPage() {
       <Navbar />
       <div className="containerNav">
         <Routes>
-          <Route path="*/documentos" element={<Documentos />} />
-          <Route path="*/empresas" element={<Empresas />} />
           <Route path="/*" element={<Inicio />} />
+          <Route path="*/empresas" element={<Empresas />} />
+          <Route path="*/empleados" element={<Empleados />} />
+          <Route path="*/documentos" element={<Documentos />} />
           <Route path="*/casos" element={<Casos />} />
         </Routes>
       </div>
