@@ -110,6 +110,17 @@ export const getCasoByNumCaso = async (req, res) => {
     try {
         const casoFound = await casos.findOne({numCaso: req.params.numCaso});
         if(!casoFound) return res.status(400).json({message: "el caso no existe"})
+        
+
+        const tramiteFound = await tramites.findById(casoFound.idTramite)
+        if(!tramiteFound) return res.status(400).json({message: "el tramite no existe"})
+        console.log("tramites: " + JSON.stringify(tramiteFound.nombre))
+        
+        const depasFound = await departamentos.findById(casoFound.deptos)
+        if(!depasFound) return res.status(400).json({message: "el departamento no existe"})
+        console.log("depas: " + JSON.stringify(depasFound.nombre))
+
+
         res.status(200).json({casoFound, message: "caso encontrado"})
     } catch (error) {
         console.log(error)
@@ -128,3 +139,24 @@ export const deleteCasoByNumCaso = async (req, res) => {
         res.status(400).json({message: "error eliminando un caso por numero de caso"});
     }
 }
+
+export const updateCasoByNumCaso = async (req, res) => {
+    try {
+        const {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden} = req.body
+        
+        const tramitefound = await tramites.findById({nombre: updatedCaso.idTramite})
+        if(!tramitefound) return res.status(400).json({message: "el tramite no existe"})
+
+        const deptoFound = await departamentos.findById({nombre: updatedCaso.departamentos})
+        if(!deptoFound) return res.status(400).json({message: "el departamento no existe"})
+
+        const updatedCaso = await empresas.findOneAndUpdate({numCaso: req.params.numCaso}, {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden}, {new: true});
+        if(!updatedCaso) return res.status(400).json({message: "el caso no existe"})
+        
+
+        res.status(200).json({updatedEmpresa, message: "información del caso modificado con éxito"})
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({message: "error actualizando caso por numero de caso"});
+    }
+};

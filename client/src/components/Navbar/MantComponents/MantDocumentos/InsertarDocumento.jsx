@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
-import pic from "../../../../assets/man-holding-leg-up.png";
+import pic from "../../../../assets/boy-sitting-on-legs.png";
 import '../../NavbarComponents.css'
 import Error from '../../../Alerts/Error'
 import Success from '../../../Alerts/Success'

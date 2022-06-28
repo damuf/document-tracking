@@ -17,7 +17,10 @@ function EliminarCaso() {
     const evaluate = () => {
         if(numCaso !== ''){
             setNumCaso('')
-            casoFound(false)
+            setFechaApertura('')
+            setFechaFinal('')
+            setEstado('')
+            setCasoFound(false)
             setConfirmDelete(false)
         }
     }
