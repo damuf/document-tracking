@@ -6,21 +6,17 @@ import Success from '../../../Alerts/Success'
 
 function EditarEmpleado() {
 
+  const [idDepto, setIdDepto] = useState('');
   const [departamento, setDepto] = useState('');
   const [nombre, setNombre] = useState('');
   const [papellido, setPApellido] = useState('');
   const [sapellido, setSApellido] = useState('');
   const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
   const [cedula, setCedula] = useState('');
   const [fNacim, setFNacim] = useState('');
+  const [fechaInicio, setFechaInicio] = useState('');
 
   const [empleadoFound, setEmpleadoFound] = useState(false);
-
-  const hoy = new Date()
-    var mes = hoy.getMonth() + 1
-    if(mes < 10) mes = '0' + mes
-    const fechaInicio = hoy.getFullYear() + '-' + mes + '-' +  hoy.getDate();
 
   //alerts
   const [isError, setIsError] = useState(false);
@@ -50,16 +46,25 @@ function EditarEmpleado() {
   const searchEmpleado = async (e) => {
     e.preventDefault();
     try {
-        const {data} = await axios.get(`http://localhost:4000/empresas/find/${nombre}`)
-        setDepto(data.algo.departamento)
-        setNombre(data.algo.nombre)
-        setPApellido(data.algo.papellido)
-        setSApellido(data.algo.sapellido)
-        setCedula(data.algo.cedula)
-        setFNacim(data.algo.fNacim)
+        const {data} = await axios.get(`http://localhost:4000/empleados/find/${cedula}`)
+
+        //si encuentra el empleado pasa a buscar el nombre del departamento asociado
+        setIdDepto(data.empleadoFound.idDepto)
+        //const {dataDepto} = await axios.get(`http://localhost:4000/empleados/find/${cedula}`)
+        //setDepto(dataDepto.departamentoId.nombre)
+
+        //sigue guardando los datos de el empleado
+        setNombre(data.empleadoFound.nombre)
+        setPApellido(data.empleadoFound.papellido)
+        setSApellido(data.empleadoFound.sapellido)
+        setCedula(data.empleadoFound.cedula)
+        setUser(data.empleadoFound.user)
+        setFechaInicio(data.empleadoFound.fechaInicio)
+        setEmpleadoFound(true)
         setIsSuccess(true)
         setMessage(data.message)
         showSuccess()
+        console.log("despues de encontrar" + fechaInicio, fNacim)
     } catch (error) {
         setEmpleadoFound(false)
         setIsError(true)
@@ -123,10 +128,68 @@ function EditarEmpleado() {
                   <h2 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Editar un empleado</h2>
 
                   <div className="frow">
-                    <input type="text" id="buscar" placeholder="cedula del empleado" autoComplete="off" style={{width:'250px'}} value={nombre} onChange={event => {setNombre(event.target.value)}} onClick={evaluate}/>
+                    <input type="text" id="buscar" placeholder="cedula del empleado" autoComplete="off" style={{width:'250px'}} value={cedula} onChange={event => {setCedula(event.target.value)}} onClick={evaluate}/>
                     <button className="buscar" style={{marginLeft: '5px'}} onClick={searchEmpleado}>
                         <i className="material-symbols-outlined">search</i> &nbsp;
                     </button>
+                  </div>
+
+                  <div className="column">
+                    <br />
+                    {empleadoFound &&
+                        <form id="editarEmpleado" method="get" onSubmit={onSubmit}>
+                          
+                            <div className="frow">
+                              <div className="frow" style={{marginRight: '30px'}}>
+                                  <i className="material-symbols-outlined">diversity_3</i>&nbsp;
+                                  <input type="text" id="departamento" placeholder="departamento" required={true} autoComplete="off" value={departamento} onChange={event => {setDepto(event.target.value)}}/>
+                              </div> 
+                              <div className="frow">    
+                                  <i className="material-symbols-outlined">edit</i> &nbsp;
+                                  <input type="text" id="nombre" placeholder="nombre" required={true} autoComplete="off" value={nombre} onChange={event => {setNombre(event.target.value)}}/>
+                              </div>
+                            </div>
+                            <br />
+                            <div className="frow" >
+                              <div className="frow" style={{marginRight: '30px'}}>
+                                  <i className="material-symbols-outlined">edit</i> &nbsp;
+                                  <input type="text" id="primer_apellido" placeholder="primer apellido" required={true} autoComplete="off" value={papellido} onChange={event => {setPApellido(event.target.value)}}/>
+                              </div>
+                              <div className="frow">
+                                  <i className="material-symbols-outlined">edit</i> &nbsp;
+                                  <input type="text" id="segundo_apellido" placeholder="segundo apellido" required={true} autoComplete="off" value={sapellido} onChange={event => {setSApellido(event.target.value)}}/>
+                              </div>
+                            </div>
+                            <br />
+                            <div className="frow">
+                              <div className="frow" style={{marginRight: '30px'}}>
+                                  <i className="material-symbols-outlined">badge</i> &nbsp;
+                                  <input type="text" id="cedula" placeholder="cedula" required={true} autoComplete="off" value={cedula} onChange={event => {setCedula(event.target.value)}}/>
+                              </div>
+                              <div className="frow">
+                                  <i className="material-symbols-outlined">account_circle</i> &nbsp;
+                                  <input type="text" id="user" placeholder="usuario" required={true} autoComplete="off" value={user} onChange={event => {setUser(event.target.value)}}/>
+                              </div>
+                            </div>
+                            <br />
+                            <div className="frow">
+                              <div className="frow" style={{width: '262px',marginRight: '10px'}}>
+                                  <i className="material-symbols-outlined">cake</i> &nbsp;
+                                  <input type="date" id="fNacim" placeholder="fecha nacimiento" required={true} autoComplete="off" value={fNacim} onChange={event => {setFNacim(event.target.value)}}/>
+                              </div>
+                              <div className="frow" style={{width: '254px'}}>
+                                  <i className="material-symbols-outlined">work</i> &nbsp;
+                                  <input type="date" id="fechaInicio" placeholder="fecha de entrada" required={true} autoComplete="off" value={fechaInicio} onChange={event => {setFechaInicio(event.target.value)}}/>
+                              </div>
+                            </div>
+                            <br />
+                            <div className="frow">
+                              <button className="buttonMant" type="submit">actualizar</button>
+                            </div>
+                  
+                        </form> 
+                    }
+
                   </div>
 
               </div>

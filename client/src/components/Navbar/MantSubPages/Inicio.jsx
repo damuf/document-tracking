@@ -18,7 +18,7 @@ function Inicio() {
 
               <h1 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Hey!</h1>
               <h2>Que gusto verte por acá, bienvenido a Document Tracking, un sofware diseñado para la gestión de documentos.</h2>
-              <i style={{textShadow: 'red -2px 0, cyan 2px 0', fontSize: '25px'}} class="material-symbols-outlined">favorite</i>  
+              <i style={{textShadow: 'red -2px 0, cyan 2px 0', fontSize: '25px'}} className="material-symbols-outlined">favorite</i>  
               
           </div>
 

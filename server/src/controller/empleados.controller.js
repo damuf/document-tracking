@@ -52,3 +52,15 @@ export const deleteEmpleadoById = async (req, res) => {
         res.status(400).json({msg: "error borrando empleado por ID"});
     }
 };
+
+export const getEmpleadoByCedula = async (req, res) => {
+    try {
+        const empleadoFound = await empleados.findOne({cedula: req.params.empleadoCed});
+        if(!empleadoFound) return res.status(400).json({message: "el empleado no existe"})
+        console.log(empleadoFound)
+        res.status(200).json({empleadoFound, message: "empleado encontrado"})
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({message: "error buscando un empleado por cedula"});
+    }
+};
