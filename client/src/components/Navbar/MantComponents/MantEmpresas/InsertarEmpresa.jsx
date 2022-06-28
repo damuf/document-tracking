@@ -57,13 +57,13 @@ function InsertarEmpresa() {
 
   const showError = () => {
       setTimeout( () => {
-      setIsError(false)
+        setIsError(false)
       }, 5000);
   }
 
   const showSuccess = () => {
       setTimeout( () => {
-          setIsSuccess(false)
+        setIsSuccess(false)
       }, 4000);
   }
 
