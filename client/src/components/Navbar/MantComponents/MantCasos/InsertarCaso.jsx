@@ -28,6 +28,7 @@ function InsertarCaso() {
     }, 5000);
 }
 
+
 const showSuccess = () => {
     setTimeout( () => {
         setIsSuccess(false)
@@ -44,6 +45,23 @@ const showSuccess = () => {
     setOrden(rows);
   };
 
+  const addDepa = () => {
+    setDepartamentos([...orden, ""]);
+  };
+
+  const removeDepa = (index) => {
+    const rows = [...orden];
+    rows.splice(index, 1);
+    setDepartamentos(rows);
+  };
+
+  const handleChangeDepa = (index, evnt) => {
+    const { value } = evnt.target;
+    const list = [...departamentos];
+    list[index] = value;
+    setDepartamentos(list);
+  };
+
   const handleChangeOrden = (index, evnt) => {
     const { value } = evnt.target;
     const list = [...orden];
@@ -51,13 +69,16 @@ const showSuccess = () => {
     setOrden(list);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e, index) => {
     const { value, checked } = e.target;
+    console.log("departamentos: "+ depas)
     if (checked) {
-      // push selected value in list
+      // push selected value in list    const { value } = evnt.target;
+      addDepa()
       setDepartamentos((prev) => [...prev, value]);
     } else {
       // remove unchecked value from the list
+      removeDepa()
       setDepartamentos((prev) => prev.filter((x) => x !== value));
     }
   };
@@ -75,6 +96,15 @@ const showSuccess = () => {
         orden: orden,
       });
       console.log(data.message)
+
+      setTramite('')
+      setNumCaso('')
+      setFechaApertura('')
+      setFechaFinal('')
+      setEstado('')
+      setDepartamentos('')
+      setOrden('')
+
       setIsSuccess(true)
       setMessage("El numero de caso es "+data.numCaso)
       showSuccess()
@@ -97,10 +127,6 @@ const showSuccess = () => {
     } catch (error) {
       console.error(error.message);
     }
-  };
-
-  const idk = async (hehe) => {
-    console.log("Checks: " + JSON.stringify(hehe));
   };
 
   return (
@@ -171,7 +197,7 @@ const showSuccess = () => {
                             <li key={index}>
                               <div className="frow">
                                 <div className="frow">
-                                  <input className="frow" type="checkbox" id={`custom-checkbox-${index}`} name={nombre} value={nombre} onChange={handleChange}/> 
+                                  <input className="frow" type="checkbox" id={`custom-checkbox-${index}`} name={nombre} value={nombre} onChange={handleChange} onChec/> 
                                   <label htmlFor={`custom-checkbox-${index}`}>{nombre}</label>
                                 </div>
                               </div>
@@ -210,7 +236,7 @@ const showSuccess = () => {
               </div>
               <br />
               <div className="fcolumn">
-                <button className="buttonMant" type="submit" onClick={idk(departamentos)}>Guardar</button>
+                <button className="buttonMant" type="submit">Guardar</button>
               </div>
             </form>
           </div>

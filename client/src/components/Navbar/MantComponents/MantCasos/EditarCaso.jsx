@@ -5,13 +5,14 @@ import Error from '../../../Alerts/Error'
 import Success from '../../../Alerts/Success'
 
 function EditarCaso() {
-    const [tramite, setTramite] = useState("")
-    const [numCaso, setNumCaso] = useState("");
+    const [tramiteId, setTramiteId] = useState()
+    const [numCaso, setNumCaso] = useState();
     const [fechaApertura, setFechaApertura] = useState("");
     const [fechaFinal, setFechaFinal] = useState("");
     const [estado, setEstado] = useState("");
     const [deptos, setDeptos] = useState([]);
     const [orden, setOrden] = useState(['']);
+    const [tramiteNombre, setTramiteNombre] = useState()
 
     //alerts
     const [isError, setIsError] = useState(false);
@@ -19,6 +20,18 @@ function EditarCaso() {
     const [message, setMessage] = useState('');
 
     const [casoFound, setCasoFound] = useState(false);
+    const [tramiteFound, setTramiteFound] = useState(false);
+
+    const [caso, setCaso] = useState({
+        idTramite:"",
+        numCaso:"",
+        fechaApertura:"",
+        fechaFinal:"",
+        estado:"",
+        deptos:[""],
+        orden:[""]
+    })
+
 
     const addOrden = () => {
         setOrden([...orden, '']);
@@ -56,18 +69,30 @@ function EditarCaso() {
         }
     }
 
+    const evaluateTramite = () => {
+        if(tramiteNombre !== ''){
+            setTramiteNombre('')
+            setCasoFound(false)
+        }
+    }
+
 
     const searchCaso = async (e) => {
         e.preventDefault();
         try {
             const {data} = await axios.get(`http://localhost:4000/casos/find/${numCaso}`)
-            setTramite(data.casoFound.tramite)
+            setTramiteId(data.casoFound.idTramite)
+            
+            console.log("aca1 "+JSON.stringify(data.casoFound.idTramite))
             const ordens = data.casoFound.orden
+           
             setOrden(ordens);
             setCasoFound(true)
             setIsSuccess(true)
             setMessage(data.message)
             showSuccess()
+            searchTramite()
+
         } catch (error) {
             setCasoFound(false)
             setIsError(true)
@@ -79,9 +104,11 @@ function EditarCaso() {
     const searchDepartamento = async (e) => {
         e.preventDefault();
         try {
-            const {data} = await axios.get(`http://localhost:4000/departamentos/find/${deptos}`)
-            setTramite(data.casoFound.tramite)
+            
+            const {data} = await axios.get(`http://localhost:4000/departamentos/find/${tramiteId}`)
+            setTramiteId(data.casoFound.tramite)
             const ordens = data.casoFound.orden
+
             setOrden(ordens);
             setCasoFound(true)
             setIsSuccess(true)
@@ -95,19 +122,19 @@ function EditarCaso() {
         }
     };
 
+
+
     const searchTramite = async (e) => {
-        e.preventDefault();
         try {
-            const {data} = await axios.get(`http://localhost:4000/tramites/find/${tramite}`)
-            setTramite(data.casoFound.tramite)
-            const ordens = data.casoFound.orden
-            setOrden(ordens);
-            setCasoFound(true)
+            const {data} = await axios.get(`http://localhost:4000/tramites/findid/${tramiteId}`)
+            setTramiteNombre(data.tramiteFound.nombre)
+            setCaso({numCaso:data.tramiteFound.numCaso})
+            console.log("aca2 "+JSON.stringify(tramiteNombre))
+            setTramiteFound(true)
             setIsSuccess(true)
             setMessage(data.message)
-            showSuccess()
         } catch (error) {
-            setCasoFound(false)
+            setTramiteFound(false)
             setIsError(true)
             setMessage("error")
             showError()
@@ -120,7 +147,7 @@ function EditarCaso() {
         try {
         //console.log(nombre, ubicacion, telefonos, correos)
         const {data} = await axios.put(`http://localhost:4000/casos/edit/${numCaso}`, {
-            tramite: tramite,
+            tramite: tramiteId,
             numCaso: numCaso,
             fechaApertura: fechaApertura,
             fechaFinal: fechaFinal,
@@ -134,7 +161,7 @@ function EditarCaso() {
         showSuccess()
         console.log(data.message)
 
-        setTramite('')
+        setTramiteId('')
         setNumCaso('')
         setFechaApertura('')
         setFechaFinal('')
@@ -190,7 +217,7 @@ function EditarCaso() {
 
                             <div className="frow">
                                 <i className="material-symbols-outlined">share_location</i> &nbsp;
-                                <input type="text" id="tramite" placeholder="nombre tramite" required={true} autoComplete="off" value={tramite} onChange={event => {setTramite(event.target.value)}} style={{width:'250px'}}/>
+                                <input type="text" id="tramite" placeholder="nombre tramite" required={true} autoComplete="off" value={tramiteNombre} onChange={event => {setTramiteNombre(event.target.value)}} style={{width:'250px'}}/>
                             </div>
 
                             <div className="frow">

@@ -5,7 +5,7 @@ const router = Router();
 
 router.post('/', tramites.createTramites)
 router.get('/', tramites.getTramites)
-router.get('/:tramiteId', tramites.getTramiteById)
+router.get('/findid/:tramiteId', tramites.getTramiteById)
 router.put('/:tramiteId', tramites.updateTramiteById)
 router.delete('/:tramiteId', tramites.deleteTramiteById)
 
