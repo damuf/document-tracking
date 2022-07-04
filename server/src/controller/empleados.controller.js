@@ -62,18 +62,20 @@ export const updateEmpleadoById = async (req, res) => {
         res.status(200).json({updatedEmpleado, message: "información del empleado modificada con éxito"})   
     } catch (error) {
         console.log(error)
-        res.status(400).json({msg: "error actualizando empleado por ID"});
+        res.status(400).json({message: "error actualizando empleado por ID"});
     }
 };
 
-export const deleteEmpleadoById = async (req, res) => {
+export const deleteEmpleadoByCedula = async (req, res) => {
     try {
-        const {empleadoIdDelete} = req.params
-        await empleados.findByIdAndDelete(empleadoIdDelete)
-        res.status(204).json   
+        console.log("entra al server")
+        const empleadoFound = await empleados.findOne({cedula: req.params.empleadoCed});
+        if(!empleadoFound) return res.status(400).json({message: "el empleado no existe"})
+        await empleados.findByIdAndDelete(empleadoFound)
+        res.status(204).json({message: "empleado borrado con éxito"})
     } catch (error) {
         console.log(error)
-        res.status(400).json({msg: "error borrando empleado por ID"});
+        res.status(400).json({message: "error borrando empleado por cedula"});
     }
 };
 
