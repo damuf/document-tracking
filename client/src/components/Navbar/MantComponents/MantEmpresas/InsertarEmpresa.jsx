@@ -6,6 +6,7 @@ import Error from "../../../Alerts/Error";
 import Success from "../../../Alerts/Success";
 
 function InsertarEmpresa() {
+  //atributos
   const [nombre, setNombre] = useState("");
   const [ubicacion, setUbicacion] = useState("");
 

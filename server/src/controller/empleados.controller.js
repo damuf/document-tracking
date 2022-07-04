@@ -68,7 +68,6 @@ export const updateEmpleadoById = async (req, res) => {
 
 export const deleteEmpleadoByCedula = async (req, res) => {
     try {
-        console.log("entra al server")
         const empleadoFound = await empleados.findOne({cedula: req.params.empleadoCed});
         if(!empleadoFound) return res.status(400).json({message: "el empleado no existe"})
         await empleados.findByIdAndDelete(empleadoFound)
