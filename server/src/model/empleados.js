@@ -12,7 +12,7 @@ const empleadosSchema = new Schema({
     fNacim: {type: Date, required: true},
     fechaInicio: {type: Date, required: true},
     fechaFin: {type: Date, required: false},
-}, { versionKey: false })
+}, { versionKey: false, _id: true})
 
 empleadosSchema.statics.encryptPassword = async(password) => {
     const salt = await bcrypt.genSalt(10)

@@ -52,8 +52,14 @@ export const getEmpleadoById = async (req, res) => {
 
 export const updateEmpleadoById = async (req, res) => {
     try {
-        const updatedEmpleado = await empleados.findByIdAndUpdate(req.params.empleadoId, req.body, {new: true})
-        res.status(200).json(updatedEmpleado)   
+        const {departamento, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio, fechaFin} = req.body;
+
+        const deptoFound = await departamentos.findOne({nombre: req.body.departamento});
+        if(!deptoFound) return res.status(400).json({message: "el departamento no existe"})
+
+        const updatedEmpleado = await empleados.findByIdAndUpdate(req.params.empleadoId, 
+            {departamento, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio, fechaFin}, {new: true})
+        res.status(200).json({updatedEmpleado, message: "información del empleado modificada con éxito"})   
     } catch (error) {
         console.log(error)
         res.status(400).json({msg: "error actualizando empleado por ID"});

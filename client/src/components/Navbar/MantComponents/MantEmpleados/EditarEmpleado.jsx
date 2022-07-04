@@ -1,10 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
+import moment from "moment";
 import Error from "../../../Alerts/Error";
 import Success from "../../../Alerts/Success";
 import pic from "../../../../assets/man-with-beard-and-long-hair.png";
 
 function EditarEmpleado() {
+  //búsqueda
+  const [busqueda, setBusqueda] = useState("");
+  const [empleadoId, setEmpleadoId] = useState("");
+
   //atributos
   const [departamento, setDepto] = useState("");
   const [nombre, setNombre] = useState("");
@@ -47,7 +52,7 @@ function EditarEmpleado() {
       const { data } = await axios.get(
         `http://localhost:4000/departamentos/${depto}`
       );
-      setDepto(data.departamentoFound.nombre)
+      setDepto(data.departamentoFound.nombre);
       setIsSuccess(true);
       showSuccess();
     } catch (error) {
@@ -61,16 +66,20 @@ function EditarEmpleado() {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/empleados/find/${cedula}`
+        `http://localhost:4000/empleados/find/${busqueda}`
       );
       searchDepartamento(data.empleadoFound.idDepto);
 
+      setEmpleadoId(data.empleadoFound._id);
       setNombre(data.empleadoFound.nombre);
       setPApellido(data.empleadoFound.papellido);
       setSApellido(data.empleadoFound.sapellido);
       setUser(data.empleadoFound.user);
       setCedula(data.empleadoFound.cedula);
-      setFNacim(data.empleadoFound.fNacim);
+      setFNacim(moment(data.empleadoFound.fNacim).format("YYYY-MM-DD"));
+      setFechaInicio(
+        moment(data.empleadoFound.fechaInicio).format("YYYY-MM-DD")
+      );
 
       setEmpleadoFound(true);
       setMessage(data.message);
@@ -87,7 +96,7 @@ function EditarEmpleado() {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:4000/empresas/edit/${nombre}`,
+        `http://localhost:4000/empleados/edit/${empleadoId}`,
         {
           departamento: departamento.toLocaleLowerCase(),
           nombre: nombre.toLocaleLowerCase(),
@@ -101,7 +110,7 @@ function EditarEmpleado() {
       setIsSuccess(true);
       setMessage(data.message);
       showSuccess();
-      //setEmpleado("");
+      setBusqueda("");
       evaluate();
     } catch (error) {
       setIsError(true);
@@ -146,9 +155,9 @@ function EditarEmpleado() {
                 placeholder="cedula del empleado"
                 autoComplete="off"
                 style={{ width: "250px" }}
-                value={cedula}
+                value={busqueda}
                 onChange={(event) => {
-                  setCedula(event.target.value);
+                  setBusqueda(event.target.value);
                 }}
                 onClick={evaluate}
               />
@@ -238,9 +247,7 @@ function EditarEmpleado() {
                         required={true}
                         autoComplete="off"
                         value={cedula}
-                        onChange={(event) => {
-                          setCedula(event.target.value);
-                        }}
+                        //contentEditable="false"
                       />
                     </div>
                     <div className="frow">
