@@ -17,19 +17,21 @@ export const createCasos = async (req, res) => {
 export const createCasos2 = async (req, res) => {
     try {
         const {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden } = req.body
-        var text = "";
-        text += +numCaso + "-"
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let text = "";
+        text += numCaso + "-"
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (var i = 0; i < 30; i++){ //cantidad de letras y numeros agregados aleatoriamente
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
-        
+        console.log("text: "+text)
+        console.log("numcaso: "+numCaso)
+        //console.log(""+)
         const tramiteFound = await tramites.findOne({nombre: req.body.tramite}).exec()
         if(!tramiteFound) return res.status(400).json({message: "el tramite no existe"});
         
 
-        const deptoFound = await departamentos.findOne({nombre: req.body.deptos});
-        if(!deptoFound) return res.status(400).json({message: "el departamento no existe"});
+        // const deptoFound = await departamentos.findOne({nombre: req.body.deptos});
+        // if(!deptoFound) return res.status(400).json({message: "el departamento no existe"});
         
         const newCaso = new casos({ 
             idTramite: tramiteFound._id, 
@@ -37,7 +39,7 @@ export const createCasos2 = async (req, res) => {
             fechaApertura, 
             fechaFinal, 
             estado, 
-            deptos: deptoFound._id, 
+            deptos, 
             orden });
 
         const casoSaved = await newCaso.save()

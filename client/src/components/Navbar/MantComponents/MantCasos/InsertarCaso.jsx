@@ -13,9 +13,10 @@ function InsertarCaso() {
   const [fechaApertura, setFechaApertura] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
   const [estado, setEstado] = useState("Activo");
-  const [departamentos, setDepartamentos] = useState([]);
+  const [departamentos, setDepartamentos] = useState(['']);
   const [orden, setOrden] = useState([0]);
   const [depas, setDepas] = useState([{}]);
+  const [checked, setChecked] = useState([-1]);
 
   //alerts
   const [isError, setIsError] = useState(false);
@@ -46,20 +47,38 @@ const showSuccess = () => {
   };
 
   const addDepa = () => {
-    setDepartamentos([...orden, ""]);
+    setDepartamentos([...departamentos, ""]);
   };
 
   const removeDepa = (index) => {
-    const rows = [...orden];
+    const rows = [...departamentos];
     rows.splice(index, 1);
     setDepartamentos(rows);
   };
 
   const handleChangeDepa = (index, evnt) => {
-    const { value } = evnt.target;
+
+     const { value } = evnt.target;
+
+     console.log("OLI: "+JSON.stringify(departamentos))
     const list = [...departamentos];
-    list[index] = value;
-    setDepartamentos(list);
+
+    if (checked) {
+      // push selected value in list    const { value } = evnt.target;
+      // addDepa()
+      // setDepartamentos((prev) => [...prev, value]);
+
+
+      list[index] = value;
+      setDepartamentos(list);
+    } else {
+      // remove unchecked value from the list
+      // removeDepa()
+      // setDepartamentos((prev) => prev.filter((x) => x !== value));
+      list[index] = "";
+      setDepartamentos(list);
+
+    }
   };
 
   const handleChangeOrden = (index, evnt) => {
@@ -71,20 +90,16 @@ const showSuccess = () => {
 
   const handleChange = (e, index) => {
     const { value, checked } = e.target;
-    console.log("departamentos: "+ depas)
-    if (checked) {
-      // push selected value in list    const { value } = evnt.target;
-      addDepa()
-      setDepartamentos((prev) => [...prev, value]);
-    } else {
-      // remove unchecked value from the list
-      removeDepa()
-      setDepartamentos((prev) => prev.filter((x) => x !== value));
-    }
+    // console.log("depas: "+ JSON.stringify(depas))
+    // console.log("departamentos: "+ JSON.stringify(departamentos))
+    // console.log("check: "+ JSON.stringify(checked))
+
+    // console.log("OLI: "+JSON.stringify(departamentos))
+    
   };
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault();
     try {
       const { data } = await axios.post(`http://localhost:4000/casos`, {
         tramite: tramite,
@@ -94,16 +109,16 @@ const showSuccess = () => {
         estado: estado,
         deptos: departamentos,
         orden: orden,
-      });
+      })
       console.log(data.message)
-
+      console.log("OLI: "+JSON.stringify(departamentos))
       setTramite('')
       setNumCaso('')
       setFechaApertura('')
       setFechaFinal('')
       setEstado('')
-      setDepartamentos('')
-      setOrden('')
+      // setDepartamentos([''])
+      setOrden([])
 
       setIsSuccess(true)
       setMessage("El numero de caso es "+data.numCaso)
@@ -123,7 +138,7 @@ const showSuccess = () => {
       const { data: response } = await axios.get(
         `http://localhost:4000/departamentos`
       );
-      setDepas(response);
+      setChecked(response);
     } catch (error) {
       console.error(error.message);
     }
@@ -192,12 +207,12 @@ const showSuccess = () => {
 
                     <div className="frow">
                       <ul>
-                        {depas.map(({ nombre }, index) => {
+                        {checked.map(({ nombre, _id }, index) => {
                           return (
                             <li key={index}>
                               <div className="frow">
                                 <div className="frow">
-                                  <input className="frow" type="checkbox" id={`custom-checkbox-${index}`} name={nombre} value={nombre} onChange={handleChange} onChec/> 
+                                  <input className="frow" type="checkbox" id={`custom-checkbox-${index}`} name={nombre} value={_id} onChange={(evnt) => handleChangeDepa(index, evnt)}/> 
                                   <label htmlFor={`custom-checkbox-${index}`}>{nombre}</label>
                                 </div>
                               </div>
