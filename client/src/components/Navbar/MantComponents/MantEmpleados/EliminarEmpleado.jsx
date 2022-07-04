@@ -120,7 +120,7 @@ function EliminarEmpleado() {
                   <h2 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Eliminar un empleado</h2>
 
                   <div className="frow">
-                      <input type="text" id="nombre" placeholder="cedula del empleado" autoComplete="off" style={{width:'250px'}} value={nombre} onChange={event => {setNombre(event.target.value)}} onClick={evaluate}/>
+                      <input type="text" id="eliminar" placeholder="cedula del empleado" autoComplete="off" style={{width:'250px'}} value={nombre} onChange={event => {setNombre(event.target.value)}} onClick={evaluate}/>
                       <button className="buscar" style={{marginLeft: '5px'}} onClick={searchEmpleado}>
                           <i className="material-symbols-outlined">search</i> &nbsp;
                       </button>

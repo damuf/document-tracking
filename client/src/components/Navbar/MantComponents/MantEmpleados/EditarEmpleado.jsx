@@ -139,7 +139,7 @@ function EditarEmpleado() {
             <div className="frow">
               <input
                 type="text"
-                id="buscar"
+                id="editar"
                 placeholder="cedula del empleado"
                 autoComplete="off"
                 style={{ width: "250px" }}
@@ -219,7 +219,7 @@ function EditarEmpleado() {
                         autoComplete="off"
                         value={empleado.sapellido}
                         onChange={(event) => {
-                          setEmpleado(event.target.value);
+                          setEmpleado({ sapellido: event.target.value });
                         }}
                       />
                     </div>

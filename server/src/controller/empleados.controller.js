@@ -1,14 +1,32 @@
 import empleados from "../model/empleados";
+import departamentos from "../model/departamentos";
 
 export const createEmpleados = async (req, res) => {
     try {
-        const { idDepto, nombre, papellido, sapellido, user, password,cedula, fNacim, fechaInicio, fechaFin } = req.body
-        const newEmpleado = new empleados({ idDepto, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio, fechaFin });
-        const empleadoSaved = await newEmpleado.save()
-        res.status(201).json(empleadoSaved)   
+        const {departamento, nombre, papellido, sapellido, user, password, cedula, fNacim, fechaInicio, fechaFin} = req.body;
+
+        const deptoFound = await departamentos.findOne({nombre: req.body.departamento});
+        if(!deptoFound) return res.status(400).json({message: "el departamento no existe"})
+        
+        const userFound = await empleados.findOne({user: req.body.user});
+        if(userFound) return res.status(400).json({message: "el nombre de usuario no está disponible"})
+
+        const cedulaFound = await empleados.findOne({cedula: req.body.cedula});
+        if(cedulaFound) return res.status(400).json({message: "el número de cedula ya existe en el sistema"})
+
+        const newEmpleado = new empleados({
+            idDepto: deptoFound._id,
+            nombre, papellido, sapellido,
+            user, password: await empleados.encryptPassword(password), 
+            cedula, fNacim, fechaInicio, fechaFin
+        })
+
+        const empleadoSaved = await newEmpleado.save();
+        res.status(200).json({empleadoSaved, message: "empleado guardado"})
+
     } catch (error) {
         console.log(error)
-        res.status(400).json({msg: "error creando un empleado"});
+        res.status(400).json({message: "error creando un empleado"});
     }
 };
 
