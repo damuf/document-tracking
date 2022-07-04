@@ -6,6 +6,8 @@ import Error from "../../../Alerts/Error";
 import Success from "../../../Alerts/Success";
 
 function InsertarEmpleado() {
+  
+  //atributos
   const [departamento, setDepto] = useState("");
   const [nombre, setNombre] = useState("");
   const [papellido, setPApellido] = useState("");
@@ -45,6 +47,18 @@ function InsertarEmpleado() {
     setPasswordShown(!passwordShown);
   };
 
+  //clear
+  const clear = () => {
+    setDepto("");
+    setNombre("");
+    setPApellido("");
+    setSApellido("");
+    setUser("");
+    setPassword("");
+    setCedula("");
+    setFNacim("");
+  };
+
   //submit
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -64,6 +78,7 @@ function InsertarEmpleado() {
       setIsSuccess(true);
       setMessage(data.message);
       showSuccess();
+      clear();
     } catch (error) {
       setIsError(true);
       setMessage(error.response.data.message);

@@ -7,6 +7,6 @@ const departamentosSchema = new Schema({
     empleados: {ref:"empleados", type: [Schema.Types.ObjectId], required: true},
     telefonos: {type: [Number], required: true, unique:true},
     correos: {type: [String], required: true, unique:true}
-}, { versionKey: false})
+}, { versionKey: false, _id: true})
 
 export default model('departamentos', departamentosSchema)

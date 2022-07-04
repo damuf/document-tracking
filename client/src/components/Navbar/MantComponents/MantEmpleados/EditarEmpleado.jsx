@@ -5,20 +5,16 @@ import Success from "../../../Alerts/Success";
 import pic from "../../../../assets/man-with-beard-and-long-hair.png";
 
 function EditarEmpleado() {
-
   //atributos
-  const [empleado, setEmpleado] = useState({
-    idDepto: "",
-    nombre: "",
-    papellido: "",
-    sapellido: "",
-    user: "",
-    password: "",
-    cedula: "",
-    fechaNacim: "",
-    fechaInicio: "",
-    fechaFin: "",
-  });
+  const [departamento, setDepto] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [papellido, setPApellido] = useState("");
+  const [sapellido, setSApellido] = useState("");
+  const [user, setUser] = useState("");
+  const [cedula, setCedula] = useState("");
+  const [fNacim, setFNacim] = useState("");
+  const [fechaInicio, setFechaInicio] = useState("");
+
   const [empleadoFound, setEmpleadoFound] = useState(false);
 
   //alerts
@@ -39,19 +35,19 @@ function EditarEmpleado() {
   };
 
   const evaluate = () => {
-    if (empleado.nombre !== "") {
-      setEmpleado.nombre("");
+    if (nombre !== "") {
+      setNombre("");
       setEmpleadoFound(false);
     }
   };
 
-  //busqueda del departamento
+  //búsqueda del departamento
   const searchDepartamento = async (depto) => {
     try {
       const { data } = await axios.get(
         `http://localhost:4000/departamentos/${depto}`
       );
-      setEmpleado({ idDepto: data.departamentoFound.nombre });
+      setDepto(data.departamentoFound.nombre)
       setIsSuccess(true);
       showSuccess();
     } catch (error) {
@@ -65,10 +61,17 @@ function EditarEmpleado() {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/empleados/find/${empleado.cedula}`
+        `http://localhost:4000/empleados/find/${cedula}`
       );
       searchDepartamento(data.empleadoFound.idDepto);
-      setEmpleado(data.empleadoFound);
+
+      setNombre(data.empleadoFound.nombre);
+      setPApellido(data.empleadoFound.papellido);
+      setSApellido(data.empleadoFound.sapellido);
+      setUser(data.empleadoFound.user);
+      setCedula(data.empleadoFound.cedula);
+      setFNacim(data.empleadoFound.fNacim);
+
       setEmpleadoFound(true);
       setMessage(data.message);
     } catch (error) {
@@ -84,21 +87,21 @@ function EditarEmpleado() {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:4000/empresas/edit/${empleado.nombre}`,
+        `http://localhost:4000/empresas/edit/${nombre}`,
         {
-          departamento: empleado.departamento.toLocaleLowerCase(),
-          nombre: empleado.nombre.toLocaleLowerCase(),
-          papellido: empleado.papellido.toLocaleLowerCase(),
-          sapellido: empleado.sapellido.toLocaleLowerCase(),
-          cedula: empleado.cedula,
-          fNacim: empleado.fNacim,
-          fechaInicio: empleado.fechaInicio,
+          departamento: departamento.toLocaleLowerCase(),
+          nombre: nombre.toLocaleLowerCase(),
+          papellido: papellido.toLocaleLowerCase(),
+          sapellido: sapellido.toLocaleLowerCase(),
+          cedula: cedula,
+          fNacim: fNacim,
+          fechaInicio: fechaInicio,
         }
       );
       setIsSuccess(true);
       setMessage(data.message);
       showSuccess();
-      setEmpleado("");
+      //setEmpleado("");
       evaluate();
     } catch (error) {
       setIsError(true);
@@ -143,9 +146,9 @@ function EditarEmpleado() {
                 placeholder="cedula del empleado"
                 autoComplete="off"
                 style={{ width: "250px" }}
-                value={empleado.cedula}
+                value={cedula}
                 onChange={(event) => {
-                  setEmpleado({ cedula: event.target.value });
+                  setCedula(event.target.value);
                 }}
                 onClick={evaluate}
               />
@@ -172,9 +175,9 @@ function EditarEmpleado() {
                         placeholder="departamento"
                         required={true}
                         autoComplete="off"
-                        value={empleado.idDepto}
+                        value={departamento}
                         onChange={(event) => {
-                          setEmpleado({ idDepto: event.target.value });
+                          setDepto(event.target.value);
                         }}
                       />
                     </div>
@@ -186,9 +189,9 @@ function EditarEmpleado() {
                         placeholder="nombre"
                         required={true}
                         autoComplete="off"
-                        value={empleado.nombre}
+                        value={nombre}
                         onChange={(event) => {
-                          setEmpleado({ nombre: event.target.value });
+                          setNombre(event.target.value);
                         }}
                       />
                     </div>
@@ -203,9 +206,9 @@ function EditarEmpleado() {
                         placeholder="primer apellido"
                         required={true}
                         autoComplete="off"
-                        value={empleado.papellido}
+                        value={papellido}
                         onChange={(event) => {
-                          setEmpleado({ papellido: event.target.value });
+                          setPApellido(event.target.value);
                         }}
                       />
                     </div>
@@ -217,9 +220,9 @@ function EditarEmpleado() {
                         placeholder="segundo apellido"
                         required={true}
                         autoComplete="off"
-                        value={empleado.sapellido}
+                        value={sapellido}
                         onChange={(event) => {
-                          setEmpleado({ sapellido: event.target.value });
+                          setSApellido(event.target.value);
                         }}
                       />
                     </div>
@@ -234,9 +237,9 @@ function EditarEmpleado() {
                         placeholder="cedula"
                         required={true}
                         autoComplete="off"
-                        value={empleado.cedula}
+                        value={cedula}
                         onChange={(event) => {
-                          setEmpleado({ cedula: event.target.value });
+                          setCedula(event.target.value);
                         }}
                       />
                     </div>
@@ -251,9 +254,9 @@ function EditarEmpleado() {
                         placeholder="usuario"
                         required={true}
                         autoComplete="off"
-                        value={empleado.user}
+                        value={user}
                         onChange={(event) => {
-                          setEmpleado({ user: event.target.value });
+                          setUser(event.target.value);
                         }}
                       />
                     </div>
@@ -271,9 +274,9 @@ function EditarEmpleado() {
                         placeholder="fecha nacimiento"
                         required={true}
                         autoComplete="off"
-                        value={empleado.fNacim}
+                        value={fNacim}
                         onChange={(event) => {
-                          setEmpleado({ fNacim: event.target.value });
+                          setFNacim(event.target.value);
                         }}
                       />
                     </div>
@@ -285,9 +288,9 @@ function EditarEmpleado() {
                         placeholder="fecha de entrada"
                         required={true}
                         autoComplete="off"
-                        value={empleado.fechaInicio}
+                        value={fechaInicio}
                         onChange={(event) => {
-                          setEmpleado({ fechaInicio: event.target.value });
+                          setFechaInicio(event.target.value);
                         }}
                       />
                     </div>
