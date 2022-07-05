@@ -6,7 +6,7 @@ const router = Router();
 router.post('/', casos.createCasos)
 router.get('/', casos.getCasos)
 router.get('/:casoId', casos.getCasoById)
-router.put('editId/:casoId', casos.updateCasoById)
+router.put('/editId/:casoId', casos.updateCasoById)
 router.delete('/:casoId', casos.deleteCasoById)
 router.post('/numAlpha', casos.crearCodigoAlphanumerico)
 router.get("/find/:numCaso", casos.getCasoByNumCaso);
