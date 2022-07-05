@@ -11,6 +11,8 @@ function EliminarTramite() {
   const [nombre, setNombre] = useState("");
   const [departamentos, setDepartamentos] = useState([""]);
   const [orden, setOrden] = useState([""]);
+  const [nombresDepto, setNombresDeptos] = useState([""]);
+
 
   const [tramiteFound, setTramiteFound] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -62,6 +64,30 @@ function EliminarTramite() {
     }, 4000);
   };
 
+  const searchNombreDepto = async (id, index) => {
+    const { data } = await axios.get(
+      `http://localhost:4000/departamentos/${id}`
+    );
+    console.log(data.departamentoFound);
+    nombresDepto.push(data.departamentoFound.nombre)
+  };
+
+  //búsqueda del departamento
+  const searchDepartamentos = async (depas) => {
+    try {
+      depas.forEach((element, index) => {
+        searchNombreDepto(element, index);
+      });
+      console.log(nombresDepto);
+      setTramiteFound(true);
+      setIsSuccess(true);
+      showSuccess();
+    } catch (error) {
+      setTramiteFound(false);
+      setIsError(true);
+    }
+  };
+
   //búsqueda del departamento
   const searchDepartamento = async (depto) => {
     try {
@@ -84,14 +110,16 @@ function EliminarTramite() {
       const { data } = await axios.get(
         `http://localhost:4000/tramites/findname/${nombre}`
       );
-      console.log(data.tramiteFound)
       searchDepartamento(data.tramiteFound.idDepto)
+      searchDepartamentos(data.tramiteFound.deptos)
+
       setNombre(data.tramiteFound.nombre);
       const depas = data.tramiteFound.deptos;
       setDepartamentos(depas);
+      console.log(departamentos);
       const order = data.tramiteFound.orden;
       setOrden(order);
-      
+
       setTramiteFound(true);
       setIsSuccess(true);
       setMessage(data.message);
@@ -161,7 +189,7 @@ function EliminarTramite() {
                     <p>Departamento al que pertenece: {departamento}</p>
                   </div>
                   <div className="frow">
-                    <p>Departamentos: {departamentos}</p>
+                    <p>Departamentos: {nombresDepto}</p>
                   </div>
                   <div className="frow">
                     <p>Orden: {orden}</p>
