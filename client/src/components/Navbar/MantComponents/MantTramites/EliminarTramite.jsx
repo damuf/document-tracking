@@ -68,7 +68,6 @@ function EliminarTramite() {
     const { data } = await axios.get(
       `http://localhost:4000/departamentos/${id}`
     );
-    console.log(data.departamentoFound);
     nombresDepto.push(data.departamentoFound.nombre)
   };
 
@@ -189,7 +188,7 @@ function EliminarTramite() {
                     <p>Departamento al que pertenece: {departamento}</p>
                   </div>
                   <div className="frow">
-                    <p>Departamentos: {nombresDepto}</p>
+                    <p>Departamentos: {nombresDepto.join(" ")}</p>
                   </div>
                   <div className="frow">
                     <p>Orden: {orden}</p>
