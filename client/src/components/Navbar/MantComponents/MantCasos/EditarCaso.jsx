@@ -5,33 +5,26 @@ import Error from '../../../Alerts/Error'
 import Success from '../../../Alerts/Success'
 
 function EditarCaso() {
-    const [tramiteId, setTramiteId] = useState()
-    const [numCaso, setNumCaso] = useState();
+    const [tramiteId, setTramiteId] = useState("")
+    const [busqueda, setBusqueda] = useState("");
+    const [departamentosId, setDepartamentosId] = useState([""]);
+
+    const [numCaso, setNumCaso] = useState("");
     const [fechaApertura, setFechaApertura] = useState("");
     const [fechaFinal, setFechaFinal] = useState("");
     const [estado, setEstado] = useState("");
     const [deptos, setDeptos] = useState([]);
-    const [orden, setOrden] = useState(['']);
+    const [orden, setOrden] = useState([""]);
     const [tramiteNombre, setTramiteNombre] = useState()
+    const [checked, setChecked] = useState([-1]);
+    const [departamentos, setDepartamentos] = useState([""]);
+
+    const [casoFound, setCasoFound] = useState(false);
 
     //alerts
     const [isError, setIsError] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [message, setMessage] = useState('');
-
-    const [casoFound, setCasoFound] = useState(false);
-    const [tramiteFound, setTramiteFound] = useState(false);
-
-    const [caso, setCaso] = useState({
-        idTramite:"",
-        numCaso:"",
-        fechaApertura:"",
-        fechaFinal:"",
-        estado:"",
-        deptos:[""],
-        orden:[""]
-    })
-
+    const [message, setMessage] = useState("");
 
     const addOrden = () => {
         setOrden([...orden, '']);
@@ -52,67 +45,74 @@ function EditarCaso() {
 
     const showError = () => {
         setTimeout( () => {
-        setIsError(false)
+        setIsError(false);
         }, 5000);
     }
 
     const showSuccess = () => {
         setTimeout( () => {
-            setIsSuccess(false)
+            setIsSuccess(false);
         }, 4000);
     }
 
     const evaluate = () => {
-        if(numCaso !== ''){
-            setNumCaso('')
-            setCasoFound(false)
+        if(numCaso !== ""){
+            setNumCaso("");
+            setCasoFound(false);
         }
     }
 
-    const evaluateTramite = () => {
-        if(tramiteNombre !== ''){
-            setTramiteNombre('')
-            setCasoFound(false)
-        }
-    }
-
+    // const handleChangeDeptos = (e) => {
+    //     const checkboxes = document.querySelectorAll(
+    //       'input[name="deptosarray"]:checked'
+    //     );
+    //     const values = [];
+    //     checkboxes.forEach((checkbox) => {
+    //       values.push(checkbox.value);
+    //     });
+    //     setDepartamentos(values)
+    //     console.log(departamentos)
+    //   };
 
     const searchCaso = async (e) => {
         e.preventDefault();
         try {
-            const {data} = await axios.get(`http://localhost:4000/casos/find/${numCaso}`)
-            setTramiteId(data.casoFound.idTramite)
-            
-            console.log("aca1 "+JSON.stringify(data.casoFound.idTramite))
-            const ordens = data.casoFound.orden
+            const {data} = await axios.get(
+                `http://localhost:4000/casos/find/${busqueda}`
+            );
+            searchTramite(data.casoFound.idTramite)
+            //searchDepartamento(data.casoFound.deptos)
            
-            setOrden(ordens);
-            setCasoFound(true)
-            setIsSuccess(true)
-            setMessage(data.message)
-            showSuccess()
-            searchTramite()
+            setTramiteId(data.casoFound.idTramite)
+            setDepartamentosId(data.casoFound.deptos)
+            // setDeptos(data.casoFound.deptos)
+            // setEstado(data.casoFound.estado)
+            // setFechaFinal(data.casoFound.fechaFinal)
+            // setFechaApertura(data.casoFound.setFechaApertura)
 
-        } catch (error) {
-            setCasoFound(false)
-            setIsError(true)
-            setMessage("error")
-            showError()
-        }
-    };
-
-    const searchDepartamento = async (e) => {
-        e.preventDefault();
-        try {
-            
-            const {data} = await axios.get(`http://localhost:4000/departamentos/find/${tramiteId}`)
-            setTramiteId(data.casoFound.tramite)
             const ordens = data.casoFound.orden
-
             setOrden(ordens);
+
             setCasoFound(true)
-            setIsSuccess(true)
             setMessage(data.message)
+
+        } catch (error) {
+            setCasoFound(false)
+            setIsError(true)
+            setMessage("error")
+            showError()
+        }
+    };
+
+    const searchDepartamento = async (depi) => {
+        try {
+            console.log("Depaspas: "+JSON.stringify(departamentosId))
+            
+            const {data} = await axios.get(
+                `http://localhost:4000/departamentos/${depi}`
+            )  
+            setDepartamentos(data.departamentoFound.nombre)
+            setIsSuccess(true)
             showSuccess()
         } catch (error) {
             setCasoFound(false)
@@ -124,20 +124,17 @@ function EditarCaso() {
 
 
 
-    const searchTramite = async (e) => {
+    const searchTramite = async (trami) => {
         try {
-            const {data} = await axios.get(`http://localhost:4000/tramites/findid/${tramiteId}`)
-            setTramiteNombre(data.tramiteFound.nombre)
-            setCaso({numCaso:data.tramiteFound.numCaso})
-            console.log("aca2 "+JSON.stringify(tramiteNombre))
-            setTramiteFound(true)
-            setIsSuccess(true)
-            setMessage(data.message)
+            const {data} = await axios.get(
+                `http://localhost:4000/tramites/findid/${trami}`
+            );
+            setTramiteNombre(data.casoFound.nombre);
+            setIsSuccess(true);
+            showSuccess();
         } catch (error) {
-            setTramiteFound(false)
-            setIsError(true)
-            setMessage("error")
-            showError()
+            setCasoFound(false);
+            setIsError(true);
         }
     };
 
@@ -155,25 +152,16 @@ function EditarCaso() {
             deptos: deptos,
             orden: orden
         })
-        console.log(data.message)
-        setIsSuccess(true)
-        setMessage(data.message)
-        showSuccess()
-        console.log(data.message)
+        setIsSuccess(true);
+        setMessage(data.message);
+        showSuccess();
+        setBusqueda("");
+        evaluate();
 
-        setTramiteId('')
-        setNumCaso('')
-        setFechaApertura('')
-        setFechaFinal('')
-        setEstado('')
-        setDeptos([])
-        setOrden([])
-        evaluate()
         } catch (error) {
-        setIsError(true)
-        setMessage(error.response.data.message)
-        showError()
-        console.log(error.response.data.message)
+            setIsError(true);
+            setMessage(error.response.data.message);
+            showError();
         }
     };
 
@@ -198,8 +186,22 @@ function EditarCaso() {
                 <h2 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Editar un caso</h2>
 
                 <div className="frow">
-                    <input type="text" id="buscar" placeholder="numero de caso" autoComplete="off" style={{width:'250px'}} value={numCaso} onChange={event => {setNumCaso(event.target.value)}} onClick={evaluate}/>
-                    <button className="buscar" style={{marginLeft: '5px'}} onClick={searchCaso}>
+                    <input 
+                    type="text" 
+                    id="buscar" 
+                    placeholder="numero de caso" 
+                    autoComplete="off" 
+                    style={{width:'250px'}} 
+                    value={busqueda} 
+                    onChange={event => {
+                        setBusqueda(event.target.value)
+                    }} 
+                    onClick={evaluate}
+                    />
+                    <button 
+                    className="buscar" 
+                    style={{marginLeft: '5px'}} 
+                    onClick={searchCaso}>
                         <i className="material-symbols-outlined">search</i> &nbsp;
                     </button>
                 </div>
@@ -208,16 +210,17 @@ function EditarCaso() {
                     <br />
                     {casoFound &&
                         <form id="crearEmpresas" method="get" onSubmit={onSubmit}>
-
-                            <div className="frow">
-                                <i className="material-symbols-outlined">apartment</i> &nbsp;
-                                <input type="text" id="numCaso" placeholder="Numero de caso" required={true} autoComplete="off" value={numCaso} onChange={event => {setNumCaso(event.target.value)}}/>
-                            </div>
-                            <br />
-
                             <div className="frow">
                                 <i className="material-symbols-outlined">share_location</i> &nbsp;
-                                <input type="text" id="tramite" placeholder="nombre tramite" required={true} autoComplete="off" value={tramiteNombre} onChange={event => {setTramiteNombre(event.target.value)}} style={{width:'250px'}}/>
+                                <input 
+                                type="text" 
+                                id="tramite" 
+                                placeholder="nombre tramite" 
+                                required={true} 
+                                autoComplete="off" 
+                                value={tramiteNombre} 
+                                onChange={event => {setTramiteNombre(event.target.value)}} 
+                                style={{width:'250px'}}/>
                             </div>
 
                             <div className="frow">
@@ -228,7 +231,14 @@ function EditarCaso() {
                                                 <div className="frow">
                                                     <div className="frow">
                                                         <i className="material-symbols-outlined">mail</i> &nbsp;
-                                                        <input type="text" value={data} onChange={(evnt)=> handleChangeOrden(index, evnt)} required={true} autoComplete="off" name="orden" placeholder="orden"/>
+                                                        <input 
+                                                        type="text" 
+                                                        value={data} 
+                                                        onChange={(evnt)=> handleChangeOrden(index, evnt)} 
+                                                        required={true} 
+                                                        autoComplete="off" 
+                                                        name="orden" 
+                                                        placeholder="orden"/>
                                                         {(orden.length!==1)? <button className="remove" onClick={() => removeOrden(index)}><i className="material-symbols-outlined">delete</i></button>:''}
                                                     </div>
                                                 </div>
@@ -243,10 +253,35 @@ function EditarCaso() {
                                             </button>
                                         </div>
                                     </div>
-
+                                    <br />
                                 </div>
                             </div>
-
+                            {/* <div className="frow">
+                      <ul>
+                        {checked.map(({ nombre, _id }, index) => {
+                          return (
+                            <li key={index}>
+                              <div className="frow">
+                                <div className="frow">
+                                  <input
+                                    className="frow"
+                                    type="checkbox"
+                                    id={`custom-checkbox-${index}`}
+                                    name="deptosarray"
+                                    value={_id}
+                                    onClick={(evnt) => handleChangeDeptos(evnt)}
+                                  />
+                                  <label htmlFor={`custom-checkbox-${index}`}>
+                                    {nombre}
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                      {/* <button >oa</button> */}
+                    {/* </div> */} 
                             <br />
 
                             <div className="frow">

@@ -5,6 +5,6 @@ const tramitesSchema = new Schema({
     nombre: {type: String, required: true, lowercase: true}, 
     deptos: {ref:"departamentos", type: [Schema.Types.ObjectId], required: true},
     orden: {type: [String], required: true, lowercase: true}
-}, { versionKey: false })
+}, { versionKey: false, _id: true })
 
 export default model('tramites', tramitesSchema)

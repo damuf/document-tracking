@@ -67,7 +67,8 @@ function InsertarCaso() {
     checkboxes.forEach((checkbox) => {
       values.push(checkbox.value);
     });
-    alert(values);
+setDepartamentos(values)
+    console.log(departamentos)
   };
 
   const onSubmit = async (e) => {
@@ -267,8 +268,8 @@ function InsertarCaso() {
                                     type="checkbox"
                                     id={`custom-checkbox-${index}`}
                                     name="deptosarray"
-                                    //value={_id}
-                                    value={nombre}
+                                    value={_id}
+                                    onClick={(evnt) => handleChangeDeptos(evnt)}
                                   />
                                   <label htmlFor={`custom-checkbox-${index}`}>
                                     {nombre}
@@ -279,7 +280,7 @@ function InsertarCaso() {
                           );
                         })}
                       </ul>
-                      <button onClick={(evnt) => handleChangeDeptos(evnt)}>oa</button>
+                      {/* <button >oa</button> */}
                     </div>
                   </div>
                   <div className="column">
