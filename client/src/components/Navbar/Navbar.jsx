@@ -10,6 +10,8 @@ export default function Navbar() {
         <ul className='ul'>
           <CustomLink to="*/empresas">Empresas</CustomLink>
           <CustomLink to="*/empleados">Empleados</CustomLink>
+          <CustomLink to="*/gerencias">Gerencias</CustomLink>
+          <CustomLink to="*/departamentos">Departamentos</CustomLink>
           <CustomLink to="*/documentos">Documentos</CustomLink>
           <CustomLink to="*/casos">Casos</CustomLink>
           <CustomLink to="*/parametros">Parametros</CustomLink>

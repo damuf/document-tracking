@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import Documentos from "./DocumentosPage";
 import Empresas from "./EmpresasPage";
 import Empleados from "./EmpleadosPage";
+import Gerencias from "./GerenciasPage";
+import Departamentos from "./DepartamentosPage";
 import Casos from "./CasosPage";
 import Tramites from "./TramitesPage";
 import Parametros from "./ParametrosPage";
@@ -19,6 +21,8 @@ function NavbarPage() {
           <Route path="/*" element={<Inicio />} />
           <Route path="*/empresas" element={<Empresas />} />
           <Route path="*/empleados" element={<Empleados />} />
+          <Route path="*/gerencias" element={<Gerencias />} />
+          <Route path="*/departamentos" element={<Departamentos />} />
           <Route path="*/documentos" element={<Documentos />} />
           <Route path="*/casos" element={<Casos />} />
           <Route path="*/parametros" element={<Parametros />} />
