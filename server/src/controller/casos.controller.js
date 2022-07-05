@@ -55,11 +55,17 @@ export const getCasoById = async (req, res) => {
 
 export const updateCasoById = async (req, res) => {
     try {
-        const updatedCaso = await casos.findByIdAndUpdate(req.params.casoId, req.body, {new: true})
-        res.status(200).json(updatedCaso)
+        const {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden} = req.body
+
+        const tramiteFound = await tramites.findOne({nombre: req.body.tramite})
+        if(!tramiteFound) return res.status(400).json({message: "el tramite no existe"});
+
+        const updatedCaso = await casos.findByIdAndUpdate(req.params.casoId, 
+            {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden}, {new: true})
+        res.status(200).json({updatedCaso, message: "caso actualizado con éxito"})
     } catch (error) {
         console.log(error)
-        res.status(400).json({msg: error});
+        res.status(400).json({message: "error al actualizar caso"});
     }
 };
 
@@ -125,19 +131,15 @@ export const updateCasoByNumCaso = async (req, res) => {
     try {
         const {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden} = req.body
         
-        const tramitefound = await tramites.findById({nombre: updatedCaso.idTramite})
-        if(!tramitefound) return res.status(400).json({message: "el tramite no existe"})
+        const tramiteFound = await tramites.findById({nombre: updatedCaso.idTramite})
+        if(!tramiteFound) return res.status(400).json({message: "el tramite no existe"})
 
         const deptoFound = await departamentos.find({nombre: updatedCaso.departamentos})
         
         if(!deptoFound) return res.status(400).json({message: "el departamento no existe"})
 
-
-
         const updatedCaso = await empresas.findOneAndUpdate({numCaso: req.params.numCaso}, {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden}, {new: true});
         if(!updatedCaso) return res.status(400).json({message: "el caso no existe"})
-        
-
 
         res.status(200).json({updatedEmpresa, message: "información del caso modificado con éxito"})
     } catch (error) {

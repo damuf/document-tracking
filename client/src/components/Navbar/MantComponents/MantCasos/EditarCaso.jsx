@@ -7,6 +7,7 @@ import Success from "../../../Alerts/Success";
 
 function EditarCaso() {
   //busqueda
+  const [casoId, setCasoId] = useState("");
   const [tramiteId, setTramiteId] = useState("");
   const [busqueda, setBusqueda] = useState("");
 
@@ -44,10 +45,27 @@ function EditarCaso() {
     setOrden(list);
   };
 
+  const addDepto = () => {
+    setNombresDeptos([...nombresDepto, ""]);
+  };
+
   const removeDepto = (index) => {
-    const rows = [...departamentos];
+    const rows = [...nombresDepto];
     rows.splice(index, 1);
-    setDepartamentos(rows);
+    setNombresDeptos(rows);
+  };
+
+  const handleChangeDepto = (index, evnt) => {
+    const { value } = evnt.target;
+    const list = [...nombresDepto];
+    list[index] = value;
+    setNombresDeptos(list);
+  };
+
+  const handleChangeDepto01 = (index, value) => {
+    const list = [...nombresDepto];
+    list[index] = value;
+    setNombresDeptos(list);
   };
 
   const showError = () => {
@@ -70,11 +88,12 @@ function EditarCaso() {
   };
 
   const searchNombreDepto = async (id, index) => {
-    nombresDepto.pop()
     const { data } = await axios.get(
       `http://localhost:4000/departamentos/${id}`
     );
-    nombresDepto.push(data.departamentoFound.nombre);
+    handleChangeDepto01(index, data.departamentoFound.nombre);
+    console.log(data.departamentoFound.nombre);
+    console.log(index);
   };
 
   //búsqueda del departamento
@@ -117,6 +136,7 @@ function EditarCaso() {
       setDepartamentos(data.casoFound.deptos);
       searchTramite(data.casoFound.idTramite);
 
+      setCasoId(data.casoFound._id);
       setTramiteId(data.casoFound.idTramite);
       const ordenes = data.casoFound.orden;
       setOrden(ordenes);
@@ -127,6 +147,8 @@ function EditarCaso() {
       );
       setEstado(data.casoFound.estado);
 
+      console.log(nombresDepto)
+      
       setMessage(data.message);
     } catch (error) {
       setCasoFound(false);
@@ -140,11 +162,12 @@ function EditarCaso() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      //console.log(nombre, ubicacion, telefonos, correos)
+      console.log(tramiteId);
+      console.log(nombresDepto);
       const { data } = await axios.put(
-        `http://localhost:4000/casos/edit/${numCaso}`,
+        `http://localhost:4000/casos/editId/${casoId}`,
         {
-          tramite: tramiteId,
+          tramite: tramite,
           numCaso: numCaso,
           fechaApertura: fechaApertura,
           fechaFinal: fechaFinal,
@@ -245,15 +268,7 @@ function EditarCaso() {
                           type="text"
                           id="codAlfa"
                           placeholder="código"
-                          required={true}
-                          autoComplete="off"
                           value={numCaso}
-                          onChange={(event) => {
-                            setNumCaso(event.target.value);
-                          }}
-                          maxLength="3"
-                          minLength="3"
-                          pattern="[A-Z,a-z]{3}"
                         ></input>
                       </div>
                     </div>
@@ -337,11 +352,14 @@ function EditarCaso() {
                             <div className="frow">
                               <i className="material-symbols-outlined">
                                 apartment
-                              </i>{" "}
+                              </i>
                               &nbsp;
                               <input
                                 type="text"
                                 value={data}
+                                onChange={(evnt) =>
+                                  handleChangeDepto(index, evnt)
+                                }
                                 required={true}
                                 autoComplete="off"
                                 name="depto"
@@ -411,6 +429,16 @@ function EditarCaso() {
                         <div className="frow">
                           <button
                             className="add"
+                            onClick={addDepto}
+                            style={{ width: "190px", gap: "5px" }}
+                          >
+                            agregar depto
+                            <i className="material-symbols-outlined">add</i>
+                          </button>
+                        </div>
+                        <div className="frow">
+                          <button
+                            className="add"
                             onClick={addOrden}
                             style={{ width: "190px", gap: "5px" }}
                           >
@@ -429,7 +457,7 @@ function EditarCaso() {
                       className="buttonMant"
                       type="submit"
                     >
-                      crear
+                      actualizar
                     </button>
                   </div>
                 </form>
