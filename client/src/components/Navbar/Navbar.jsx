@@ -13,7 +13,7 @@ export default function Navbar() {
           <CustomLink to="*/documentos">Documentos</CustomLink>
           <CustomLink to="*/casos">Casos</CustomLink>
           <CustomLink to="*/parametros">Parametros</CustomLink>
-
+          <CustomLink to="*/tramites">Tramites</CustomLink>
         </ul>
       </nav>
   )

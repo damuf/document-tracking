@@ -3,6 +3,7 @@ import Documentos from "./DocumentosPage";
 import Empresas from "./EmpresasPage";
 import Empleados from "./EmpleadosPage";
 import Casos from "./CasosPage";
+import Tramites from "./TramitesPage";
 import Parametros from "./ParametrosPage";
 import Inicio from "./InicioPage";
 import Navbar from "../../components/Navbar/Navbar";
@@ -21,6 +22,8 @@ function NavbarPage() {
           <Route path="*/documentos" element={<Documentos />} />
           <Route path="*/casos" element={<Casos />} />
           <Route path="*/parametros" element={<Parametros />} />
+          <Route path="*/tramites" element={<Tramites />} />
+
         </Routes>
       </div>
       <Footer/>
