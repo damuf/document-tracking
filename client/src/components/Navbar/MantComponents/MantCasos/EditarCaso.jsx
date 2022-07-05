@@ -147,8 +147,8 @@ function EditarCaso() {
       );
       setEstado(data.casoFound.estado);
 
-      console.log(nombresDepto)
-      
+      console.log(nombresDepto);
+
       setMessage(data.message);
     } catch (error) {
       setCasoFound(false);
@@ -351,7 +351,7 @@ function EditarCaso() {
                           <div className="frow">
                             <div className="frow">
                               <i className="material-symbols-outlined">
-                                apartment
+                                fact_check
                               </i>
                               &nbsp;
                               <input

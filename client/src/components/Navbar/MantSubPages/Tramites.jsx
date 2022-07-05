@@ -7,11 +7,10 @@ function Tramites(){
 
   return (
     <>
-      <Encabezado title={"Mantenimiento de tramites"} description={"Esta sección permite la inserción, edición, eliminación y actualización de los tramites de la organización"} />
+      <Encabezado title={"Mantenimiento de trámites"} description={"Esta sección permite la inserción, edición, eliminación y actualización de los trámites de la organización"} />
       <Insertar/>
+      <Editar/>
       <Eliminar/>
-      {/* <Editar/> */}
-     
     </>
   );
 

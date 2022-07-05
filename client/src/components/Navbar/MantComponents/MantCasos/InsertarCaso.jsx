@@ -55,6 +55,15 @@ function InsertarCaso() {
     setDepartamentos(rows);
   };
 
+  const departamentosCarga = async () => {
+    try {
+      const { data } = await axios.get(`http://localhost:4000/departamentos`);
+      setDepartamentos(data.departamentosFound);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -76,8 +85,8 @@ function InsertarCaso() {
       setEstado("");
       setDepartamentos([""]);
       setOrden([""]);
-      departamentosCarga()
-      
+      departamentosCarga();
+
       setIsSuccess(true);
       setMessage(data.message);
       showSuccess();
@@ -86,15 +95,6 @@ function InsertarCaso() {
       setMessage(error.response.data.message);
       showError();
       console.log(error.response.data.message);
-    }
-  };
-
-  const departamentosCarga = async () => {
-    try {
-      const { data } = await axios.get(`http://localhost:4000/departamentos`);
-      setDepartamentos(data.departamentosFound);
-    } catch (error) {
-      console.error(error.message);
     }
   };
 
@@ -197,8 +197,7 @@ function InsertarCaso() {
 
                 <br />
                 <div className="frow">
-                  <i className="material-symbols-outlined">pending</i>{" "}
-                  &nbsp;
+                  <i className="material-symbols-outlined">pending</i> &nbsp;
                   <input
                     style={{ width: "150px" }}
                     id="estado"
@@ -206,12 +205,18 @@ function InsertarCaso() {
                     type="text"
                     required={true}
                     autoComplete="off"
-                    value={estado} 
+                    value={estado}
                     onChange={(event) => {
                       setEstado(event.target.value);
                     }}
                   />
-                  <label style={{ fontSize: "14px", color: "#595959",width: "200px"}}>
+                  <label
+                    style={{
+                      fontSize: "14px",
+                      color: "#595959",
+                      width: "200px",
+                    }}
+                  >
                     "activo" o "inactivo"
                   </label>
                 </div>
@@ -226,7 +231,9 @@ function InsertarCaso() {
                     >
                       <div className="frow">
                         <div className="frow">
-                          <i className="material-symbols-outlined">apartment</i>{" "}
+                          <i className="material-symbols-outlined">
+                            fact_check
+                          </i>{" "}
                           &nbsp;
                           <input
                             type="text"
