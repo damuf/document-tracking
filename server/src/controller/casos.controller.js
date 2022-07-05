@@ -119,7 +119,6 @@ export const getCasoByNumCaso = async (req, res) => {
         const depasFound = await departamentos.findById(casoFound.deptos)
         if(!depasFound) return res.status(400).json({message: "el departamento no existe"})
 
-
         res.status(200).json({casoFound, message: "caso encontrado"})
     } catch (error) {
         console.log(error)

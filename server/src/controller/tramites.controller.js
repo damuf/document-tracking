@@ -25,6 +25,8 @@ export const getTramites = async (req, res) => {
 export const getTramiteById = async (req, res) => {
     try {
         const tramiteFound = await tramites.findById(req.params.tramiteId);
+        if(!tramiteFound) return res.status(400).json({message: "el trámite no existe"})
+
         res.status(200).json({tramiteFound, message: "tramite encontrado"})
     } catch (error) {
         console.log(error)

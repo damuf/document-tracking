@@ -1,21 +1,22 @@
-import pic from "../../../../assets/man-playing-video-game.png";
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
+import moment from "moment";
+import pic from "../../../../assets/man-playing-video-game.png";
 import Error from "../../../Alerts/Error";
 import Success from "../../../Alerts/Success";
 
 function EditarCaso() {
+  //busqueda
   const [tramiteId, setTramiteId] = useState("");
   const [busqueda, setBusqueda] = useState("");
-  const [departamentosId, setDepartamentosId] = useState([""]);
 
+  //atributos
   const [numCaso, setNumCaso] = useState("");
   const [fechaApertura, setFechaApertura] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
   const [estado, setEstado] = useState("");
-  const [deptos, setDeptos] = useState([]);
   const [orden, setOrden] = useState([""]);
-  const [tramiteNombre, setTramiteNombre] = useState();
+  const [tramite, setTramite] = useState();
   const [checked, setChecked] = useState([-1]);
   const [departamentos, setDepartamentos] = useState([""]);
 
@@ -62,17 +63,55 @@ function EditarCaso() {
     }
   };
 
-  // const handleChangeDeptos = (e) => {
-  //     const checkboxes = document.querySelectorAll(
-  //       'input[name="deptosarray"]:checked'
-  //     );
-  //     const values = [];
-  //     checkboxes.forEach((checkbox) => {
-  //       values.push(checkbox.value);
-  //     });
-  //     setDepartamentos(values)
-  //     console.log(departamentos)
-  //   };
+  const handleChangeDeptos = (e) => {
+    const checkboxes = document.querySelectorAll(
+      'input[name="deptosarray"]:checked'
+    );
+    const values = [];
+    checkboxes.forEach((checkbox) => {
+      values.push(checkbox.value);
+    });
+    setDepartamentos(values);
+    console.log(departamentos);
+  };
+
+  const checkArrayDeptos = async (deptos) => {
+    try {
+      const checkboxes = deptos;
+      const values = [];
+      checkboxes.forEach((checkbox) => {
+        values.push(checkbox.value);
+      });
+      setDepartamentos(values);
+    } catch (error) {
+      setIsError(true);
+      setMessage("error");
+      showError();
+    }
+  };
+
+  const departamentosCarga = async () => {
+    try {
+      const { data: response } = await axios.get(
+        `http://localhost:4000/departamentos`
+      );
+      setChecked(response);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const searchTramite = async (tramite) => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:4000/tramites/find/${tramite}`
+      );
+      setTramite(data.tramiteFound.nombre);
+    } catch (error) {
+      setCasoFound(false);
+      setIsError(true);
+    }
+  };
 
   const searchCaso = async (e) => {
     e.preventDefault();
@@ -81,57 +120,27 @@ function EditarCaso() {
         `http://localhost:4000/casos/find/${busqueda}`
       );
       searchTramite(data.casoFound.idTramite);
-      //searchDepartamento(data.casoFound.deptos)
+      checkArrayDeptos(data.casoFound.deptos);
 
       setTramiteId(data.casoFound.idTramite);
-      setDepartamentosId(data.casoFound.deptos);
+      setDepartamentos(data.casoFound.deptos);
       // setDeptos(data.casoFound.deptos)
-      // setEstado(data.casoFound.estado)
-      // setFechaFinal(data.casoFound.fechaFinal)
-      // setFechaApertura(data.casoFound.setFechaApertura)
 
-      const ordens = data.casoFound.orden;
-      setOrden(ordens);
-
+      const ordenes = data.casoFound.orden;
+      setOrden(ordenes);
+      setNumCaso(data.casoFound.numCaso);
+      setFechaFinal(moment(data.casoFound.fechaFinal).format("YYYY-MM-DD"));
+      setFechaApertura(
+        moment(data.casoFound.setFechaApertura).format("YYYY-MM-DD")
+      );
+      setEstado(data.casoFound.estado);
       setCasoFound(true);
-      setMessage(data.message);
+      setMessage(data.message);   
     } catch (error) {
       setCasoFound(false);
       setIsError(true);
-      setMessage("error");
+      setMessage("error buscando el caso");
       showError();
-    }
-  };
-
-  const searchDepartamento = async (depi) => {
-    try {
-      console.log("Depaspas: " + JSON.stringify(departamentosId));
-
-      const { data } = await axios.get(
-        `http://localhost:4000/departamentos/${depi}`
-      );
-      setDepartamentos(data.departamentoFound.nombre);
-      setIsSuccess(true);
-      showSuccess();
-    } catch (error) {
-      setCasoFound(false);
-      setIsError(true);
-      setMessage("error");
-      showError();
-    }
-  };
-
-  const searchTramite = async (trami) => {
-    try {
-      const { data } = await axios.get(
-        `http://localhost:4000/tramites/findid/${trami}`
-      );
-      setTramiteNombre(data.casoFound.nombre);
-      setIsSuccess(true);
-      showSuccess();
-    } catch (error) {
-      setCasoFound(false);
-      setIsError(true);
     }
   };
 
@@ -148,7 +157,7 @@ function EditarCaso() {
           fechaApertura: fechaApertura,
           fechaFinal: fechaFinal,
           estado: estado,
-          deptos: deptos,
+          deptos: departamentos,
           orden: orden,
         }
       );
@@ -171,7 +180,11 @@ function EditarCaso() {
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
       />
 
-      <div className="containerMantenimiento" style={{ userSelect: "none" }}>
+      <div
+        className="containerMantenimiento"
+        style={{ userSelect: "none" }}
+        onLoad={departamentosCarga}
+      >
         <div className="frow">
           {isError && <Error msg={message} />}
           {isSuccess && <Success msg={message} />}
@@ -219,24 +232,164 @@ function EditarCaso() {
               <br />
               {casoFound && (
                 <form id="crearEmpresas" method="get" onSubmit={onSubmit}>
-                  <div className="frow">
-                    <i className="material-symbols-outlined">share_location</i>{" "}
-                    &nbsp;
-                    <input
-                      type="text"
-                      id="tramite"
-                      placeholder="nombre trámite"
-                      required={true}
-                      autoComplete="off"
-                      value={tramiteNombre}
-                      onChange={(event) => {
-                        setTramiteNombre(event.target.value);
-                      }}
-                      style={{ width: "250px" }}
-                    />
-                  </div>
+                  <div className="fcolumn" style={{ width: "300px" }}>
+                    <div className="frow">
+                      <div className="frow" style={{ marginRight: "30px" }}>
+                        <i className="material-symbols-outlined">description</i>
+                        &nbsp;
+                        <input
+                          type="text"
+                          id="tramite"
+                          placeholder="nombre de trámite"
+                          required={true}
+                          autoComplete="off"
+                          value={tramite}
+                          onChange={(event) => {
+                            setTramite(event.target.value);
+                          }}
+                        />
+                      </div>
+                      <br />
+                      <div className="frow">
+                        <i className="material-symbols-outlined">barcode</i>{" "}
+                        &nbsp;
+                        <input
+                          type="text"
+                          id="codAlfa"
+                          placeholder="código"
+                          required={true}
+                          autoComplete="off"
+                          value={numCaso}
+                          onChange={(event) => {
+                            setNumCaso(event.target.value);
+                          }}
+                          maxLength="3"
+                          minLength="3"
+                          pattern="[A-Z,a-z]{3}"
+                        ></input>
+                      </div>
+                    </div>
+                    <br />
+                    <div className="frow">
+                      <div className="frow" style={{ marginRight: "15px" }}>
+                        <i className="material-symbols-outlined">
+                          calendar_month
+                        </i>{" "}
+                        &nbsp;
+                        <input
+                          style={{ width: "237px" }}
+                          type="date"
+                          id="fApertura"
+                          placeholder="fecha de apertura"
+                          required={true}
+                          autoComplete="off"
+                          value={fechaApertura}
+                          onChange={(event) => {
+                            setFechaApertura(event.target.value);
+                          }}
+                        />
+                      </div>
+                      <br />
+                      <div className="frow">
+                        <i className="material-symbols-outlined">
+                          calendar_month
+                        </i>{" "}
+                        &nbsp;
+                        <input
+                          style={{ width: "202px" }}
+                          type="date"
+                          id="fFinal"
+                          placeholder="fecha de cierre"
+                          required={true}
+                          autoComplete="off"
+                          value={fechaFinal}
+                          onChange={(event) => {
+                            setFechaFinal(event.target.value);
+                          }}
+                        />
+                      </div>
+                    </div>
 
-                  <div className="frow">
+                    <br />
+                    <div
+                      className="frow"
+                      id="radios"
+                      style={{
+                        gap: "10px",
+                        fontSize: "20px",
+                        color: "#595959",
+                      }}
+                      value={setEstado}
+                      onChange={(event) => {
+                        setEstado(event.target.value);
+                      }}
+                    >
+                      estado
+                      <input
+                        id="activo"
+                        type="radio"
+                        value="activo"
+                        name="gender"
+                        checked={true}
+                      />{" "}
+                      activo
+                      <input id="inactivo" type="radio" value="inactivo" name="gender" />{" "}
+                      inactivo
+                    </div>
+                  </div>
+                  <div className="fcolumn">
+                    <div className="fcolumn" id="divChecks">
+                      <div className="frow">
+                        <i
+                          style={{ marginRight: "10px" }}
+                          className="material-symbols-outlined"
+                        >
+                          fact_check
+                        </i>
+                        &nbsp;
+                        <h3
+                          className="casosNav"
+                          style={{ fontSize: "20px", color: "#595959" }}
+                        >
+                          departamentos
+                        </h3>
+                      </div>
+
+                      <div className="frow">
+                        <ul style={{ listStyleType: "none", padding: "0" }}>
+                          {checked.map(({ nombre, _id }, index) => {
+                            return (
+                              <li key={index}>
+                                <div className="frow">
+                                  <div
+                                    className="frow"
+                                    style={{
+                                      fontSize: "20px",
+                                      color: "#595959",
+                                    }}
+                                  >
+                                    <input
+                                      className="frow"
+                                      type="checkbox"
+                                      id={`custom-checkbox-${index}`}
+                                      name="deptosarray"
+                                      value={_id}
+                                      onClick={(evnt) =>
+                                        handleChangeDeptos(evnt)
+                                      }
+                                    />
+                                    <label htmlFor={`custom-checkbox-${index}`}>
+                                      {nombre}
+                                    </label>
+                                  </div>
+                                </div>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                        {/* <button >oa</button> */}
+                      </div>
+                    </div>
                     <div className="column">
                       {orden.map((data, index) => {
                         return (
@@ -248,7 +401,7 @@ function EditarCaso() {
                             <div className="frow">
                               <div className="frow">
                                 <i className="material-symbols-outlined">
-                                  mail
+                                  list_alt
                                 </i>{" "}
                                 &nbsp;
                                 <input
@@ -292,38 +445,11 @@ function EditarCaso() {
                           </button>
                         </div>
                       </div>
-                      <br />
                     </div>
                   </div>
-                  {/* <div className="frow">
-                      <ul>
-                        {checked.map(({ nombre, _id }, index) => {
-                          return (
-                            <li key={index}>
-                              <div className="frow">
-                                <div className="frow">
-                                  <input
-                                    className="frow"
-                                    type="checkbox"
-                                    id={`custom-checkbox-${index}`}
-                                    name="deptosarray"
-                                    value={_id}
-                                    onClick={(evnt) => handleChangeDeptos(evnt)}
-                                  />
-                                  <label htmlFor={`custom-checkbox-${index}`}>
-                                    {nombre}
-                                  </label>
-                                </div>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                      {/* <button >oa</button> */}
-                  {/* </div> */}
-                  <br />
 
-                  <div className="frow">
+                  <br />
+                  <div className="fcolumn">
                     <button className="buttonMant" type="submit">
                       actualizar
                     </button>
