@@ -54,7 +54,6 @@ function InsertarDepartamento() {
               style={{ pointerEvents: "none" }}
             />
           </div>
-
         </div>
       </div>
     </>

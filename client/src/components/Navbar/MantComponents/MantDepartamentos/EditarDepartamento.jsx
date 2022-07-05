@@ -51,7 +51,7 @@ function EditarDepartamento() {
 
           <div id="form" className="fcolumn" style={{ width: "520px" }}>
             <h2 style={{ textShadow: "red -2px 0, cyan 2px 0" }}>
-              Añadir un nuevo departamento
+              Editar departamento
             </h2>
           </div>
         </div>
