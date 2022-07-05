@@ -5,6 +5,6 @@ const empresasSchema = new Schema({
     ubicacion: {type: String, required: true, lowercase: true},
     telefonos: {type: [Number], required: true, unique: true},
     correos: {type: [String], required: true, unique: true, lowercase: true}
-}, { versionKey: false })
+}, { versionKey: false, id:true})
 
 export default model('empresas', empresasSchema)

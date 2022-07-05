@@ -15,7 +15,7 @@ export const createEmpresas = async (req, res) => {
         res.status(200).json({empresaSaved, message: 'empresa registrada correctamente'})
     } catch (error) {
         console.log(error)
-        res.status(400).json({msg: "error creando una empresa"});
+        res.status(400).json({message: "error creando una empresa"});
     }
 };
 
@@ -32,7 +32,9 @@ export const getEmpresas = async (req, res) => {
 export const getEmpresaById = async (req, res) => {
     try {
         const empresaId = await empresas.findById(req.params.empresaId);
-        res.json(200).json(empresaId)
+        if(!empresaId) return res.status(400).json({message: "la empresa no existe"})
+        console.log(empresaId)
+        res.status(200).json({empresaId, message: "empresa encontrada"})
     } catch (error) {
         console.log(error)
         res.status(400).json({msg: "error buscando empresa por ID"});

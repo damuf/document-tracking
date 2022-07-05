@@ -40,8 +40,8 @@ function EditarEmpleado() {
   };
 
   const evaluate = () => {
-    if (nombre !== "") {
-      setNombre("");
+    if (busqueda !== "") {
+      setBusqueda("");
       setEmpleadoFound(false);
     }
   };

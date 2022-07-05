@@ -1,33 +1,22 @@
-import axios from "axios";
 import { useState } from "react";
-import moment from "moment";
-import pic from "../../../../assets/girl.png";
+import axios from "axios";
+import pic from "../../../../assets/man-holding-leg-up.png";
+import "../../NavbarComponents.css";
 import Error from "../../../Alerts/Error";
 import Success from "../../../Alerts/Success";
 
-function EliminarEmpleado() {
+function EliminarParametro() {
   //búsqueda
-  const [empleadoId, setEmpleadoId] = useState("");
+  const [busqueda, setBusqueda] = useState("");
+  const [parametroId, setParametroId] = useState("");
 
   //atributos
-  const [departamento, setDepto] = useState("");
+  const [empresa, setEmpresa] = useState("");
   const [nombre, setNombre] = useState("");
-  const [papellido, setPApellido] = useState("");
-  const [sapellido, setSApellido] = useState("");
-  const [user, setUser] = useState("");
-  const [cedula, setCedula] = useState("");
-  const [fNacim, setFNacim] = useState("");
+  const [descripcion, setDescripcion] = useState("");
 
-  const [empleadoFound, setEmpleadoFound] = useState(false);
+  const [parametroFound, setParametroFound] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-
-  const evaluate = () => {
-    if (nombre !== "") {
-      setNombre("");
-      setEmpleadoFound(false);
-      setConfirmDelete(false);
-    }
-  };
 
   //alerts
   const [isError, setIsError] = useState(false);
@@ -44,68 +33,72 @@ function EliminarEmpleado() {
     setTimeout(() => {
       setIsSuccess(false);
     }, 4000);
+
+    setTimeout(() => {}, 3000);
   };
 
-  //eliminar empleado
-  const deleteEmpleado = async (e) => {
+  const evaluate = () => {
+    if (busqueda !== "") {
+      setBusqueda("");
+      setParametroFound(false);
+    }
+  };
+
+  //eliminar parámetro
+  const deleteParametro = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.delete(
-        `http://localhost:4000/empleados/delete/${cedula}`
+        `http://localhost:4000/parametros/delete/${parametroId}`
       );
       console.log(data.message);
       setConfirmDelete(true);
       setIsSuccess(true);
-      setMessage("empleado borrado con éxito");
+      setMessage("parámetro borrado con éxito");
       showSuccess();
       evaluate();
     } catch (error) {
-      setEmpleadoFound(false);
+      setParametroFound(false);
       setIsError(true);
       setMessage(error.response.data.message);
       showError();
     }
   };
 
-  //búsqueda del departamento
-  const searchDepartamento = async (depto) => {
+  //búsqueda de la empresa
+  const searchEmpresa = async (empresa) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/departamentos/${depto}`
+        `http://localhost:4000/empresas/${empresa}`
       );
-      setDepto(data.departamentoFound.nombre);
+      setEmpresa(data.empresaId.nombre);
       setIsSuccess(true);
       showSuccess();
     } catch (error) {
-      setEmpleadoFound(false);
+      setParametroFound(false);
       setIsError(true);
     }
   };
 
-  //busqueda del empleado
-  const searchEmpleado = async (e) => {
+  //busqueda del parametro
+  const searchParametro = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/empleados/find/${cedula}`
+        `http://localhost:4000/parametros/find/${busqueda}`
       );
-      searchDepartamento(data.empleadoFound.idDepto);
+      searchEmpresa(data.parametroFound.idEmpresa);
 
-      console.log(empleadoId);
-      setEmpleadoId(data.empleadoFound._id);
-      setNombre(data.empleadoFound.nombre);
-      setPApellido(data.empleadoFound.papellido);
-      setSApellido(data.empleadoFound.sapellido);
-      setUser(data.empleadoFound.user);
-      setCedula(data.empleadoFound.cedula);
-      setFNacim(moment(data.empleadoFound.fNacim).format("YYYY-MM-DD"));
+      setParametroId(data.parametroFound._id);
+      setNombre(data.parametroFound.nombre);
+      setDescripcion(data.parametroFound.descripcion);
 
-      setEmpleadoFound(true);
+      setParametroFound(true);
       setMessage(data.message);
     } catch (error) {
-      setEmpleadoFound(false);
+      setParametroFound(false);
       setIsError(true);
-      setMessage("error");
+      setMessage("error buscando parámetro");
       showError();
     }
   };
@@ -127,26 +120,26 @@ function EliminarEmpleado() {
         <div className="frow">
           <div className="fcolumn">
             <h2 style={{ textShadow: "red -2px 0, cyan 2px 0" }}>
-              Eliminar un empleado
+              Eliminar un parámetro
             </h2>
 
             <div className="frow">
               <input
                 type="text"
                 id="eliminar"
-                placeholder="cedula del empleado"
+                placeholder="nombre parámetro"
                 autoComplete="off"
                 style={{ width: "250px" }}
-                value={cedula}
+                value={busqueda}
                 onChange={(event) => {
-                  setCedula(event.target.value);
+                  setBusqueda(event.target.value);
                 }}
                 onClick={evaluate}
               />
               <button
                 className="buscar"
                 style={{ marginLeft: "5px" }}
-                onClick={searchEmpleado}
+                onClick={searchParametro}
               >
                 <i className="material-symbols-outlined">search</i> &nbsp;
               </button>
@@ -154,32 +147,20 @@ function EliminarEmpleado() {
 
             <br />
 
-            {empleadoFound && (
+            {parametroFound && (
               <>
                 <div className="containerDelete">
                   <div className="frow">
-                    <p>Datos de la empleado</p>
+                    <p>Datos del parámetro</p>
                   </div>
                   <div className="frow">
-                    <p>Departamento: {departamento}</p>
+                    <p>Empresa: {empresa}</p>
                   </div>
                   <div className="frow">
                     <p>Nombre: {nombre}</p>
                   </div>
                   <div className="frow">
-                    <p>Primer apellido: {papellido}</p>
-                  </div>
-                  <div className="frow">
-                    <p>Segundo apellido: {sapellido}</p>
-                  </div>
-                  <div className="frow">
-                    <p>Usuario: {user}</p>
-                  </div>
-                  <div className="frow">
-                    <p>Cedula: {cedula}</p>
-                  </div>
-                  <div className="frow">
-                    <p>Fecha de nacimiento: {fNacim}</p>
+                    <p>Descripción: {descripcion}</p>
                   </div>
                 </div>
 
@@ -195,7 +176,7 @@ function EliminarEmpleado() {
                       <button
                         className="remove"
                         style={{ width: "100px", height: "50px" }}
-                        onClick={deleteEmpleado}
+                        onClick={deleteParametro}
                       >
                         sí
                       </button>
@@ -231,4 +212,4 @@ function EliminarEmpleado() {
   );
 }
 
-export default EliminarEmpleado;
+export default EliminarParametro;
