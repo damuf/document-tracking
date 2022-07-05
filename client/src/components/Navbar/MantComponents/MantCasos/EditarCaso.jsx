@@ -17,8 +17,8 @@ function EditarCaso() {
   const [estado, setEstado] = useState("");
   const [orden, setOrden] = useState([""]);
   const [tramite, setTramite] = useState();
-  const [checked, setChecked] = useState([-1]);
   const [departamentos, setDepartamentos] = useState([""]);
+  const [nombresDepto, setNombresDeptos] = useState([""]);
 
   const [casoFound, setCasoFound] = useState(false);
 
@@ -44,6 +44,12 @@ function EditarCaso() {
     setOrden(list);
   };
 
+  const removeDepto = (index) => {
+    const rows = [...departamentos];
+    rows.splice(index, 1);
+    setDepartamentos(rows);
+  };
+
   const showError = () => {
     setTimeout(() => {
       setIsError(false);
@@ -63,41 +69,29 @@ function EditarCaso() {
     }
   };
 
-  const handleChangeDeptos = (e) => {
-    const checkboxes = document.querySelectorAll(
-      'input[name="deptosarray"]:checked'
+  const searchNombreDepto = async (id, index) => {
+    nombresDepto.pop()
+    const { data } = await axios.get(
+      `http://localhost:4000/departamentos/${id}`
     );
-    const values = [];
-    checkboxes.forEach((checkbox) => {
-      values.push(checkbox.value);
-    });
-    setDepartamentos(values);
-    console.log(departamentos);
+    nombresDepto.push(data.departamentoFound.nombre);
   };
 
-  const checkArrayDeptos = async (deptos) => {
+  //búsqueda del departamento
+  const searchDepartamentos = async (depas) => {
+    debugger;
     try {
-      const checkboxes = deptos;
-      const values = [];
-      checkboxes.forEach((checkbox) => {
-        values.push(checkbox.value);
+      depas.forEach((element, index) => {
+        searchNombreDepto(element, index);
       });
-      setDepartamentos(values);
+      console.log(nombresDepto);
+      debugger;
+      setCasoFound(true);
+      setIsSuccess(true);
+      showSuccess();
     } catch (error) {
+      setCasoFound(false);
       setIsError(true);
-      setMessage("error");
-      showError();
-    }
-  };
-
-  const departamentosCarga = async () => {
-    try {
-      const { data: response } = await axios.get(
-        `http://localhost:4000/departamentos`
-      );
-      setChecked(response);
-    } catch (error) {
-      console.error(error.message);
     }
   };
 
@@ -119,13 +113,11 @@ function EditarCaso() {
       const { data } = await axios.get(
         `http://localhost:4000/casos/find/${busqueda}`
       );
+      searchDepartamentos(data.casoFound.deptos);
+      setDepartamentos(data.casoFound.deptos);
       searchTramite(data.casoFound.idTramite);
-      checkArrayDeptos(data.casoFound.deptos);
 
       setTramiteId(data.casoFound.idTramite);
-      setDepartamentos(data.casoFound.deptos);
-      // setDeptos(data.casoFound.deptos)
-
       const ordenes = data.casoFound.orden;
       setOrden(ordenes);
       setNumCaso(data.casoFound.numCaso);
@@ -134,8 +126,8 @@ function EditarCaso() {
         moment(data.casoFound.setFechaApertura).format("YYYY-MM-DD")
       );
       setEstado(data.casoFound.estado);
-      setCasoFound(true);
-      setMessage(data.message);   
+
+      setMessage(data.message);
     } catch (error) {
       setCasoFound(false);
       setIsError(true);
@@ -180,11 +172,7 @@ function EditarCaso() {
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
       />
 
-      <div
-        className="containerMantenimiento"
-        style={{ userSelect: "none" }}
-        onLoad={departamentosCarga}
-      >
+      <div className="containerMantenimiento" style={{ userSelect: "none" }}>
         <div className="frow">
           {isError && <Error msg={message} />}
           {isSuccess && <Success msg={message} />}
@@ -231,7 +219,7 @@ function EditarCaso() {
             <div className="column">
               <br />
               {casoFound && (
-                <form id="crearEmpresas" method="get" onSubmit={onSubmit}>
+                <form id="crearCasos" method="get" onSubmit={onSubmit}>
                   <div className="fcolumn" style={{ width: "300px" }}>
                     <div className="frow">
                       <div className="frow" style={{ marginRight: "30px" }}>
@@ -311,85 +299,71 @@ function EditarCaso() {
                     </div>
 
                     <br />
-                    <div
-                      className="frow"
-                      id="radios"
-                      style={{
-                        gap: "10px",
-                        fontSize: "20px",
-                        color: "#595959",
-                      }}
-                      value={setEstado}
-                      onChange={(event) => {
-                        setEstado(event.target.value);
-                      }}
-                    >
-                      estado
+                    <div className="frow">
+                      <i className="material-symbols-outlined">pending</i>{" "}
+                      &nbsp;
                       <input
-                        id="activo"
-                        type="radio"
-                        value="activo"
-                        name="gender"
-                        checked={true}
-                      />{" "}
-                      activo
-                      <input id="inactivo" type="radio" value="inactivo" name="gender" />{" "}
-                      inactivo
+                        style={{ width: "150px" }}
+                        id="estado"
+                        placeholder="estado"
+                        type="text"
+                        required={true}
+                        autoComplete="off"
+                        value={estado}
+                        onChange={(event) => {
+                          setEstado(event.target.value);
+                        }}
+                      />
+                      <label
+                        style={{
+                          fontSize: "14px",
+                          color: "#595959",
+                          width: "200px",
+                        }}
+                      >
+                        "activo" o "inactivo"
+                      </label>
                     </div>
                   </div>
-                  <div className="fcolumn">
-                    <div className="fcolumn" id="divChecks">
-                      <div className="frow">
-                        <i
-                          style={{ marginRight: "10px" }}
-                          className="material-symbols-outlined"
+                  <div className="column">
+                    {nombresDepto.map((data, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="frow"
+                          style={{ marginTop: "25px" }}
                         >
-                          fact_check
-                        </i>
-                        &nbsp;
-                        <h3
-                          className="casosNav"
-                          style={{ fontSize: "20px", color: "#595959" }}
-                        >
-                          departamentos
-                        </h3>
-                      </div>
-
-                      <div className="frow">
-                        <ul style={{ listStyleType: "none", padding: "0" }}>
-                          {checked.map(({ nombre, _id }, index) => {
-                            return (
-                              <li key={index}>
-                                <div className="frow">
-                                  <div
-                                    className="frow"
-                                    style={{
-                                      fontSize: "20px",
-                                      color: "#595959",
-                                    }}
-                                  >
-                                    <input
-                                      className="frow"
-                                      type="checkbox"
-                                      id={`custom-checkbox-${index}`}
-                                      name="deptosarray"
-                                      value={_id}
-                                      onClick={(evnt) =>
-                                        handleChangeDeptos(evnt)
-                                      }
-                                    />
-                                    <label htmlFor={`custom-checkbox-${index}`}>
-                                      {nombre}
-                                    </label>
-                                  </div>
-                                </div>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                        {/* <button >oa</button> */}
-                      </div>
-                    </div>
+                          <div className="frow">
+                            <div className="frow">
+                              <i className="material-symbols-outlined">
+                                apartment
+                              </i>{" "}
+                              &nbsp;
+                              <input
+                                type="text"
+                                value={data}
+                                required={true}
+                                autoComplete="off"
+                                name="depto"
+                                placeholder="departamento"
+                              />
+                              {departamentos.length !== 1 ? (
+                                <button
+                                  className="remove"
+                                  onClick={() => removeDepto(index)}
+                                >
+                                  <i className="material-symbols-outlined">
+                                    delete
+                                  </i>
+                                </button>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                     <div className="column">
                       {orden.map((data, index) => {
                         return (
@@ -450,8 +424,12 @@ function EditarCaso() {
 
                   <br />
                   <div className="fcolumn">
-                    <button className="buttonMant" type="submit">
-                      actualizar
+                    <button
+                      style={{ marginBottom: "20px" }}
+                      className="buttonMant"
+                      type="submit"
+                    >
+                      crear
                     </button>
                   </div>
                 </form>

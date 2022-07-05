@@ -11,10 +11,9 @@ function InsertarCaso() {
   const [numCaso, setNumCaso] = useState("");
   const [fechaApertura, setFechaApertura] = useState("");
   const [fechaFinal, setFechaFinal] = useState("");
-  const [estado, setEstado] = useState("Activo");
+  const [estado, setEstado] = useState("");
   const [departamentos, setDepartamentos] = useState([""]);
-  const [orden, setOrden] = useState([0]);
-  const [checked, setChecked] = useState([-1]);
+  const [orden, setOrden] = useState([""]);
 
   //alerts
   const [isError, setIsError] = useState(false);
@@ -50,25 +49,10 @@ function InsertarCaso() {
     setOrden(list);
   };
 
-  //const handleChange = (e, index) => {
-  //const { value, checked } = e.target;
-  // console.log("depas: "+ JSON.stringify(depas))
-  // console.log("departamentos: "+ JSON.stringify(departamentos))
-  // console.log("check: "+ JSON.stringify(checked))
-
-  // console.log("OLI: "+JSON.stringify(departamentos))
-  //};
-
-  const handleChangeDeptos = (e) => {
-    const checkboxes = document.querySelectorAll(
-      'input[name="deptosarray"]:checked'
-    );
-    const values = [];
-    checkboxes.forEach((checkbox) => {
-      values.push(checkbox.value);
-    });
-    setDepartamentos(values);
-    console.log(departamentos);
+  const removeDepto = (index) => {
+    const rows = [...departamentos];
+    rows.splice(index, 1);
+    setDepartamentos(rows);
   };
 
   const onSubmit = async (e) => {
@@ -84,7 +68,7 @@ function InsertarCaso() {
         orden: orden,
       });
       console.log(data.message);
-      console.log("OLI: " + JSON.stringify(departamentos));
+      //console.log("OLI: " + JSON.stringify(departamentos));
       setTramite("");
       setNumCaso("");
       setFechaApertura("");
@@ -92,12 +76,11 @@ function InsertarCaso() {
       setEstado("");
       setDepartamentos([""]);
       setOrden([""]);
-
+      departamentosCarga()
+      
       setIsSuccess(true);
-      setMessage("El numero de caso es " + data.numCaso);
+      setMessage(data.message);
       showSuccess();
-
-      console.log(data.message);
     } catch (error) {
       setIsError(true);
       setMessage(error.response.data.message);
@@ -108,10 +91,8 @@ function InsertarCaso() {
 
   const departamentosCarga = async () => {
     try {
-      const { data: response } = await axios.get(
-        `http://localhost:4000/departamentos`
-      );
-      setChecked(response);
+      const { data } = await axios.get(`http://localhost:4000/departamentos`);
+      setDepartamentos(data.departamentosFound);
     } catch (error) {
       console.error(error.message);
     }
@@ -143,7 +124,7 @@ function InsertarCaso() {
             <form id="crearCasos" method="get" onSubmit={onSubmit}>
               <div className="fcolumn" style={{ width: "300px" }}>
                 <div className="frow">
-                  <div className="frow" style={{marginRight:'30px'}}>
+                  <div className="frow" style={{ marginRight: "30px" }}>
                     <i className="material-symbols-outlined">description</i>
                     &nbsp;
                     <input
@@ -179,7 +160,7 @@ function InsertarCaso() {
                 </div>
                 <br />
                 <div className="frow">
-                  <div className="frow" style={{marginRight:'15px'}}>
+                  <div className="frow" style={{ marginRight: "15px" }}>
                     <i className="material-symbols-outlined">calendar_month</i>{" "}
                     &nbsp;
                     <input
@@ -215,67 +196,63 @@ function InsertarCaso() {
                 </div>
 
                 <br />
-                <div
-                  className="frow"
-                  id="radios"
-                  style={{ gap: "10px", fontSize:'20px', color:'#595959'}}
-                  value={setEstado}
-                  onChange={(event) => {
-                    setEstado(event.target.value);
-                  }}
-                >
-                  estado
+                <div className="frow">
+                  <i className="material-symbols-outlined">pending</i>{" "}
+                  &nbsp;
                   <input
-                    id="radios"
-                    type="radio"
-                    value="activo"
-                    name="gender"
-                    checked={true}
-                  />{" "}
-                  activo
-                  <input type="radio" value="inactivo" name="gender" /> inactivo
+                    style={{ width: "150px" }}
+                    id="estado"
+                    placeholder="estado"
+                    type="text"
+                    required={true}
+                    autoComplete="off"
+                    value={estado} 
+                    onChange={(event) => {
+                      setEstado(event.target.value);
+                    }}
+                  />
+                  <label style={{ fontSize: "14px", color: "#595959",width: "200px"}}>
+                    "activo" o "inactivo"
+                  </label>
                 </div>
               </div>
-              <div className="fcolumn">
-                <div className="fcolumn" id="divChecks">
-                  <div className="frow">
-                    <i
-                      style={{ marginRight: "10px" }}
-                      className="material-symbols-outlined"
+              <div className="column">
+                {departamentos.map((data, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="frow"
+                      style={{ marginTop: "25px" }}
                     >
-                      fact_check
-                    </i>
-                    &nbsp;
-                    <h3 className="casosNav" style={{fontSize:'20px', color:'#595959'}}>departamentos</h3>
-                  </div>
-
-                  <div className="frow">
-                    <ul style={{listStyleType: "none", padding:'0'}}>
-                      {checked.map(({ nombre, _id }, index) => {
-                        return (
-                          <li key={index}>
-                            <div className="frow">
-                              <div className="frow" style={{fontSize:'20px', color:'#595959'}}>
-                                <input
-                                  className="frow"
-                                  type="checkbox"
-                                  id={`custom-checkbox-${index}`}
-                                  name="deptosarray"
-                                  value={_id}
-                                  onClick={(evnt) => handleChangeDeptos(evnt)}
-                                />
-                                <label htmlFor={`custom-checkbox-${index}`}>
-                                  {nombre}
-                                </label>
-                              </div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    {/* <button >oa</button> */}
-                  </div>
-                </div>
+                      <div className="frow">
+                        <div className="frow">
+                          <i className="material-symbols-outlined">apartment</i>{" "}
+                          &nbsp;
+                          <input
+                            type="text"
+                            value={data.nombre}
+                            required={true}
+                            autoComplete="off"
+                            name="depto"
+                            placeholder="departamento"
+                          />
+                          {departamentos.length !== 1 ? (
+                            <button
+                              className="remove"
+                              onClick={() => removeDepto(index)}
+                            >
+                              <i className="material-symbols-outlined">
+                                delete
+                              </i>
+                            </button>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
                 <div className="column">
                   {orden.map((data, index) => {
                     return (
@@ -336,7 +313,11 @@ function InsertarCaso() {
 
               <br />
               <div className="fcolumn">
-                <button className="buttonMant" type="submit">
+                <button
+                  style={{ marginBottom: "20px" }}
+                  className="buttonMant"
+                  type="submit"
+                >
                   crear
                 </button>
               </div>

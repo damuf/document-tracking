@@ -4,18 +4,6 @@ import departamentos from '../model/departamentos';
 
 export const createCasos = async (req, res) => {
     try {
-        const { idTramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden } = req.body
-        const newCaso = new casos({ idTramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden });
-        const casoSaved = await newCaso.save()
-        res.status(201).json(casoSaved)
-    } catch (error) {
-        console.log(error)
-        res.status(400).json({msg: error});
-    }
-};
-
-export const createCasos2 = async (req, res) => {
-    try {
         const {tramite, numCaso, fechaApertura, fechaFinal, estado, deptos, orden } = req.body
         let text = "";
         text += numCaso + "-"
@@ -23,15 +11,10 @@ export const createCasos2 = async (req, res) => {
         for (var i = 0; i < 30; i++){ //cantidad de letras y numeros agregados aleatoriamente
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
-        console.log("text: "+text)
-        console.log("numcaso: "+numCaso)
-        //console.log(""+)
+        console.log("text: " + text)
+        console.log("numcaso: " + numCaso)
         const tramiteFound = await tramites.findOne({nombre: req.body.tramite}).exec()
         if(!tramiteFound) return res.status(400).json({message: "el tramite no existe"});
-        
-
-        // const deptoFound = await departamentos.findOne({nombre: req.body.deptos});
-        // if(!deptoFound) return res.status(400).json({message: "el departamento no existe"});
         
         const newCaso = new casos({ 
             idTramite: tramiteFound._id, 

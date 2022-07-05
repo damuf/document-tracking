@@ -14,11 +14,14 @@ export const createDepartamentos = async (req, res) => {
 
 export const getDepartamentos = async (req, res) => {
     try {
-        const departamentosSave = await departamentos.find();
-        res.json(departamentosSave)   
+        const departamentosFound = await departamentos.find();
+        if(!departamentosFound) return res.status(400).json({message: "los departamentos no se encontraron"})
+        console.log(departamentosFound)
+        res.status(200).json({departamentosFound, message: "departamentos encontrados"});   
     } catch (error) {
         console.log(error)
         res.status(400).json({msg: "error buscando todos los departamentos"});
+        res.status(400).json({message: "error buscando todos los departamentos"});
     }
 };
 
