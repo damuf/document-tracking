@@ -3,7 +3,7 @@ import { useState } from "react";
 import "../../NavbarComponents.css";
 import Error from "../../../Alerts/Error";
 import Success from "../../../Alerts/Success";
-import pic from "../../../../assets/bald-man.png";
+import pic from "../../../../assets/man-with-hat.png";
 
 function InsertarCaso() {
   //values
@@ -67,8 +67,8 @@ function InsertarCaso() {
     checkboxes.forEach((checkbox) => {
       values.push(checkbox.value);
     });
-setDepartamentos(values)
-    console.log(departamentos)
+    setDepartamentos(values);
+    console.log(departamentos);
   };
 
   const onSubmit = async (e) => {
@@ -135,31 +135,21 @@ setDepartamentos(values)
         </div>
 
         <div className="frow">
-          <div id="icon">
-            <img
-              src={pic}
-              alt="man-icon"
-              width="350px"
-              height="450px"
-              style={{ pointerEvents: "none" }}
-            />
-          </div>
-
           <div id="form" className="fcolumn" style={{ width: "520px" }}>
             <h2 style={{ textShadow: "red -2px 0, cyan 2px 0" }}>
-              Crear un nuevo caso
+              Añadir un nuevo caso
             </h2>
 
             <form id="crearCasos" method="get" onSubmit={onSubmit}>
-              <div className="frow">
-                <div className="fcolumn" style={{ width: "300px" }}>
-                  <div className="frow">
+              <div className="fcolumn" style={{ width: "300px" }}>
+                <div className="frow">
+                  <div className="frow" style={{marginRight:'30px'}}>
                     <i className="material-symbols-outlined">description</i>
                     &nbsp;
                     <input
                       type="text"
                       id="tramite"
-                      placeholder="Nombre de tramite"
+                      placeholder="nombre de trámite"
                       required={true}
                       autoComplete="off"
                       value={tramite}
@@ -174,7 +164,7 @@ setDepartamentos(values)
                     <input
                       type="text"
                       id="codAlfa"
-                      placeholder="Codigo"
+                      placeholder="código"
                       required={true}
                       autoComplete="off"
                       value={numCaso}
@@ -186,15 +176,17 @@ setDepartamentos(values)
                       pattern="[A-Z,a-z]{3}"
                     ></input>
                   </div>
-                  <br />
-                  <div className="frow">
+                </div>
+                <br />
+                <div className="frow">
+                  <div className="frow" style={{marginRight:'15px'}}>
                     <i className="material-symbols-outlined">calendar_month</i>{" "}
                     &nbsp;
                     <input
-                      style={{ width: "241px" }}
+                      style={{ width: "237px" }}
                       type="date"
                       id="fApertura"
-                      placeholder="Fecha de apertura "
+                      placeholder="fecha de apertura"
                       required={true}
                       autoComplete="off"
                       value={fechaApertura}
@@ -208,10 +200,10 @@ setDepartamentos(values)
                     <i className="material-symbols-outlined">calendar_month</i>{" "}
                     &nbsp;
                     <input
-                      style={{ width: "206px" }}
+                      style={{ width: "202px" }}
                       type="date"
                       id="fFinal"
-                      placeholder="Fecha de cierre"
+                      placeholder="fecha de cierre"
                       required={true}
                       autoComplete="off"
                       value={fechaFinal}
@@ -220,134 +212,145 @@ setDepartamentos(values)
                       }}
                     />
                   </div>
-                  <br />
-                  <div
-                    className="frow"
+                </div>
+
+                <br />
+                <div
+                  className="frow"
+                  id="radios"
+                  style={{ gap: "10px", fontSize:'20px', color:'#595959'}}
+                  value={setEstado}
+                  onChange={(event) => {
+                    setEstado(event.target.value);
+                  }}
+                >
+                  estado
+                  <input
                     id="radios"
-                    style={{ gap: "10px" }}
-                    value={setEstado}
-                    onChange={(event) => {
-                      setEstado(event.target.value);
-                    }}
-                  >
-                    Estado
-                    <input
-                      id="radios"
-                      type="radio"
-                      value="Activo"
-                      name="gender"
-                      checked={true}
-                    />{" "}
-                    Activo
-                    <input type="radio" value="Inactivo" name="gender" />{" "}
-                    Inactivo
+                    type="radio"
+                    value="activo"
+                    name="gender"
+                    checked={true}
+                  />{" "}
+                  activo
+                  <input type="radio" value="inactivo" name="gender" /> inactivo
+                </div>
+              </div>
+              <div className="fcolumn">
+                <div className="fcolumn" id="divChecks">
+                  <div className="frow">
+                    <i
+                      style={{ marginRight: "10px" }}
+                      className="material-symbols-outlined"
+                    >
+                      fact_check
+                    </i>
+                    &nbsp;
+                    <h3 className="casosNav" style={{fontSize:'20px', color:'#595959'}}>departamentos</h3>
+                  </div>
+
+                  <div className="frow">
+                    <ul style={{listStyleType: "none", padding:'0'}}>
+                      {checked.map(({ nombre, _id }, index) => {
+                        return (
+                          <li key={index}>
+                            <div className="frow">
+                              <div className="frow" style={{fontSize:'20px', color:'#595959'}}>
+                                <input
+                                  className="frow"
+                                  type="checkbox"
+                                  id={`custom-checkbox-${index}`}
+                                  name="deptosarray"
+                                  value={_id}
+                                  onClick={(evnt) => handleChangeDeptos(evnt)}
+                                />
+                                <label htmlFor={`custom-checkbox-${index}`}>
+                                  {nombre}
+                                </label>
+                              </div>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    {/* <button >oa</button> */}
                   </div>
                 </div>
-                <div className="fcolumn" style={{ width: "300px" }}>
-                  <div className="fcolumn" id="divChecks">
-                    <div className="frow">
-                      <i
-                        style={{ marginRight: "10px" }}
-                        className="material-symbols-outlined"
+                <div className="column">
+                  {orden.map((data, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="frow"
+                        style={{ marginTop: "25px" }}
                       >
-                        list
-                      </i>
-                      &nbsp;
-                      <h3 className="casosNav">Departamentos</h3>
-                    </div>
-
-                    <div className="frow">
-                      <ul>
-                        {checked.map(({ nombre, _id }, index) => {
-                          return (
-                            <li key={index}>
-                              <div className="frow">
-                                <div className="frow">
-                                  <input
-                                    className="frow"
-                                    type="checkbox"
-                                    id={`custom-checkbox-${index}`}
-                                    name="deptosarray"
-                                    value={_id}
-                                    onClick={(evnt) => handleChangeDeptos(evnt)}
-                                  />
-                                  <label htmlFor={`custom-checkbox-${index}`}>
-                                    {nombre}
-                                  </label>
-                                </div>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                      {/* <button >oa</button> */}
-                    </div>
-                  </div>
-                  <div className="column">
-                    {orden.map((data, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="frow"
-                          style={{ marginTop: "25px" }}
-                        >
+                        <div className="frow">
                           <div className="frow">
-                            <div className="frow">
-                              <i className="material-symbols-outlined">
-                                list_alt
-                              </i>{" "}
-                              &nbsp;
-                              <input
-                                type="text"
-                                value={data.orden}
-                                onChange={(evnt) =>
-                                  handleChangeOrden(index, evnt)
-                                }
-                                required={true}
-                                autoComplete="off"
-                                name="orden"
-                                placeholder="Orden"
-                              />
-                              {orden.length !== 1 ? (
-                                <button
-                                  className="remove"
-                                  onClick={() => removeOrden(index)}
-                                >
-                                  <i className="material-symbols-outlined">
-                                    delete
-                                  </i>
-                                </button>
-                              ) : (
-                                ""
-                              )}
-                            </div>
+                            <i className="material-symbols-outlined">
+                              list_alt
+                            </i>{" "}
+                            &nbsp;
+                            <input
+                              type="text"
+                              value={data.orden}
+                              onChange={(evnt) =>
+                                handleChangeOrden(index, evnt)
+                              }
+                              required={true}
+                              autoComplete="off"
+                              name="orden"
+                              placeholder="orden"
+                            />
+                            {orden.length !== 1 ? (
+                              <button
+                                className="remove"
+                                onClick={() => removeOrden(index)}
+                              >
+                                <i className="material-symbols-outlined">
+                                  delete
+                                </i>
+                              </button>
+                            ) : (
+                              ""
+                            )}
                           </div>
                         </div>
-                      );
-                    })}
-                    <br />
-                    <div className="frow">
-                      <div className="frow">
-                        <button
-                          className="add"
-                          onClick={addOrden}
-                          style={{ width: "190px", gap: "5px" }}
-                        >
-                          agregar orden
-                          <i className="material-symbols-outlined">add</i>
-                        </button>
                       </div>
+                    );
+                  })}
+                  <br />
+                  <div className="frow">
+                    <div className="frow">
+                      <button
+                        className="add"
+                        onClick={addOrden}
+                        style={{ width: "190px", gap: "5px" }}
+                      >
+                        agregar orden
+                        <i className="material-symbols-outlined">add</i>
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
+
               <br />
               <div className="fcolumn">
                 <button className="buttonMant" type="submit">
-                  Guardar
+                  crear
                 </button>
               </div>
             </form>
+          </div>
+
+          <div id="icon">
+            <img
+              src={pic}
+              alt="man-icon"
+              width="320px"
+              height="600px"
+              style={{ pointerEvents: "none", marginLeft: "10px" }}
+            />
           </div>
         </div>
       </div>

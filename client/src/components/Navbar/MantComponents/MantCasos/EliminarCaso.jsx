@@ -96,15 +96,11 @@ function EliminarCaso() {
 
         <div className="frow">
 
-            <div id="icon">
-                <img src={pic} alt="man-icon" width= '350px'  height= '450px' style={{pointerEvents:'none', marginRight: '50px'}}/>
-            </div>
-
             <div className="fcolumn">
                 <h2 style={{textShadow: 'red -2px 0, cyan 2px 0'}}>Eliminar un caso</h2>
 
                 <div className="frow">
-                    <input type="text" id="nombre" placeholder="Numero de caso" autoComplete="off" style={{width:'250px'}} value={numCaso} onChange={event => {setNumCaso(event.target.value)}} onClick={evaluate}/>
+                    <input type="text" id="nombre" placeholder="número de caso" autoComplete="off" style={{width:'250px'}} value={numCaso} onChange={event => {setNumCaso(event.target.value)}} onClick={evaluate}/>
                     <button className="buscar" style={{marginLeft: '5px'}} onClick={searchCaso}>
                         <i className="material-symbols-outlined">search</i> &nbsp;
                     </button>
@@ -119,7 +115,7 @@ function EliminarCaso() {
                                 <p>Datos del caso</p>
                             </div>    
                             <div className="frow">
-                                <p>Numero de caso: {numCaso}</p>
+                                <p>Número de caso: {numCaso}</p>
                             </div>
                             <div className="frow">
                                 <p>Fecha apertura: {fechaApertura}</p>
@@ -154,6 +150,10 @@ function EliminarCaso() {
                     </>
                 }
 
+            </div>
+
+            <div id="icon">
+                <img src={pic} alt="man-icon" width= '350px'  height= '450px' style={{pointerEvents:'none', marginLeft: '50px'}}/>
             </div>
 
         </div>
